@@ -60,7 +60,6 @@ fileprivate extension Setup {
 			url = defaultStoreURL.appendingPathComponent(cleanAppName).appendingPathExtension("sqlite")
 		}
 		let mom = managedObjectModel(named: dataModelName)
-		let storeConfig = storeDescription
 
 		self.storeURL = url
 		self.dataModel = mom
@@ -69,13 +68,7 @@ fileprivate extension Setup {
 
 		self.mainCoordinator = {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-			psc.addPersistentStore(with: storeConfig, completionHandler: { [unowned self] (sd, error) in
-				if let error = error {
-					let log = String(format: "E | %@:%@/%@ Error adding persistent store to mainCoordinator:\n%@",
-					                 String(describing: self), #file, #line, error.localizedDescription)
-					fatalError(log)
-				}
-				//	now can setup main MOC
+			connectStores(toCoordinator: psc, andExecute: { [unowned self] in
 				self.setupMainContext()
 			})
 			return psc
@@ -83,13 +76,7 @@ fileprivate extension Setup {
 
 		self.writerCoordinator = {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-			psc.addPersistentStore(with: storeConfig, completionHandler: { [unowned self] (sd, error) in
-				if let error = error {
-					let log = String(format: "E | %@:%@/%@ Error adding persistent store to writerCoordinator:\n%@",
-					                 String(describing: self), #file, #line, error.localizedDescription)
-					fatalError(log)
-				}
-			})
+			connectStores(toCoordinator: psc)
 			return psc
 		}()
 
@@ -102,6 +89,36 @@ fileprivate extension Setup {
 		}
 	}
 
+	func connectStores(toCoordinator psc: NSPersistentStoreCoordinator, andExecute postConnect: (()-> Void)? = nil) {
+		if #available(iOS 10.0, *) {
+			psc.addPersistentStore(with: storeDescription, completionHandler: { [unowned self] (sd, error) in
+				if let error = error {
+					let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
+					                 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
+					fatalError(log)
+				}
+				if let postConnect = postConnect {
+					postConnect()
+				}
+			})
+		} else {
+			//	fallback for < iOS 10
+			let options = [
+				NSMigratePersistentStoresAutomaticallyOption: true,
+				NSInferMappingModelAutomaticallyOption: true
+			]
+			do {
+				try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+			} catch (let error) {
+				let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
+				                 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
+				fatalError(log)
+			}
+			if let postConnect = postConnect {
+				postConnect()
+			}
+		}
+	}
 
 	func setupMainContext() {
 		let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -111,6 +128,7 @@ fileprivate extension Setup {
 		mainContext = moc
 	}
 
+	@available(iOS 10.0, *)
 	var storeDescription: NSPersistentStoreDescription {
 		let sd = NSPersistentStoreDescription(url: storeURL)
 		//	use options that allow automatic model migrations
