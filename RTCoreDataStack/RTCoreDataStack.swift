@@ -85,6 +85,9 @@ fileprivate extension Setup {
 		//	setup DidSaveNotification handling
 		setupNotifications()
 
+		//	mark the stack as ready to use
+		isReady = true
+
 		//	report back
 		callback()
 	}
