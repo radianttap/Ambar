@@ -20,7 +20,7 @@ public final class RTCoreDataStack {
 
 	fileprivate(set) var storeURL: URL!
 
-	init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
+	init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {_ in}) {
 		DispatchQueue.main.async { [unowned self] in
 			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
 		}
@@ -52,7 +52,7 @@ public final class RTCoreDataStack {
 
 fileprivate typealias Setup = RTCoreDataStack
 fileprivate extension Setup {
-	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
+	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: Callback = {_ in}) {
 
 		let url: URL
 		if let storeURL = storeURL {	//	if the target URL is supplied
@@ -86,9 +86,7 @@ fileprivate extension Setup {
 		setupNotifications()
 
 		//	report back
-		if let callback = callback {
-			callback()
-		}
+		callback()
 	}
 
 	func connectStores(toCoordinator psc: NSPersistentStoreCoordinator, andExecute postConnect: (()-> Void)? = nil) {
