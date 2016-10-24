@@ -21,9 +21,9 @@ public final class RTCoreDataStack {
 	fileprivate(set) var storeURL: URL!
 
 	init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
-//		DispatchQueue.main.async { [unowned self] in
+		DispatchQueue.main.async { [unowned self] in
 			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
-//		}
+		}
 	}
 
 	fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
@@ -111,13 +111,13 @@ fileprivate extension Setup {
 			]
 			do {
 				try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+				if let postConnect = postConnect {
+					postConnect()
+				}
 			} catch (let error) {
 				let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
 				                 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
 				fatalError(log)
-			}
-			if let postConnect = postConnect {
-				postConnect()
 			}
 		}
 	}
