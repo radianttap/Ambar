@@ -38,6 +38,11 @@ public final class RTCoreDataStack {
 		}
 	}
 
+	var shouldMergeIncomingSavedObjects: Bool = true
+
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+	}
 }
 
 
@@ -48,16 +53,53 @@ fileprivate extension Setup {
 	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
 
 		let url: URL
-		if let storeURL = storeURL {	//	if the target URL is supplied, then just re-use it
+		if let storeURL = storeURL {	//	if the target URL is supplied
+			//	then make sure that the path is usable. create all missing directories in the path, if needed
 			url = storeURL
 		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
 			url = defaultStoreURL.appendingPathComponent(cleanAppName).appendingPathExtension("sqlite")
 		}
+		let mom = managedObjectModel(named: dataModelName)
+		let storeConfig = storeDescription
 
 		self.storeURL = url
-		self.dataModel = managedObjectModel(named: dataModelName)
+		self.dataModel = mom
 
+		//	setup persistent store coordinators
 
+		self.mainCoordinator = {
+			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+			psc.addPersistentStore(with: storeConfig, completionHandler: { [unowned self] (sd, error) in
+				if let error = error {
+					let log = String(format: "E | %@:%@/%@ Error adding persistent store to mainCoordinator:\n%@",
+					                 String(describing: self), #file, #line, error.localizedDescription)
+					fatalError(log)
+				}
+				//	now can setup main MOC
+				self.setupMainContext()
+			})
+			return psc
+		}()
+
+		self.writerCoordinator = {
+			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+			psc.addPersistentStore(with: storeConfig, completionHandler: { [unowned self] (sd, error) in
+				if let error = error {
+					let log = String(format: "E | %@:%@/%@ Error adding persistent store to writerCoordinator:\n%@",
+					                 String(describing: self), #file, #line, error.localizedDescription)
+					fatalError(log)
+				}
+			})
+			return psc
+		}()
+
+		//	setup DidSaveNotification handling
+		setupNotifications()
+
+		//	report back
+		if let callback = callback {
+			callback()
+		}
 	}
 
 
@@ -67,6 +109,14 @@ fileprivate extension Setup {
 		moc.mergePolicy = (isMainContextReadOnly) ? NSRollbackMergePolicy : NSMergeByPropertyStoreTrumpMergePolicy
 
 		mainContext = moc
+	}
+
+	var storeDescription: NSPersistentStoreDescription {
+		let sd = NSPersistentStoreDescription(url: storeURL)
+		//	use options that allow automatic model migrations
+		sd.setOption(true as NSObject?, forKey: NSMigratePersistentStoresAutomaticallyOption)
+		sd.shouldInferMappingModelAutomatically = true
+		return sd
 	}
 
 	var defaultStoreURL: URL {
@@ -108,8 +158,52 @@ fileprivate extension Setup {
 
 		return mom
 	}
+
 }
 
+
+
+
+fileprivate typealias Notifications = RTCoreDataStack
+fileprivate extension Notifications {
+
+	func setupNotifications() {
+
+		NotificationCenter.default.addObserver(self,
+		                                       selector: #selector(Notifications.handle(notification:)),
+		                                       name: .NSManagedObjectContextDidSave,
+		                                       object: nil)
+	}
+
+	@objc func handle(notification: Notification) {
+		if !shouldMergeIncomingSavedObjects { return }
+
+		let inserted = notification.userInfo?[NSInsertedObjectsKey] as? [NSManagedObject] ?? []
+		let deleted = notification.userInfo?[NSDeletedObjectsKey] as? [NSManagedObject] ?? []
+		let updated = notification.userInfo?[NSUpdatedObjectsKey] as? [NSManagedObject] ?? []
+		//	is there anything to do?
+		if inserted.count == 0 && deleted.count == 0 && updated.count == 0 { return }
+		//	only deal with notifications coming from MOC
+		guard let savedContext = notification.object as? NSManagedObjectContext else { return }
+
+		// ignore change notifications from the main MOC
+		if savedContext === mainContext { return }
+
+		// ignore change notifications from the direct child of the mainContext. this merges automatically when save is invoked
+		if let parentContext = savedContext.parent {
+			if parentContext === mainContext { return }
+		}
+
+		// ignore stuff from unknown PSCs
+		if let coordinator = savedContext.persistentStoreCoordinator {
+			if coordinator !== mainCoordinator && coordinator !== writerCoordinator { return }
+		}
+
+		mainContext.perform({ [unowned self] in
+			self.mainContext.mergeChanges(fromContextDidSave: notification)
+		})
+	}
+}
 
 
 fileprivate typealias Contexts = RTCoreDataStack
