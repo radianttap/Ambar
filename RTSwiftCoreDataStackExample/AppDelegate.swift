@@ -12,10 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
 	var window: UIWindow?
+	var coreDataStack: RTCoreDataStack!
 
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 
-//		let cds = RTCoreDataStack()
+		coreDataStack = RTCoreDataStack {
+			print("RTCoreDataStack is ready")
+		}
 
 		return true
 	}
