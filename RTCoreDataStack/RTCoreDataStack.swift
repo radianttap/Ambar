@@ -14,8 +14,6 @@ import CoreData
 public final class RTCoreDataStack {
 	typealias Callback = () -> Void
 
-	static let shared = RTCoreDataStack()
-
 	fileprivate(set) var isReady: Bool = false
 
 	fileprivate(set) var dataModel: NSManagedObjectModel!
@@ -47,7 +45,18 @@ public final class RTCoreDataStack {
 
 fileprivate typealias Setup = RTCoreDataStack
 fileprivate extension Setup {
-	func setup(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
+	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
+
+		let url: URL
+		if let storeURL = storeURL {	//	if the target URL is supplied, then just re-use it
+			url = storeURL
+		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
+			url = defaultStoreURL.appendingPathComponent(cleanAppName).appendingPathExtension("sqlite")
+		}
+
+		self.storeURL = url
+		self.dataModel = managedObjectModel(named: dataModelName)
+
 
 	}
 
@@ -67,6 +76,37 @@ fileprivate extension Setup {
 			fatalError(log)
 		}
 		return documentsURL
+	}
+
+	var cleanAppName: String {
+		guard let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String else {
+			let log = String(format: "E | %@:%@/%@ Unable to fetch CFBundleName from main bundle",
+			                 String(describing: self), #file, #line)
+			fatalError(log)
+		}
+		return appName.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+	}
+
+	func managedObjectModel(named name: String? = nil) -> NSManagedObjectModel {
+		if name == nil {
+			guard let mom = NSManagedObjectModel.mergedModel(from: [Bundle.main]) else {
+				let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel by merging all models in the main bundle",
+				                 String(describing: self), #file, #line)
+				fatalError(log)
+			}
+			return mom
+		}
+
+		guard
+			let url = Bundle.main.url(forResource: name, withExtension: "momd"),
+			let mom = NSManagedObjectModel(contentsOf: url)
+		else {
+			let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel using name %@",
+			                 String(describing: self), #file, #line, name!)
+			fatalError(log)
+		}
+
+		return mom
 	}
 }
 
