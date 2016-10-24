@@ -12,11 +12,9 @@ import CoreData
 extension NSManagedObjectContext {
 	typealias Callback = (Error?) -> Void
 
-	func save(withCallback callback: Callback? = nil) {
-		let resultCallback : Callback = callback ?? { _ in }
-
+	func save(withCallback callback: @escaping Callback = {_ in}) {
 		if !self.hasChanges {
-			resultCallback(nil)
+			callback(nil)
 		}
 
 		//	async save, to not block the thread it's called on
@@ -30,13 +28,13 @@ extension NSManagedObjectContext {
 					return;
 				}
 
-				resultCallback(nil)
+				callback(nil)
 
 			} catch(let error) {
 				let log = String(format: "E | %@:%@/%@ Error saving context:\n%@",
 								 String(describing: self), #file, #line, error.localizedDescription)
 				print(log)
-				resultCallback(error)
+				callback(error)
 			}
 		}
 	}
