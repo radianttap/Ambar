@@ -40,7 +40,7 @@
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
-				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStack */,
+				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0B3E4531DBE026600882AC3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,7 +53,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStack */ = {
+		D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */ = {
 			isa = PBXGroup;
 			children = (
 				D0B3E4551DBE026600882AC3 /* AppDelegate.swift */,
@@ -64,7 +64,7 @@
 				D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */,
 				D0B3E4631DBE026700882AC3 /* Info.plist */,
 			);
-			path = RTSwiftCoreDataStack;
+			path = RTSwiftCoreDataStackExample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
