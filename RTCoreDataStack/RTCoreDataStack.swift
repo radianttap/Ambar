@@ -78,6 +78,7 @@ fileprivate extension Setup {
 		let url: URL
 		if let storeURL = storeURL {	//	if the target URL is supplied
 			//	then make sure that the path is usable. create all missing directories in the path, if needed
+			verify(storeURL: storeURL)
 			url = storeURL
 		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
 			url = defaultStoreURL.appendingPathComponent(cleanAppName).appendingPathExtension("sqlite")
@@ -173,6 +174,21 @@ fileprivate extension Setup {
 			fatalError(log)
 		}
 		return documentsURL
+	}
+
+	/// Verifies that store URL path exists. It will create all the intermediate directories specified in the path. 
+	/// If that fails, it will crash the app.
+	///
+	/// - parameter url: URL to verify. Must include the file segment at the end; this method will remove last path component and then use the rest as directory path
+	func verify(storeURL url: URL) {
+		let directoryURL = url.deletingLastPathComponent()
+		do {
+			try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+		} catch(let error) {
+			let log = String(format: "E | %@:%@/%@ Error verifying (creating) full URL path %@:\n%@",
+			                 String(describing: self), #file, #line, directoryURL.path, error.localizedDescription)
+			fatalError(log)
+		}
 	}
 
 	/// Returns String representing only alphanumerics from app's name
