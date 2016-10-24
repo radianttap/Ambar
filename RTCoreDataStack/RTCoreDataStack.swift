@@ -21,9 +21,9 @@ public final class RTCoreDataStack {
 	fileprivate(set) var storeURL: URL!
 
 	init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
-		DispatchQueue.main.async { [unowned self] in
+//		DispatchQueue.main.async { [unowned self] in
 			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
-		}
+//		}
 	}
 
 	fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
