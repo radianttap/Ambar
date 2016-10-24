@@ -21,7 +21,9 @@ public final class RTCoreDataStack {
 	fileprivate(set) var storeURL: URL!
 
 	init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: Callback? = nil) {
-		setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+		DispatchQueue.main.async { [unowned self] in
+			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+		}
 	}
 
 	fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
@@ -157,7 +159,7 @@ fileprivate extension Setup {
 
 	func managedObjectModel(named name: String? = nil) -> NSManagedObjectModel {
 		if name == nil {
-			guard let mom = NSManagedObjectModel.mergedModel(from: [Bundle.main]) else {
+			guard let mom = NSManagedObjectModel.mergedModel(from: nil) else {
 				let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel by merging all models in the main bundle",
 				                 String(describing: self), #file, #line)
 				fatalError(log)
