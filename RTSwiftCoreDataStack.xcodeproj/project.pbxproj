@@ -13,6 +13,7 @@
 		D0B3E45D1DBE026600882AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45B1DBE026600882AC3 /* Main.storyboard */; };
 		D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45E1DBE026600882AC3 /* Assets.xcassets */; };
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
+		D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D0B3E45E1DBE026600882AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0B3E4611DBE026700882AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0B3E4631DBE026700882AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
+				D0B3E4691DBE033200882AC3 /* RTCoreDataStack */,
 				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0B3E4531DBE026600882AC3 /* Products */,
 			);
@@ -65,6 +68,14 @@
 				D0B3E4631DBE026700882AC3 /* Info.plist */,
 			);
 			path = RTSwiftCoreDataStackExample;
+			sourceTree = "<group>";
+		};
+		D0B3E4691DBE033200882AC3 /* RTCoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */,
+			);
+			path = RTCoreDataStack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,6 +153,7 @@
 				D0B3E45A1DBE026600882AC3 /* DetailViewController.swift in Sources */,
 				D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */,
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
+				D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +315,7 @@
 				D0B3E4681DBE026700882AC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
