@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		D0E6ACBB1DC0B35C0083C496 /* mogenerator ad-hoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D0E6ACBC1DC0B35C0083C496 /* Build configuration list for PBXAggregateTarget "mogenerator ad-hoc" */;
+			buildPhases = (
+				D0E6ACC01DC0B4CD0083C496 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "mogenerator ad-hoc";
+			productName = "mogenerator ad-hoc";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4571DBE026600882AC3 /* MasterViewController.swift */; };
@@ -15,6 +29,7 @@
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
 		D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */; };
 		D0B3E46D1DBE585400882AC3 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46C1DBE585400882AC3 /* Helpers.swift */; };
+		D0E6ACBA1DC0AB540083C496 /* Example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACB81DC0AB540083C496 /* Example.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +43,7 @@
 		D0B3E4631DBE026700882AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCoreDataStack.swift; sourceTree = "<group>"; };
 		D0B3E46C1DBE585400882AC3 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		D0E6ACB91DC0AB540083C496 /* Example.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Example.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +60,7 @@
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
+				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E4691DBE033200882AC3 /* RTCoreDataStack */,
 				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0B3E4531DBE026600882AC3 /* Products */,
@@ -81,6 +98,14 @@
 			path = RTCoreDataStack;
 			sourceTree = "<group>";
 		};
+		D0E6ACBF1DC0B4C10083C496 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				D0E6ACB81DC0AB540083C496 /* Example.xcdatamodeld */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -115,6 +140,10 @@
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
+					D0E6ACBB1DC0B35C0083C496 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = D0B3E44D1DBE026600882AC3 /* Build configuration list for PBXProject "RTSwiftCoreDataStack" */;
@@ -131,6 +160,7 @@
 			projectRoot = "";
 			targets = (
 				D0B3E4511DBE026600882AC3 /* RTSwiftCoreDataStack */,
+				D0E6ACBB1DC0B35C0083C496 /* mogenerator ad-hoc */,
 			);
 		};
 /* End PBXProject section */
@@ -148,6 +178,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D0E6ACC01DC0B4CD0083C496 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd DataModel\n~/Applications/mogenerator-beta --swift --model Example.xcdatamodeld";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D0B3E44E1DBE026600882AC3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -157,6 +203,7 @@
 				D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */,
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
 				D0B3E46D1DBE585400882AC3 /* Helpers.swift in Sources */,
+				D0E6ACBA1DC0AB540083C496 /* Example.xcdatamodeld in Sources */,
 				D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +347,20 @@
 			};
 			name = Release;
 		};
+		D0E6ACBD1DC0B35C0083C496 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0E6ACBE1DC0B35C0083C496 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -321,7 +382,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D0E6ACBC1DC0B35C0083C496 /* Build configuration list for PBXAggregateTarget "mogenerator ad-hoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0E6ACBD1DC0B35C0083C496 /* Debug */,
+				D0E6ACBE1DC0B35C0083C496 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D0E6ACB81DC0AB540083C496 /* Example.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D0E6ACB91DC0AB540083C496 /* Example.xcdatamodel */,
+			);
+			currentVersion = D0E6ACB91DC0AB540083C496 /* Example.xcdatamodel */;
+			name = Example.xcdatamodeld;
+			path = ../RTSwiftCoreDataStackExample/Example.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D0B3E44A1DBE026600882AC3 /* Project object */;
 }
