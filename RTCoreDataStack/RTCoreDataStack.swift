@@ -12,16 +12,16 @@ import CoreData
 
 @available(iOS 8.4, *)
 public final class RTCoreDataStack {
-	typealias Callback = () -> Void
+	public typealias Callback = () -> Void
 
 	/// Until this is true, data store is not available. Do not attempt to access any of the Core Data objects until isReady=true
-	fileprivate(set) var isReady: Bool = false
+	public fileprivate(set) var isReady: Bool = false
 
 	/// Managed Model instance used by the stack
-	fileprivate(set) var dataModel: NSManagedObjectModel!
+	public fileprivate(set) var dataModel: NSManagedObjectModel!
 
 	/// Full URL to the location of the SQLite file
-	fileprivate(set) var storeURL: URL!
+	public fileprivate(set) var storeURL: URL!
 
 	/// Instantiates the whole stack, giving you full control over what model to use and where the resulting file should be.
 	///
@@ -30,23 +30,23 @@ public final class RTCoreDataStack {
 	/// - parameter callback: A block to call once setup is completed. RTCoreDataStack.isReady is set to true before callback is executed.
 	///
 	/// - returns: Instance of RTCoreDataStack
-	init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {_ in}) {
+	public init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {_ in}) {
 		DispatchQueue.main.async { [unowned self] in
 			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
 		}
 	}
 
 	/// Instance of PersistentStoreCoordinator intended for main thread's contexts
-	fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
+	public fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
 
 	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
-	fileprivate(set) var writerCoordinator: NSPersistentStoreCoordinator!
+	public fileprivate(set) var writerCoordinator: NSPersistentStoreCoordinator!
 
 	/// Main MOC, connected to mainCoordinator. Use it for all the UI
-	fileprivate(set) var mainContext: NSManagedObjectContext!
+	public fileprivate(set) var mainContext: NSManagedObjectContext!
 
 	/// Make main MOC read-only and thus prevent
-	var isMainContextReadOnly: Bool = false {
+	public var isMainContextReadOnly: Bool = false {
 		didSet {
 			if !isReady { return }
 			if isMainContextReadOnly == oldValue { return }
@@ -55,7 +55,7 @@ public final class RTCoreDataStack {
 	}
 
 	/// Enable or disable automatic merge between importerMOCs and mainMOC
-	var shouldMergeIncomingSavedObjects: Bool = true
+	public var shouldMergeIncomingSavedObjects: Bool = true
 
 	deinit {
 		NotificationCenter.default.removeObserver(self)
@@ -65,7 +65,9 @@ public final class RTCoreDataStack {
 
 
 
+@available(iOS 8.4, *)
 fileprivate typealias Setup = RTCoreDataStack
+@available(iOS 8.4, *)
 fileprivate extension Setup {
 
 	/// Sets up the the whole stack, giving you full control over what model to use and where the resulting file should be.
@@ -94,7 +96,7 @@ fileprivate extension Setup {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
 			connectStores(toCoordinator: psc, andExecute: { [unowned self] in
 				self.setupMainContext()
-			})
+				})
 			return psc
 		}()
 
@@ -129,7 +131,7 @@ fileprivate extension Setup {
 				if let postConnect = postConnect {
 					postConnect()
 				}
-			})
+				})
 		} else {
 			//	fallback for < iOS 10
 			let options = [
@@ -176,7 +178,7 @@ fileprivate extension Setup {
 		return documentsURL
 	}
 
-	/// Verifies that store URL path exists. It will create all the intermediate directories specified in the path. 
+	/// Verifies that store URL path exists. It will create all the intermediate directories specified in the path.
 	/// If that fails, it will crash the app.
 	///
 	/// - parameter url: URL to verify. Must include the file segment at the end; this method will remove last path component and then use the rest as directory path
@@ -219,10 +221,10 @@ fileprivate extension Setup {
 		guard
 			let url = Bundle.main.url(forResource: name, withExtension: "momd"),
 			let mom = NSManagedObjectModel(contentsOf: url)
-		else {
-			let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel using name %@",
-			                 String(describing: self), #file, #line, name!)
-			fatalError(log)
+			else {
+				let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel using name %@",
+				                 String(describing: self), #file, #line, name!)
+				fatalError(log)
 		}
 
 		return mom
@@ -233,7 +235,9 @@ fileprivate extension Setup {
 
 
 
+@available(iOS 8.4, *)
 fileprivate typealias Notifications = RTCoreDataStack
+@available(iOS 8.4, *)
 fileprivate extension Notifications {
 
 	//	Subscribe the stack to any context's DidSaveNotification
@@ -274,17 +278,19 @@ fileprivate extension Notifications {
 
 		mainContext.perform({ [unowned self] in
 			self.mainContext.mergeChanges(fromContextDidSave: notification)
-		})
+			})
 	}
 }
 
 
+@available(iOS 8.4, *)
 fileprivate typealias Contexts = RTCoreDataStack
+@available(iOS 8.4, *)
 public extension Contexts {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy
-	func importerContext() -> NSManagedObjectContext {
+	public func importerContext() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		moc.persistentStoreCoordinator = writerCoordinator
 		moc.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -294,7 +300,7 @@ public extension Contexts {
 	/// Use temporary MOC is for cases where you need short-lived managed objects. Whatever you do in here is never saved, as its `mergePolicy` is set to NSRollbackMergePolicy. Which means all `save()` calls will silently fail
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSRollbackMergePolicy, with the same PSC as `mainContext`
-	func temporaryContext() -> NSManagedObjectContext {
+	public func temporaryContext() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		moc.persistentStoreCoordinator = mainCoordinator
 		moc.mergePolicy = NSRollbackMergePolicy
@@ -307,7 +313,7 @@ public extension Contexts {
 	/// You must make sure that `mainContext` is not read-only when calling this method (assert is run and if it is read-only your app will crash).
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy and parentContext=mainManagedObjectContext
-	func editorContext() -> NSManagedObjectContext {
+	public func editorContext() -> NSManagedObjectContext {
 		if isMainContextReadOnly {
 			let log = String(format: "E | %@:%@/%@ Can't create editorContext when isMainContextReadOnly=true.\nHint: you can set it temporary to false, make the changes, save them using save(callback:) and revert to true inside the callback block.",
 			                 String(describing: self), #file, #line)

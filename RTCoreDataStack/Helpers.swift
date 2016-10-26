@@ -9,10 +9,10 @@
 import Foundation
 import CoreData
 
-extension NSManagedObjectContext {
-	typealias Callback = (Error?) -> Void
+public extension NSManagedObjectContext {
+	public typealias Callback = (Error?) -> Void
 
-	func save(withCallback callback: @escaping Callback = {_ in}) {
+	public func save(withCallback callback: @escaping Callback = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
 		}
@@ -32,7 +32,7 @@ extension NSManagedObjectContext {
 
 			} catch(let error) {
 				let log = String(format: "E | %@:%@/%@ Error saving context:\n%@",
-								 String(describing: self), #file, #line, error.localizedDescription)
+				                 String(describing: self), #file, #line, error.localizedDescription)
 				print(log)
 				callback(error)
 			}
