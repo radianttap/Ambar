@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 public final class RTCoreDataStack {
 	public typealias Callback = () -> Void
 
@@ -65,9 +65,9 @@ public final class RTCoreDataStack {
 
 
 
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 fileprivate typealias Setup = RTCoreDataStack
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 fileprivate extension Setup {
 
 	/// Sets up the the whole stack, giving you full control over what model to use and where the resulting file should be.
@@ -235,9 +235,9 @@ fileprivate extension Setup {
 
 
 
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 fileprivate typealias Notifications = RTCoreDataStack
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 fileprivate extension Notifications {
 
 	//	Subscribe the stack to any context's DidSaveNotification
@@ -283,9 +283,9 @@ fileprivate extension Notifications {
 }
 
 
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 fileprivate typealias Contexts = RTCoreDataStack
-@available(iOS 8.4, *)
+@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 public extension Contexts {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
