@@ -79,8 +79,9 @@ private struct SetupFlags: OptionSet {
 	static let base = SetupFlags(rawValue: 1)
 	static let mainPSC = SetupFlags(rawValue: 2)
 	static let writePSC = SetupFlags(rawValue: 4)
+	static let mainMOC = SetupFlags(rawValue: 8)
 
-	static let done : SetupFlags = [.base, .mainPSC, .writePSC]
+	static let done : SetupFlags = [.base, .mainPSC, .writePSC, .mainMOC]
 }
 
 
@@ -130,7 +131,9 @@ fileprivate extension Setup {
 		self.mainCoordinator = {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
 			connectStores(toCoordinator: psc, andExecute: { [unowned self] in
-				self.setupMainContext()
+				DispatchQueue.main.async { [unowned self] in
+					self.setupMainContext()
+				}
 				self.setupDone(flags: .mainPSC)
 			})
 			return psc
@@ -192,6 +195,7 @@ fileprivate extension Setup {
 		moc.mergePolicy = (isMainContextReadOnly) ? NSRollbackMergePolicy : NSMergeByPropertyStoreTrumpMergePolicy
 
 		mainContext = moc
+		setupDone(flags: .mainMOC)
 	}
 
 	@available(iOS 10.0, *)
