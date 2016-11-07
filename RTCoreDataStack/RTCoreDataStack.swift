@@ -66,7 +66,9 @@ public final class RTCoreDataStack {
 }
 
 
-
+///	There are several async steps performed to setup the library
+///	These flags are used to wait until all are performed and only then call the callback
+///	and set the isReady to true
 private struct SetupFlags: OptionSet {
 	public let rawValue: Int
 	public init(rawValue:Int) {
@@ -95,6 +97,7 @@ fileprivate extension Setup {
 
 		if setupFlags != .done { return }
 		//	if done, execute the callback and clear it
+		isReady = true
 		if let callback = callback {
 			callback()
 			self.callback = nil
@@ -143,9 +146,6 @@ fileprivate extension Setup {
 
 		//	setup DidSaveNotification handling
 		setupNotifications()
-
-		//	mark the stack as ready to use
-		isReady = true
 
 		//	report back
 		setupDone(flags: .base)
