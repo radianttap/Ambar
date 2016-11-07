@@ -60,6 +60,25 @@ public final class RTCoreDataStack {
 	deinit {
 		NotificationCenter.default.removeObserver(self)
 	}
+
+	fileprivate var callback: Callback?
+	fileprivate var setupFlags: SetupFlags = .none
+}
+
+
+
+private struct SetupFlags: OptionSet {
+	public let rawValue: Int
+	public init(rawValue:Int) {
+		self.rawValue = rawValue
+	}
+
+	static let none = SetupFlags(rawValue: 0)
+	static let base = SetupFlags(rawValue: 1)
+	static let mainPSC = SetupFlags(rawValue: 2)
+	static let writePSC = SetupFlags(rawValue: 4)
+
+	static let done : SetupFlags = [.base, .mainPSC, .writePSC]
 }
 
 
@@ -70,12 +89,25 @@ fileprivate typealias Setup = RTCoreDataStack
 @available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
 fileprivate extension Setup {
 
+	/// Called only once, when the entire setup is done and ready
+	func setupDone(flags: SetupFlags) {
+		setupFlags.insert(flags)
+
+		if setupFlags != .done { return }
+		//	if done, execute the callback and clear it
+		if let callback = callback {
+			callback()
+			self.callback = nil
+		}
+	}
+
 	/// Sets up the the whole stack, giving you full control over what model to use and where the resulting file should be.
 	///
 	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied,
 	/// - parameter storeURL: Full URL where to create the .sqlite file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group.
 	/// - parameter callback: A block to call once setup is completed. RTCoreDataStack.isReady is set to true before callback is executed.
-	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: Callback = {_ in}) {
+	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {_ in}) {
+		self.callback = callback
 
 		let url: URL
 		if let storeURL = storeURL {	//	if the target URL is supplied
@@ -96,13 +128,16 @@ fileprivate extension Setup {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
 			connectStores(toCoordinator: psc, andExecute: { [unowned self] in
 				self.setupMainContext()
-				})
+				self.setupDone(flags: .mainPSC)
+			})
 			return psc
 		}()
 
 		self.writerCoordinator = {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-			connectStores(toCoordinator: psc)
+			connectStores(toCoordinator: psc) { [unowned self] in
+				self.setupDone(flags: .writePSC)
+			}
 			return psc
 		}()
 
@@ -113,7 +148,7 @@ fileprivate extension Setup {
 		isReady = true
 
 		//	report back
-		callback()
+		setupDone(flags: .base)
 	}
 
 	/// Attach the persistent stores to the supplied Persistent Store Coordinator.
@@ -131,7 +166,7 @@ fileprivate extension Setup {
 				if let postConnect = postConnect {
 					postConnect()
 				}
-				})
+			})
 		} else {
 			//	fallback for < iOS 10
 			let options = [
