@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D05BD4AC1DD08D6B00197554 /* RTCoreDataStack.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4571DBE026600882AC3 /* MasterViewController.swift */; };
 		D0B3E45A1DBE026600882AC3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4591DBE026600882AC3 /* DetailViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RTCoreDataStack.podspec; sourceTree = SOURCE_ROOT; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E4571DBE026600882AC3 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				D0B3E45E1DBE026600882AC3 /* Assets.xcassets */,
 				D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */,
 				D0B3E4631DBE026700882AC3 /* Info.plist */,
+				D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */,
 			);
 			path = RTSwiftCoreDataStackExample;
 			sourceTree = "<group>";
@@ -161,7 +164,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Radiant Tap";
 				TargetAttributes = {
 					D0B3E4511DBE026600882AC3 = {
@@ -200,6 +203,7 @@
 			files = (
 				D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */,
 				D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */,
+				D05BD4AC1DD08D6B00197554 /* RTCoreDataStack.podspec in Resources */,
 				D0B3E45D1DBE026600882AC3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +284,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -330,6 +335,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
