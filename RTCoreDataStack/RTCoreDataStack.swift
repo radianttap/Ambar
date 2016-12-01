@@ -294,11 +294,6 @@ fileprivate extension Notifications {
 	@objc func handle(notification: Notification) {
 		if !shouldMergeIncomingSavedObjects { return }
 
-		let inserted = notification.userInfo?[NSInsertedObjectsKey] as? [NSManagedObject] ?? []
-		let deleted = notification.userInfo?[NSDeletedObjectsKey] as? [NSManagedObject] ?? []
-		let updated = notification.userInfo?[NSUpdatedObjectsKey] as? [NSManagedObject] ?? []
-		//	is there anything to do?
-		if inserted.count == 0 && deleted.count == 0 && updated.count == 0 { return }
 		//	only deal with notifications coming from MOC
 		guard let savedContext = notification.object as? NSManagedObjectContext else { return }
 
