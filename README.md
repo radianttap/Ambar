@@ -113,6 +113,4 @@ This property allows you to turn off automatic merge between the `importerContex
 
 ## Examples
 
-The supplied demo project shows how the background importing works in practice. 
-
-While the app is running, it continually downloads 100s of stock tickets from Yahoo! Finance, while showing just few of them.
+Upcoming
