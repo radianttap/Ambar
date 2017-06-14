@@ -12,6 +12,7 @@ import CoreData
 public extension NSManagedObjectContext {
 	public typealias Callback = (Error?) -> Void
 
+	@objc(saveWithCallback:)
 	public func save(_ callback: @escaping Callback = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
