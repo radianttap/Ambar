@@ -23,6 +23,10 @@
 /* Begin PBXBuildFile section */
 		D05BD4AC1DD08D6B00197554 /* RTCoreDataStack.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */; };
 		D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */; };
+		D09310011EF1503E00A94445 /* _Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFD1EF1503E00A94445 /* _Company.swift */; };
+		D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */; };
+		D09310061EF1507500A94445 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310041EF1507500A94445 /* Company.swift */; };
+		D09310071EF1507500A94445 /* StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310051EF1507500A94445 /* StockUpdate.swift */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4571DBE026600882AC3 /* MasterViewController.swift */; };
 		D0B3E45A1DBE026600882AC3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4591DBE026600882AC3 /* DetailViewController.swift */; };
@@ -31,16 +35,16 @@
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
 		D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */; };
 		D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */; };
-		D0E6ACC51DC0B7090083C496 /* _Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC11DC0B7090083C496 /* _Company.swift */; };
-		D0E6ACC61DC0B7090083C496 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC21DC0B7090083C496 /* _StockUpdate.swift */; };
-		D0E6ACC71DC0B7090083C496 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC31DC0B7090083C496 /* Company.swift */; };
-		D0E6ACC81DC0B7090083C496 /* StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC41DC0B7090083C496 /* StockUpdate.swift */; };
 		D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RTCoreDataStack.podspec; sourceTree = SOURCE_ROOT; };
 		D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
+		D0930FFD1EF1503E00A94445 /* _Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Company.swift; sourceTree = "<group>"; };
+		D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
+		D09310041EF1507500A94445 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
+		D09310051EF1507500A94445 /* StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockUpdate.swift; sourceTree = "<group>"; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E4571DBE026600882AC3 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -51,10 +55,6 @@
 		D0B3E4631DBE026700882AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCoreDataStack.swift; sourceTree = "<group>"; };
 		D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext-Extensions.swift"; sourceTree = "<group>"; };
-		D0E6ACC11DC0B7090083C496 /* _Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Company.swift; sourceTree = "<group>"; };
-		D0E6ACC21DC0B7090083C496 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
-		D0E6ACC31DC0B7090083C496 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
-		D0E6ACC41DC0B7090083C496 /* StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockUpdate.swift; sourceTree = "<group>"; };
 		D0E6ACCC1DC0C5270083C496 /* Example.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Example.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +69,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0930FFC1EF1503E00A94445 /* mogen-properties */ = {
+			isa = PBXGroup;
+			children = (
+				D0930FFD1EF1503E00A94445 /* _Company.swift */,
+				D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */,
+			);
+			path = "mogen-properties";
+			sourceTree = "<group>";
+		};
+		D09310031EF1507500A94445 /* mogen-classes */ = {
+			isa = PBXGroup;
+			children = (
+				D09310041EF1507500A94445 /* Company.swift */,
+				D09310051EF1507500A94445 /* StockUpdate.swift */,
+			);
+			path = "mogen-classes";
+			sourceTree = "<group>";
+		};
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
@@ -115,29 +133,11 @@
 		D0E6ACBF1DC0B4C10083C496 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				D09310031EF1507500A94445 /* mogen-classes */,
+				D0930FFC1EF1503E00A94445 /* mogen-properties */,
 				D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */,
-				D0E6ACC91DC0B70C0083C496 /* mogen */,
-				D0E6ACCA1DC0B7140083C496 /* extensions */,
 			);
 			path = DataModel;
-			sourceTree = "<group>";
-		};
-		D0E6ACC91DC0B70C0083C496 /* mogen */ = {
-			isa = PBXGroup;
-			children = (
-				D0E6ACC11DC0B7090083C496 /* _Company.swift */,
-				D0E6ACC21DC0B7090083C496 /* _StockUpdate.swift */,
-			);
-			name = mogen;
-			sourceTree = "<group>";
-		};
-		D0E6ACCA1DC0B7140083C496 /* extensions */ = {
-			isa = PBXGroup;
-			children = (
-				D0E6ACC31DC0B7090083C496 /* Company.swift */,
-				D0E6ACC41DC0B7090083C496 /* StockUpdate.swift */,
-			);
-			name = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,7 +225,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd DataModel\n~/Applications/mogenerator-beta --swift --model Example.xcdatamodeld";
+			shellScript = "cd DataModel\n\"${SRCROOT}/DataModel/tmpl/mogenerator\" --swift --model Example.xcdatamodeld --template-path tmpl --human-dir mogen-classes --machine-dir mogen-properties";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -237,13 +237,13 @@
 				D0B3E45A1DBE026600882AC3 /* DetailViewController.swift in Sources */,
 				D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */,
 				D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */,
-				D0E6ACC71DC0B7090083C496 /* Company.swift in Sources */,
+				D09310061EF1507500A94445 /* Company.swift in Sources */,
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
-				D0E6ACC61DC0B7090083C496 /* _StockUpdate.swift in Sources */,
-				D0E6ACC81DC0B7090083C496 /* StockUpdate.swift in Sources */,
 				D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */,
+				D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */,
+				D09310011EF1503E00A94445 /* _Company.swift in Sources */,
+				D09310071EF1507500A94445 /* StockUpdate.swift in Sources */,
 				D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */,
-				D0E6ACC51DC0B7090083C496 /* _Company.swift in Sources */,
 				D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
