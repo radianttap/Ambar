@@ -22,6 +22,6 @@ public extension Company {
 
     // MARK: - Relationships
 
-    @NSManaged public var stockupdates: Set<StockUpdate>?
+    @NSManaged public var stockupdates: Set<StockUpdate>
 
 }

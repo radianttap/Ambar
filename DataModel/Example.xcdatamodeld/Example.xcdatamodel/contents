@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16B2555" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Company" representedClassName="Company" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="symbol" attributeType="String" syncable="YES"/>
-        <relationship name="stockupdates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StockUpdate" inverseName="company" inverseEntity="StockUpdate" syncable="YES"/>
+        <relationship name="stockupdates" toMany="YES" deletionRule="Cascade" destinationEntity="StockUpdate" inverseName="company" inverseEntity="StockUpdate" syncable="YES"/>
     </entity>
     <entity name="StockUpdate" representedClassName="StockUpdate" syncable="YES">
         <attribute name="ask" attributeType="Decimal" syncable="YES"/>
