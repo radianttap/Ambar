@@ -1,5 +1,5 @@
 //
-//  Helpers.swift
+//  NSManagedObjectContext-Extensions.swift
 //  RTSwiftCoreDataStack
 //
 //  Created by Aleksandar Vacić on 24.10.16..
@@ -12,7 +12,7 @@ import CoreData
 public extension NSManagedObjectContext {
 	public typealias Callback = (Error?) -> Void
 
-	public func save(withCallback callback: @escaping Callback = {_ in}) {
+	public func save(_ callback: @escaping Callback = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
 		}
@@ -24,16 +24,16 @@ public extension NSManagedObjectContext {
 
 				//	if there's a parentContext, save that one too
 				if let parentContext = self.parent {
-					parentContext.save(withCallback: callback)
+					parentContext.save(callback)
 					return;
 				}
 
 				callback(nil)
 
 			} catch(let error) {
-				let log = String(format: "E | %@:%@/%@ Error saving context:\n%@",
-				                 String(describing: self), #file, #line, error.localizedDescription)
-				print(log)
+//				let log = String(format: "E | %@:%@/%@ Error saving context:\n%@",
+//				                 String(describing: self), #file, #line, error.localizedDescription)
+//				print(log)
 				callback(error)
 			}
 		}

@@ -7,21 +7,22 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		D0E6ACBB1DC0B35C0083C496 /* mogenerator ad-hoc */ = {
+		D0E6ACBB1DC0B35C0083C496 /* mogenerator */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D0E6ACBC1DC0B35C0083C496 /* Build configuration list for PBXAggregateTarget "mogenerator ad-hoc" */;
+			buildConfigurationList = D0E6ACBC1DC0B35C0083C496 /* Build configuration list for PBXAggregateTarget "mogenerator" */;
 			buildPhases = (
 				D0E6ACC01DC0B4CD0083C496 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "mogenerator ad-hoc";
+			name = mogenerator;
 			productName = "mogenerator ad-hoc";
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		D05BD4AC1DD08D6B00197554 /* RTCoreDataStack.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */; };
+		D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E4581DBE026600882AC3 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4571DBE026600882AC3 /* MasterViewController.swift */; };
 		D0B3E45A1DBE026600882AC3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4591DBE026600882AC3 /* DetailViewController.swift */; };
@@ -29,7 +30,7 @@
 		D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45E1DBE026600882AC3 /* Assets.xcassets */; };
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
 		D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */; };
-		D0B3E46D1DBE585400882AC3 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46C1DBE585400882AC3 /* Helpers.swift */; };
+		D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */; };
 		D0E6ACC51DC0B7090083C496 /* _Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC11DC0B7090083C496 /* _Company.swift */; };
 		D0E6ACC61DC0B7090083C496 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC21DC0B7090083C496 /* _StockUpdate.swift */; };
 		D0E6ACC71DC0B7090083C496 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACC31DC0B7090083C496 /* Company.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RTCoreDataStack.podspec; sourceTree = SOURCE_ROOT; };
+		D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E4571DBE026600882AC3 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -48,7 +50,7 @@
 		D0B3E4611DBE026700882AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0B3E4631DBE026700882AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCoreDataStack.swift; sourceTree = "<group>"; };
-		D0B3E46C1DBE585400882AC3 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext-Extensions.swift"; sourceTree = "<group>"; };
 		D0E6ACC11DC0B7090083C496 /* _Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Company.swift; sourceTree = "<group>"; };
 		D0E6ACC21DC0B7090083C496 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
 		D0E6ACC31DC0B7090083C496 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
@@ -104,7 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */,
-				D0B3E46C1DBE585400882AC3 /* Helpers.swift */,
+				D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */,
+				D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */,
 			);
 			path = RTCoreDataStack;
 			sourceTree = "<group>";
@@ -191,7 +194,7 @@
 			projectRoot = "";
 			targets = (
 				D0B3E4511DBE026600882AC3 /* RTSwiftCoreDataStack */,
-				D0E6ACBB1DC0B35C0083C496 /* mogenerator ad-hoc */,
+				D0E6ACBB1DC0B35C0083C496 /* mogenerator */,
 			);
 		};
 /* End PBXProject section */
@@ -238,7 +241,8 @@
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
 				D0E6ACC61DC0B7090083C496 /* _StockUpdate.swift in Sources */,
 				D0E6ACC81DC0B7090083C496 /* StockUpdate.swift in Sources */,
-				D0B3E46D1DBE585400882AC3 /* Helpers.swift in Sources */,
+				D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */,
+				D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */,
 				D0E6ACC51DC0B7090083C496 /* _Company.swift in Sources */,
 				D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */,
 			);
@@ -420,7 +424,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0E6ACBC1DC0B35C0083C496 /* Build configuration list for PBXAggregateTarget "mogenerator ad-hoc" */ = {
+		D0E6ACBC1DC0B35C0083C496 /* Build configuration list for PBXAggregateTarget "mogenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0E6ACBD1DC0B35C0083C496 /* Debug */,
