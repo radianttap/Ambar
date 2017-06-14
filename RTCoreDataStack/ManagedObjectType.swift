@@ -41,7 +41,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: a `Set` of values with appropriate type
-	static func fetch<T:Hashable>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
+	static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
 		let entity = Self.entity(managedObjectContext: context)
 
 		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
