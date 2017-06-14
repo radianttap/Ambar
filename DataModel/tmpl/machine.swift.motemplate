@@ -37,7 +37,7 @@ public extension <$managedObjectClassName$> {
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    public var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$else$>!<$endif$><$endif$>
+    public var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$endif$><$endif$>
     {
         self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
@@ -45,11 +45,11 @@ public extension <$managedObjectClassName$> {
         return <$Attribute.name$>
     }
 <$else$>
-    @NSManaged public var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$else$>!<$endif$><$endif$>
+    @NSManaged public var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$endif$><$endif$>
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$else$>!<$endif$>
+    public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
     {
         self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
@@ -57,7 +57,7 @@ public extension <$managedObjectClassName$> {
         return <$Attribute.name$>
     }
 <$else$>
-    @NSManaged public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$else$>!<$endif$>
+    @NSManaged public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
 <$endif$>
