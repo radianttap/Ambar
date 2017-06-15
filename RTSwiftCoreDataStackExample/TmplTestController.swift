@@ -14,7 +14,7 @@ final class TmplTestController: UIViewController {
 	var moc: NSManagedObjectContext? {
 		didSet {
 //			if !self.isViewLoaded { return }
-			testDataSource()
+//			testDataSource()
 		}
 	}
 
@@ -29,6 +29,8 @@ fileprivate extension TmplTestController {
 		if let mo = TmplTestEntity(managedObjectContext: moc) {
 			mo.counterOptionalScalar = 100
 			mo.isActiveScalar = false
+			mo.name = "Test name"
+			mo.priceScalar = NSDecimalNumber(decimal: Decimal(89.99))
 		}
 
 		moc.save {
