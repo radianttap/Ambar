@@ -13,3 +13,5 @@ public class StockUpdate: NSManagedObject {
 		super.init(entity: entity, insertInto: moc)
 	}
 }
+
+extension StockUpdate: ManagedObjectType {}

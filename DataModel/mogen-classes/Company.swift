@@ -13,3 +13,5 @@ public class Company: NSManagedObject {
 		super.init(entity: entity, insertInto: moc)
 	}
 }
+
+extension Company: ManagedObjectType {}

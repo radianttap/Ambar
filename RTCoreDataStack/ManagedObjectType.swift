@@ -10,9 +10,7 @@ import Foundation
 import CoreData
 
 
-public protocol ManagedObjectType: NSFetchRequestResult {
-	static var entityName: String { get }
-}
+public protocol ManagedObjectType: NSFetchRequestResult {}
 
 extension ManagedObjectType where Self: NSManagedObject {
 
