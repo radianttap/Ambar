@@ -13,3 +13,6 @@ public class TmplTestEntity: NSManagedObject {
 		super.init(entity: entity, insertInto: moc)
 	}
 }
+
+
+extension TmplTestEntity: ManagedObjectType {}

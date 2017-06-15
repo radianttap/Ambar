@@ -24,6 +24,28 @@ final class TmplTestController: UIViewController {
 fileprivate extension TmplTestController {
 
 	func testDataSource() {
+		guard let moc = moc else { return }
 
+		if let mo = TmplTestEntity(managedObjectContext: moc) {
+			mo.counterOptionalScalar = 100
+			mo.isActiveScalar = false
+		}
+
+		moc.save {
+			[unowned self] saveError in
+			guard let saveError = saveError else {
+				self.readTestRecords()
+				return
+			}
+			print(saveError)
+		}
+	}
+
+
+	func readTestRecords() {
+		guard let moc = moc else { return }
+
+		let arr = TmplTestEntity.fetch(in: moc)
+		print(arr)
 	}
 }

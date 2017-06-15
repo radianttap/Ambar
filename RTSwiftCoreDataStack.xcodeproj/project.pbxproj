@@ -34,6 +34,8 @@
 		D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */; };
 		D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */; };
 		D0F2A1261EF29A5F00BA1115 /* TmplTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */; };
+		D0F2A1271EF29BEB00BA1115 /* TmplTestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D37B11EF2096700AF722D /* TmplTestEntity.swift */; };
+		D0F2A1281EF29BF400BA1115 /* _TmplTestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D37B21EF2096E00AF722D /* _TmplTestEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -232,9 +234,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */,
+				D0F2A1271EF29BEB00BA1115 /* TmplTestEntity.swift in Sources */,
 				D09310061EF1507500A94445 /* Company.swift in Sources */,
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
 				D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */,
+				D0F2A1281EF29BF400BA1115 /* _TmplTestEntity.swift in Sources */,
 				D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */,
 				D09310011EF1503E00A94445 /* _Company.swift in Sources */,
 				D0F2A1261EF29A5F00BA1115 /* TmplTestController.swift in Sources */,
