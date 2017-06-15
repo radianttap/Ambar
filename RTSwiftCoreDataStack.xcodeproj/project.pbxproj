@@ -91,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				D0B3E4691DBE033200882AC3 /* RTCoreDataStack */,
+				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0B3E4531DBE026600882AC3 /* Products */,
 			);
@@ -108,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				D0B3E4551DBE026600882AC3 /* AppDelegate.swift */,
-				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E45E1DBE026600882AC3 /* Assets.xcassets */,
 				D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */,
 				D0B3E4631DBE026700882AC3 /* Info.plist */,
