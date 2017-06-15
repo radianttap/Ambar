@@ -18,16 +18,12 @@ public extension StockUpdate {
 
     // MARK: - Properties
 
-	//	no-scalar-available
     @NSManaged public var ask: NSDecimalNumber
 
-	//	no-scalar-available
     @NSManaged public var bid: NSDecimalNumber
 
-	//	no-scalar-available
     @NSManaged public var change: NSDecimalNumber
 
-	//	no-scalar-available
     @NSManaged public var date: Date
 
     // MARK: - Relationships

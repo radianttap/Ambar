@@ -16,10 +16,8 @@ public extension Company {
 
     // MARK: - Properties
 
-	//	no-scalar-available
     @NSManaged public var name: String
 
-	//	no-scalar-available
     @NSManaged public var symbol: String
 
     // MARK: - Relationships

@@ -30,20 +30,22 @@ public extension <$managedObjectClassName$> {
 <$if Attribute.usesScalarAttributeType$>
 	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
 		get {
-			willAccessValue(forKey: <$managedObjectClassName$>Attributes.<$Attribute.name$>)
-			defer { didAccessValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>) }
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willAccessValue(forKey: key)
+			defer { didAccessValue(forKey: key) }
 
-			return primitiveValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>) as? <$Attribute.scalarAttributeType$>
+			return primitiveValue(forKey: key) as? <$Attribute.scalarAttributeType$>
 		}
 		set {
-			willChangeValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>)
-			defer { didChangeValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>) }
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willChangeValue(forKey: key)
+			defer { didChangeValue(forKey: key) }
 
 			guard let value = newValue else {
-				setPrimitiveValue(nil, forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>)
+				setPrimitiveValue(nil, forKey: key)
 				return
 			}
-			setPrimitiveValue(value, forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>)
+			setPrimitiveValue(value, forKey: key)
 		}
 	}
 <$else$>
