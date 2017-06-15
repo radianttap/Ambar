@@ -13,6 +13,7 @@ public extension TmplTestEntity {
 		static let hintOptional = "hintOptional"
 		static let isActiveScalar = "isActiveScalar"
 		static let isCorrectOptionalScalar = "isCorrectOptionalScalar"
+		static let isShownTransient = "isShownTransient"
 		static let name = "name"
 		static let priceScalar = "priceScalar"
 		static let viewsCountOptional = "viewsCountOptional"
@@ -74,6 +75,9 @@ public extension TmplTestEntity {
 			setPrimitiveValue(value, forKey: TmplTestEntity.Attributes.isCorrectOptionalScalar)
 		}
 	}
+
+	//	non-optional
+	@NSManaged public var isShownTransient: Bool
 
 	//	no-scalar-available
     @NSManaged public var name: String
