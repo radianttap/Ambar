@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		D05BD4AC1DD08D6B00197554 /* RTCoreDataStack.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */; };
 		D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */; };
 		D09310011EF1503E00A94445 /* _Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFD1EF1503E00A94445 /* _Company.swift */; };
 		D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */; };
@@ -39,7 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RTCoreDataStack.podspec; sourceTree = SOURCE_ROOT; };
 		D08D37B11EF2096700AF722D /* TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmplTestEntity.swift; sourceTree = "<group>"; };
 		D08D37B21EF2096E00AF722D /* _TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TmplTestEntity.swift; sourceTree = "<group>"; };
 		D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
-				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E4691DBE033200882AC3 /* RTCoreDataStack */,
 				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0B3E4531DBE026600882AC3 /* Products */,
@@ -111,10 +108,10 @@
 			isa = PBXGroup;
 			children = (
 				D0B3E4551DBE026600882AC3 /* AppDelegate.swift */,
+				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E45E1DBE026600882AC3 /* Assets.xcassets */,
 				D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */,
 				D0B3E4631DBE026700882AC3 /* Info.plist */,
-				D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */,
 			);
 			path = RTSwiftCoreDataStackExample;
 			sourceTree = "<group>";
@@ -206,7 +203,6 @@
 			files = (
 				D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */,
 				D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */,
-				D05BD4AC1DD08D6B00197554 /* RTCoreDataStack.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
