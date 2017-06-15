@@ -28,7 +28,6 @@ public extension <$managedObjectClassName$> {
 
 <$if Attribute.isOptional$>
 <$if Attribute.usesScalarAttributeType$>
-	//	uses-scalar-type == true
 	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
 		get {
 			willAccessValue(forKey: <$managedObjectClassName$>Attributes.<$Attribute.name$>)
@@ -48,16 +47,13 @@ public extension <$managedObjectClassName$> {
 		}
 	}
 <$else$>
-	//	uses-scalar-type == false
 	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
-	//	non-optional
 	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
 <$endif$>
 
 <$else$>
-	//	no-scalar-available
     @NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
@@ -67,10 +63,8 @@ public extension <$managedObjectClassName$> {
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
     @NSManaged public var <$Relationship.name$>: Set<<$Relationship.destinationEntity.managedObjectClassName$>><$if Relationship.isOptional$>?<$endif$>
-
 <$else$>
     @NSManaged public var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
-
 <$endif$>
 <$endforeach do$>
 }
