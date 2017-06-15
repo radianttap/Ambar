@@ -40,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		D05BD4AB1DD08D6B00197554 /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RTCoreDataStack.podspec; sourceTree = SOURCE_ROOT; };
+		D08D37B11EF2096700AF722D /* TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmplTestEntity.swift; sourceTree = "<group>"; };
+		D08D37B21EF2096E00AF722D /* _TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TmplTestEntity.swift; sourceTree = "<group>"; };
 		D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		D0930FFD1EF1503E00A94445 /* _Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Company.swift; sourceTree = "<group>"; };
 		D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			children = (
 				D0930FFD1EF1503E00A94445 /* _Company.swift */,
 				D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */,
+				D08D37B21EF2096E00AF722D /* _TmplTestEntity.swift */,
 			);
 			path = "mogen-properties";
 			sourceTree = "<group>";
@@ -83,6 +86,7 @@
 			children = (
 				D09310041EF1507500A94445 /* Company.swift */,
 				D09310051EF1507500A94445 /* StockUpdate.swift */,
+				D08D37B11EF2096700AF722D /* TmplTestEntity.swift */,
 			);
 			path = "mogen-classes";
 			sourceTree = "<group>";

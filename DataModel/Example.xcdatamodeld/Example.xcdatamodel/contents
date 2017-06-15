@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Company" representedClassName="Company" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="symbol" attributeType="String" syncable="YES"/>
@@ -12,8 +12,21 @@
         <attribute name="date" attributeType="Date" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="company" maxCount="1" deletionRule="Nullify" destinationEntity="Company" inverseName="stockupdates" inverseEntity="Company" syncable="YES"/>
     </entity>
+    <entity name="TmplTestEntity" representedClassName="TmplTestEntity" syncable="YES">
+        <attribute name="amountOptional" optional="YES" attributeType="Decimal" syncable="YES"/>
+        <attribute name="counterOptionalScalar" optional="YES" attributeType="Integer 64" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateLastAccessedOptional" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateReleasedOptionalScalar" optional="YES" attributeType="Date" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hintOptional" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isActiveScalar" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isCorrectOptionalScalar" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="priceScalar" attributeType="Decimal" syncable="YES"/>
+        <attribute name="viewsCountOptional" optional="YES" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Company" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="StockUpdate" positionX="-54" positionY="9" width="128" height="120"/>
+        <element name="TmplTestEntity" positionX="-63" positionY="45" width="128" height="195"/>
     </elements>
 </model>
