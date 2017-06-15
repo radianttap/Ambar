@@ -10,10 +10,15 @@ import Foundation
 import CoreData
 
 public extension NSManagedObjectContext {
-	public typealias Callback = (Error?) -> Void
-
 	@objc(saveWithCallback:)
-	public func save(_ callback: @escaping Callback = {_ in}) {
+	/// Performs save on the given context. Automatically saves its parentContext if available.
+	///	If any errors occur, it will return them in the optional callback.
+	///
+	///	Thus you can simply call this as `moc.save()`
+	///
+	/// - parameter callback: closure to be informed about possible errors during save. Or simply as pingback so you know where the save is completed.
+	///
+	public func save(_ callback: @escaping (Error?) -> Void = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
 		}
