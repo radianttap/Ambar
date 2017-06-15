@@ -20,45 +20,45 @@ public extension <$managedObjectClassName$> {
 	}
 	<$endif$>
 
-	<$if noninheritedFetchedProperties.@count > 0$>
-	public struct FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-		static let <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
-	}
-	<$endif$>
-
-	<$if hasUserInfoKeys$>
-	public struct UserInfo {<$foreach UserInfo userInfoKeyValues do$>
-		static let <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
-	}
-	<$endif$>
 	
     // MARK: - Properties
 <$foreach Attribute noninheritedAttributes do$>
-<$if Attribute.hasDefinedAttributeType$>
+<$if Attribute.hasDefinedAttributeType$>	
 <$if Attribute.hasScalarAttributeType$>
-<$if Attribute.isReadonly$>
-    public var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$endif$><$endif$>
-    {
-        self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
-        self.didAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        return <$Attribute.name$>
-    }
+
+<$if Attribute.isOptional$>
+<$if Attribute.usesScalarAttributeType$>
+	//	uses-scalar-type == true
+	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
+		get {
+			willAccessValue(forKey: <$managedObjectClassName$>Attributes.<$Attribute.name$>)
+			defer { didAccessValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>) }
+
+			return primitiveValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>) as? <$Attribute.scalarAttributeType$>
+		}
+		set {
+			willChangeValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>)
+			defer { didChangeValue(forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>) }
+
+			guard let value = newValue else {
+				setPrimitiveValue(nil, forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>)
+				return
+			}
+			setPrimitiveValue(value, forKey: <$managedObjectClassName$>.Attributes.<$Attribute.name$>)
+		}
+	}
 <$else$>
-    @NSManaged public var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$endif$><$endif$>
+	//	uses-scalar-type == false
+	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
-<$if Attribute.isReadonly$>
-    public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
-    {
-        self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
-        self.didAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        return <$Attribute.name$>
-    }
-<$else$>
-    @NSManaged public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+	//	non-optional
+	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
 <$endif$>
+
+<$else$>
+	//	no-scalar-available
+    @NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>
