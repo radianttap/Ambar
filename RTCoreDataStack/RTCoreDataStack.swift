@@ -87,10 +87,9 @@ private struct SetupFlags: OptionSet {
 
 
 
+//MARK:- Setup
 @available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate typealias Setup = RTCoreDataStack
-@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate extension Setup {
+fileprivate extension RTCoreDataStack {
 
 	/// Called only once, when the entire setup is done and ready
 	func setupDone(flags: SetupFlags) {
@@ -274,16 +273,15 @@ fileprivate extension Setup {
 
 
 
+//MARK:- Notifications
 @available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate typealias Notifications = RTCoreDataStack
-@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate extension Notifications {
+fileprivate extension RTCoreDataStack {
 
 	//	Subscribe the stack to any context's DidSaveNotification
 	func setupNotifications() {
 
 		NotificationCenter.default.addObserver(self,
-		                                       selector: #selector(Notifications.handle(notification:)),
+		                                       selector: #selector(RTCoreDataStack.handle(notification:)),
 		                                       name: .NSManagedObjectContextDidSave,
 		                                       object: nil)
 	}
@@ -317,10 +315,9 @@ fileprivate extension Notifications {
 }
 
 
+//MARK:- Contexts
 @available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate typealias Contexts = RTCoreDataStack
-@available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-public extension Contexts {
+public extension RTCoreDataStack {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy

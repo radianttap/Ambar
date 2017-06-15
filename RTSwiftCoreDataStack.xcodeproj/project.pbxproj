@@ -111,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				D0B3E4551DBE026600882AC3 /* AppDelegate.swift */,
-				D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */,
 				D0B3E45E1DBE026600882AC3 /* Assets.xcassets */,
 				D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */,
 				D0B3E4631DBE026700882AC3 /* Info.plist */,
@@ -133,6 +132,7 @@
 		D0E6ACBF1DC0B4C10083C496 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */,
 				D09310031EF1507500A94445 /* mogen-classes */,
 				D0930FFC1EF1503E00A94445 /* mogen-properties */,
 				D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */,
