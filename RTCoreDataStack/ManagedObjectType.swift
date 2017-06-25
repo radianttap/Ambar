@@ -12,9 +12,9 @@ import CoreData
 
 public protocol ManagedObjectType: NSFetchRequestResult {}
 
-extension ManagedObjectType where Self: NSManagedObject {
+public extension ManagedObjectType where Self: NSManagedObject {
 
-	static var entityName: String {
+	public static var entityName: String {
 		return String(describing: self)
 	}
 
@@ -24,7 +24,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	/// - Parameters:
 	///   - context: valid `NSManagedObjectContext` instance
 	/// - Returns: instance of `NSEntityDescription`
-	static func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription {
+	public static func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription {
 		return NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)!
 	}
 
@@ -39,7 +39,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: a `Set` of values with appropriate type
-	static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
+	public static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
 		let entity = Self.entity(managedObjectContext: context)
 
 		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
@@ -63,7 +63,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - initWith:	A closure that is essentially an initializer for the resulting type. Accepts NSDictionary coming out of Core Data Fetch
 	/// - Returns: an Array of objects
-	static func fetch<T>(properties: [String],
+	public static func fetch<T>(properties: [String],
 	                  context: NSManagedObjectContext,
 	                  predicate: NSPredicate? = nil,
 	                  initWith: (NSDictionary) -> T?) -> [T] {
@@ -95,7 +95,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: `NSPredicate` condition to apply to the fetch. Defaults to `nil`.
 	///   - sortDescriptors: array of `NSSortDescriptor`s to apply. Defaults to `nil`.
 	/// - Returns: Instance of `NSFetchRequest` with appropriate type
-	static func fetchRequest(in context: NSManagedObjectContext,
+	public static func fetchRequest(in context: NSManagedObjectContext,
 	                         includePending: Bool = true,
 	                         predicate: NSPredicate? = nil,
 	                         sortedWith sortDescriptors: [NSSortDescriptor]? = nil
@@ -116,7 +116,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - sortDescriptors: (optional) array of `NSSortDescriptio`s to apply to the fetched results
 	/// - Returns: an Array of Entity objects of appropriate type
-	static func count(in context: NSManagedObjectContext,
+	public static func count(in context: NSManagedObjectContext,
 	                  includePending: Bool = true,
 	                  predicate: NSPredicate? = nil
 		) -> Int {
@@ -137,7 +137,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - sortDescriptors: (optional) array of `NSSortDescriptio`s to apply to the fetched results
 	/// - Returns: an Array of Entity objects of appropriate type
-	static func fetch(in context: NSManagedObjectContext,
+	public static func fetch(in context: NSManagedObjectContext,
 	                  includePending: Bool = true,
 	                  predicate: NSPredicate? = nil,
 	                  sortedWith sortDescriptors: [NSSortDescriptor]? = nil
@@ -161,7 +161,7 @@ extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - sortDescriptors: (optional) array of `NSSortDescriptio`s to apply
 	/// - Returns: Instance of `NSFetchedResultsController` with appropriate type
-	static func fetchedResultsController(in context: NSManagedObjectContext,
+	public static func fetchedResultsController(in context: NSManagedObjectContext,
 	                                     includePending: Bool = true,
 	                                     sectionNameKeyPath: String? = nil,
 	                                     predicate: NSPredicate? = nil,

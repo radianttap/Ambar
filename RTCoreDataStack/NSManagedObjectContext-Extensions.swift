@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 public extension NSManagedObjectContext {
-	@objc(saveWithCallback:)
+	@nonobjc
 	/// Performs save on the given context. Automatically saves its parentContext if available.
 	///	If any errors occur, it will return them in the optional callback.
 	///
@@ -18,7 +18,7 @@ public extension NSManagedObjectContext {
 	///
 	/// - parameter callback: closure to be informed about possible errors during save. Or simply as pingback so you know where the save is completed.
 	///
-	public func save(_ callback: @escaping (Error?) -> Void = {_ in}) {
+	public func save(_ callback: @escaping (CoreDataError?) -> Void = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
 		}
@@ -40,7 +40,7 @@ public extension NSManagedObjectContext {
 //				let log = String(format: "E | %@:%@/%@ Error saving context:\n%@",
 //				                 String(describing: self), #file, #line, error.localizedDescription)
 //				print(log)
-				callback(error)
+				callback( CoreDataError.saveFailed(error) )
 			}
 		}
 	}

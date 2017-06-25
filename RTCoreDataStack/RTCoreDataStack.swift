@@ -14,7 +14,8 @@ import CoreData
 public final class RTCoreDataStack {
 	public typealias Callback = () -> Void
 
-	/// Until this is true, data store is not available. Do not attempt to access any of the Core Data objects until isReady=true
+	/// Until this is true, data store is not available.
+	///	Do **not** attempt to access any of the Core Data objects until `isReady=true`
 	public fileprivate(set) var isReady: Bool = false
 
 	/// Managed Model instance used by the stack
@@ -44,6 +45,8 @@ public final class RTCoreDataStack {
 
 	/// Main MOC, connected to mainCoordinator. Use it for all the UI
 	public fileprivate(set) var mainContext: NSManagedObjectContext!
+	///	Alias for `mainContext`
+	public var viewContext: NSManagedObjectContext { return mainContext }
 
 	/// Make main MOC read-only and thus prevent
 	public var isMainContextReadOnly: Bool = false {

@@ -26,6 +26,7 @@
 		D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */; };
 		D09310061EF1507500A94445 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310041EF1507500A94445 /* Company.swift */; };
 		D09310071EF1507500A94445 /* StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310051EF1507500A94445 /* StockUpdate.swift */; };
+		D0963D331EFFFF8000F896C6 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0963D321EFFFF8000F896C6 /* CoreDataError.swift */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45E1DBE026600882AC3 /* Assets.xcassets */; };
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
@@ -45,6 +46,7 @@
 		D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
 		D09310041EF1507500A94445 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		D09310051EF1507500A94445 /* StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockUpdate.swift; sourceTree = "<group>"; };
+		D0963D321EFFFF8000F896C6 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E45E1DBE026600882AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */,
 				D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */,
+				D0963D321EFFFF8000F896C6 /* CoreDataError.swift */,
 				D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */,
 			);
 			path = RTCoreDataStack;
@@ -232,6 +235,7 @@
 				D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */,
 				D0F2A1271EF29BEB00BA1115 /* TmplTestEntity.swift in Sources */,
 				D09310061EF1507500A94445 /* Company.swift in Sources */,
+				D0963D331EFFFF8000F896C6 /* CoreDataError.swift in Sources */,
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
 				D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */,
 				D0F2A1281EF29BF400BA1115 /* _TmplTestEntity.swift in Sources */,
