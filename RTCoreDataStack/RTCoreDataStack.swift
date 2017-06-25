@@ -112,7 +112,7 @@ fileprivate extension RTCoreDataStack {
 	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied,
 	/// - parameter storeURL: Full URL where to create the .sqlite file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group.
 	/// - parameter callback: A block to call once setup is completed. RTCoreDataStack.isReady is set to true before callback is executed.
-	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {_ in}) {
+	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {}) {
 		self.callback = callback
 
 		let url: URL
