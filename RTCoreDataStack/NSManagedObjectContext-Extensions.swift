@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 public extension NSManagedObjectContext {
-	@nonobjc
 	/// Performs save on the given context. Automatically saves its parentContext if available.
 	///	If any errors occur, it will return them in the optional callback.
 	///
