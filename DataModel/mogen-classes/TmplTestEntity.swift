@@ -1,5 +1,6 @@
 import Foundation
 import CoreData
+import RTCoreDataStack
 
 @objc(TmplTestEntity)
 public class TmplTestEntity: NSManagedObject {

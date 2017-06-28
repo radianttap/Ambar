@@ -1,5 +1,6 @@
 import Foundation
 import CoreData
+import RTCoreDataStack
 
 @objc(StockUpdate)
 public class StockUpdate: NSManagedObject {

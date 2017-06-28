@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RTCoreDataStack
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {

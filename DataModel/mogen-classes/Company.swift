@@ -1,5 +1,6 @@
 import Foundation
 import CoreData
+import RTCoreDataStack
 
 @objc(Company)
 public class Company: NSManagedObject {

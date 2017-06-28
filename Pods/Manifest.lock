@@ -1,0 +1,16 @@
+PODS:
+  - RTCoreDataStack (3.1)
+
+DEPENDENCIES:
+  - RTCoreDataStack (from `./`)
+
+EXTERNAL SOURCES:
+  RTCoreDataStack:
+    :path: "./"
+
+SPEC CHECKSUMS:
+  RTCoreDataStack: a311f719078c05c7723328bec33c5f1f2201ef04
+
+PODFILE CHECKSUM: b7ffd1d41932b952b35fcbe280cafe84b6ac3941
+
+COCOAPODS: 1.2.1

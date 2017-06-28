@@ -21,17 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */; };
+		4E9D8ED946A2DA829C2EFE32 /* Pods_RTSwiftCoreDataStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0993A3AF09552A71EDAAD419 /* Pods_RTSwiftCoreDataStack.framework */; };
 		D09310011EF1503E00A94445 /* _Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFD1EF1503E00A94445 /* _Company.swift */; };
 		D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */; };
 		D09310061EF1507500A94445 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310041EF1507500A94445 /* Company.swift */; };
 		D09310071EF1507500A94445 /* StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310051EF1507500A94445 /* StockUpdate.swift */; };
-		D0963D331EFFFF8000F896C6 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0963D321EFFFF8000F896C6 /* CoreDataError.swift */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45E1DBE026600882AC3 /* Assets.xcassets */; };
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
-		D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */; };
-		D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */; };
 		D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */; };
 		D0F2A1261EF29A5F00BA1115 /* TmplTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */; };
 		D0F2A1271EF29BEB00BA1115 /* TmplTestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D37B11EF2096700AF722D /* TmplTestEntity.swift */; };
@@ -39,23 +36,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0993A3AF09552A71EDAAD419 /* Pods_RTSwiftCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RTSwiftCoreDataStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9E0CF3C9C61FB0DB25A71D3 /* Pods-RTSwiftCoreDataStack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSwiftCoreDataStack.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack.debug.xcconfig"; sourceTree = "<group>"; };
 		D08D37B11EF2096700AF722D /* TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmplTestEntity.swift; sourceTree = "<group>"; };
 		D08D37B21EF2096E00AF722D /* _TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TmplTestEntity.swift; sourceTree = "<group>"; };
-		D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		D0930FFD1EF1503E00A94445 /* _Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Company.swift; sourceTree = "<group>"; };
 		D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
 		D09310041EF1507500A94445 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		D09310051EF1507500A94445 /* StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockUpdate.swift; sourceTree = "<group>"; };
-		D0963D321EFFFF8000F896C6 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E45E1DBE026600882AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0B3E4611DBE026700882AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0B3E4631DBE026700882AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCoreDataStack.swift; sourceTree = "<group>"; };
-		D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext-Extensions.swift"; sourceTree = "<group>"; };
 		D0E6ACCC1DC0C5270083C496 /* Example.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Example.xcdatamodel; sourceTree = "<group>"; };
 		D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmplTestController.swift; sourceTree = "<group>"; };
+		FD64DBFEC8C2B78CECC4D58A /* Pods-RTSwiftCoreDataStack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSwiftCoreDataStack.release.xcconfig"; path = "Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,12 +59,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E9D8ED946A2DA829C2EFE32 /* Pods_RTSwiftCoreDataStack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F28869C3DC67361A2B58B3F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B9E0CF3C9C61FB0DB25A71D3 /* Pods-RTSwiftCoreDataStack.debug.xcconfig */,
+				FD64DBFEC8C2B78CECC4D58A /* Pods-RTSwiftCoreDataStack.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		8E603C4417F33A46C6585020 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0993A3AF09552A71EDAAD419 /* Pods_RTSwiftCoreDataStack.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D0930FFC1EF1503E00A94445 /* mogen-properties */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,10 +106,11 @@
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
-				D0B3E4691DBE033200882AC3 /* RTCoreDataStack */,
 				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0B3E4531DBE026600882AC3 /* Products */,
+				3F28869C3DC67361A2B58B3F /* Pods */,
+				8E603C4417F33A46C6585020 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,17 +133,6 @@
 			path = RTSwiftCoreDataStackExample;
 			sourceTree = "<group>";
 		};
-		D0B3E4691DBE033200882AC3 /* RTCoreDataStack */ = {
-			isa = PBXGroup;
-			children = (
-				D0B3E46A1DBE034800882AC3 /* RTCoreDataStack.swift */,
-				D0B3E46C1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift */,
-				D0963D321EFFFF8000F896C6 /* CoreDataError.swift */,
-				D0930FF71EF1461B00A94445 /* ManagedObjectType.swift */,
-			);
-			path = RTCoreDataStack;
-			sourceTree = "<group>";
-		};
 		D0E6ACBF1DC0B4C10083C496 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,9 +151,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0B3E4661DBE026700882AC3 /* Build configuration list for PBXNativeTarget "RTSwiftCoreDataStack" */;
 			buildPhases = (
+				A4B0F7213CCAA9E064A5EF18 /* [CP] Check Pods Manifest.lock */,
 				D0B3E44E1DBE026600882AC3 /* Sources */,
 				D0B3E44F1DBE026600882AC3 /* Frameworks */,
 				D0B3E4501DBE026600882AC3 /* Resources */,
+				AAC2C22C1CB1C8511EF744CF /* [CP] Embed Pods Frameworks */,
+				A82AA0AAB36CDC7603A092F0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -212,6 +219,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		A4B0F7213CCAA9E064A5EF18 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A82AA0AAB36CDC7603A092F0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AAC2C22C1CB1C8511EF744CF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D0E6ACC01DC0B4CD0083C496 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,16 +287,12 @@
 				D0E6ACCD1DC0C5270083C496 /* Example.xcdatamodeld in Sources */,
 				D0F2A1271EF29BEB00BA1115 /* TmplTestEntity.swift in Sources */,
 				D09310061EF1507500A94445 /* Company.swift in Sources */,
-				D0963D331EFFFF8000F896C6 /* CoreDataError.swift in Sources */,
 				D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */,
-				D0930FF81EF1461B00A94445 /* ManagedObjectType.swift in Sources */,
 				D0F2A1281EF29BF400BA1115 /* _TmplTestEntity.swift in Sources */,
 				D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */,
 				D09310011EF1503E00A94445 /* _Company.swift in Sources */,
 				D0F2A1261EF29A5F00BA1115 /* TmplTestController.swift in Sources */,
 				D09310071EF1507500A94445 /* StockUpdate.swift in Sources */,
-				D0B3E46D1DBE585400882AC3 /* NSManagedObjectContext-Extensions.swift in Sources */,
-				D0B3E46B1DBE034800882AC3 /* RTCoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +407,7 @@
 		};
 		D0B3E4671DBE026700882AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9E0CF3C9C61FB0DB25A71D3 /* Pods-RTSwiftCoreDataStack.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/RTSwiftCoreDataStackExample/Info.plist";
@@ -371,6 +420,7 @@
 		};
 		D0B3E4681DBE026700882AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD64DBFEC8C2B78CECC4D58A /* Pods-RTSwiftCoreDataStack.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/RTSwiftCoreDataStackExample/Info.plist";

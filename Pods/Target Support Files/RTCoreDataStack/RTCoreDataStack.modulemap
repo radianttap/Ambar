@@ -1,0 +1,6 @@
+framework module RTCoreDataStack {
+  umbrella header "RTCoreDataStack-umbrella.h"
+
+  export *
+  module * { export * }
+}
