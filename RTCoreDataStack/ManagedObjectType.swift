@@ -29,6 +29,17 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	}
 
 
+	/// Updates all the attributes in the receiving object with values in the passed object
+	///
+	/// - Parameter object: Another instance of the same type as receiver
+	func updateMatchingValues(from object: Self) {
+		let attributeNames = object.entity.attributesByName.map { $0.key }
+		for key in attributeNames {
+			setValue(object.value(forKey: key), forKey: key)
+		}
+	}
+
+
 
 	//MARK: - Fetch properties
 
