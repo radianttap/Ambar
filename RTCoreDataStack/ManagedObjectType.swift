@@ -24,8 +24,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	/// - Parameters:
 	///   - context: valid `NSManagedObjectContext` instance
 	/// - Returns: instance of `NSEntityDescription`
-	public static func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription {
-		return NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)!
+	public static func entity(in context: NSManagedObjectContext) -> NSEntityDescription {
+		return NSEntityDescription.entity(forEntityName: entityName, in: context)!
 	}
 
 
@@ -41,7 +41,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 
 
-	//MARK: - Fetch properties
+	//	MARK: - Fetch properties
 
 	/// Fetches a set of values for the given property.
 	///
@@ -51,7 +51,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: a `Set` of values with appropriate type
 	public static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
-		let entity = Self.entity(managedObjectContext: context)
+		let entity = Self.entity(in: context)
 
 		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
 		fetchRequest.predicate = predicate
@@ -78,7 +78,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	                  context: NSManagedObjectContext,
 	                  predicate: NSPredicate? = nil,
 	                  initWith: (NSDictionary) -> T?) -> [T] {
-		let entity = Self.entity(managedObjectContext: context)
+		let entity = Self.entity(in: context)
 
 		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
 		fetchRequest.predicate = predicate
@@ -96,7 +96,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 
 
-	//MARK: - Fetch objects
+	//	MARK: - Fetch objects
 
 	/// Creates `NSFetchRequest` for the type of the current object
 	///
@@ -160,8 +160,44 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	}
 
 
+	/// Looks for an object matching given predicate in the given context.
+	///	Only returns the object if it's not a fault. This methods does not access persistent store (no Fetch)
+	///
+	/// - Parameters:
+	///   - context: `NSManagedObjectContext` in which to perform the fetch
+	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
+	/// - Returns: Non-faulted object or nil
+	public static func find(in context: NSManagedObjectContext, predicate: NSPredicate) -> Self? {
+		for obj in context.registeredObjects where !obj.isFault {
+			guard let res = obj as? Self, predicate.evaluate(with: res) else { continue }
+			return res
+		}
+		return nil
+	}
 
-	//MARK:	- NSFetchedResultsController
+
+	/// First looks for an object matching given predicate in the given context.
+	///	Only returns the object if it's not a fault.
+	///	If not found, then goes to the persistent store (makes a Fetch).
+	///
+	///	If it returns an object, it's guaranteed it‘s not a fault.
+	///
+	/// - Parameters:
+	///   - context: `NSManagedObjectContext` in which to perform the fetch
+	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
+	/// - Returns: Non-faulted object or nil
+	public static func findOrFetch(in context: NSManagedObjectContext, predicate: NSPredicate) -> Self? {
+		if let obj = find(in: context, predicate: predicate) { return obj }
+
+		let fr = fetchRequest(in: context, predicate: predicate)
+		fr.returnsObjectsAsFaults = false
+		fr.fetchLimit = 1
+		guard let objects = try? context.fetch(fr) else { return nil }
+		return objects.first
+	}
+
+
+	//	MARK:	- NSFetchedResultsController
 
 	/// Creates Fetched Results Controller for the current object’s type.
 	///	If you supply the `sectionNameKeyPath`, make sure that same keypath is set as first in the `sortDescriptors`
