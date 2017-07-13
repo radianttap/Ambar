@@ -52,7 +52,26 @@ public extension <$managedObjectClassName$> {
 	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
+<$if Attribute.usesCustomScalarAttributeType$>
+	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$> {
+		get {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willAccessValue(forKey: key)
+			defer { didAccessValue(forKey: key) }
+
+			return <$Attribute.scalarAttributeType$>(coredataValue: primitiveValue(forKey: key) as! <$Attribute.scalarAttributeType$>.CoreDataBaseType)!
+		}
+		set {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willChangeValue(forKey: key)
+			defer { didChangeValue(forKey: key) }
+
+			setPrimitiveValue(newValue.coredataValue, forKey: key)
+		}
+	}
+<$else$>
 	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
+<$endif$>
 <$endif$>
 
 <$else$>
