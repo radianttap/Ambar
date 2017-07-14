@@ -10,4 +10,5 @@ import Foundation
 
 public enum CoreDataError: Error {
 	case saveFailed(Error)
+	case deleteFailed(Error)
 }
