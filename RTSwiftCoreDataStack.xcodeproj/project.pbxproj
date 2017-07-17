@@ -26,6 +26,7 @@
 		D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */; };
 		D09310061EF1507500A94445 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310041EF1507500A94445 /* Company.swift */; };
 		D09310071EF1507500A94445 /* StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310051EF1507500A94445 /* StockUpdate.swift */; };
+		D0B08E2A1F1D091A00DF20D5 /* CoreDataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B08E291F1D091A00DF20D5 /* CoreDataRepresentable.swift */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45E1DBE026600882AC3 /* Assets.xcassets */; };
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
@@ -44,6 +45,7 @@
 		D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
 		D09310041EF1507500A94445 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		D09310051EF1507500A94445 /* StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockUpdate.swift; sourceTree = "<group>"; };
+		D0B08E291F1D091A00DF20D5 /* CoreDataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepresentable.swift; sourceTree = "<group>"; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E45E1DBE026600882AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				D09310031EF1507500A94445 /* mogen-classes */,
 				D0930FFC1EF1503E00A94445 /* mogen-properties */,
 				D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */,
+				D0B08E291F1D091A00DF20D5 /* CoreDataRepresentable.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				D09310011EF1503E00A94445 /* _Company.swift in Sources */,
 				D0F2A1261EF29A5F00BA1115 /* TmplTestController.swift in Sources */,
 				D09310071EF1507500A94445 /* StockUpdate.swift in Sources */,
+				D0B08E2A1F1D091A00DF20D5 /* CoreDataRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

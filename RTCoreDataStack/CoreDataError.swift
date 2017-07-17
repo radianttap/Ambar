@@ -2,8 +2,8 @@
 //  CoreDataError.swift
 //  RTSwiftCoreDataStack
 //
-//  Created by Aleksandar Vacić on 25.6.17..
-//  Copyright © 2017. Radiant Tap. All rights reserved.
+//  Copyright © 2016 Radiant Tap
+//  MIT License · http://choosealicense.com/licenses/mit/
 //
 
 import Foundation

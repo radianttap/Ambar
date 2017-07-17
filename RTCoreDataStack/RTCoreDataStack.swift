@@ -1,8 +1,7 @@
 //
 //  RTCoreDataStack.swift
-//  RTCoreDataStack
+//  RTSwiftCoreDataStack
 //
-//  Created by Aleksandar Vacić on 24.10.16..
 //  Copyright © 2016 Radiant Tap
 //  MIT License · http://choosealicense.com/licenses/mit/
 //

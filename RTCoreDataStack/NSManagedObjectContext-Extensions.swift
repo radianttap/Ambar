@@ -2,8 +2,8 @@
 //  NSManagedObjectContext-Extensions.swift
 //  RTSwiftCoreDataStack
 //
-//  Created by Aleksandar Vacić on 24.10.16..
-//  Copyright © 2016. Radiant Tap. All rights reserved.
+//  Copyright © 2016 Radiant Tap
+//  MIT License · http://choosealicense.com/licenses/mit/
 //
 
 import Foundation
