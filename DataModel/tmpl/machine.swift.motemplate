@@ -58,8 +58,11 @@ public extension <$managedObjectClassName$> {
 			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
 			willAccessValue(forKey: key)
 			defer { didAccessValue(forKey: key) }
-
-			return <$Attribute.scalarAttributeType$>(coredataValue: primitiveValue(forKey: key) as! <$Attribute.scalarAttributeType$>.CoreDataBaseType)!
+			
+			if let primitiveValue = primitiveValue(forKey: key) as? <$Attribute.scalarAttributeType$>.CoreDataBaseType, let value = <$Attribute.scalarAttributeType$>(coredataValue: primitiveValue) {
+				return value
+			}
+			return <$Attribute.scalarAttributeType$>.coredataFallback
 		}
 		set {
 			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
