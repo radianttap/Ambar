@@ -160,7 +160,11 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	                  sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 		) -> [Self] {
 
-		let fr = fetchRequest(in: context, includePending: includePending, predicate: predicate, sortedWith: sortDescriptors)
+		let fr = fetchRequest(in: context,
+							  includePending: includePending,
+							  returnsObjectsAsFaults: returnsObjectsAsFaults,
+							  predicate: predicate,
+							  sortedWith: sortDescriptors)
 		guard let results = try? context.fetch(fr) else { return [] }
 		return results
 	}
