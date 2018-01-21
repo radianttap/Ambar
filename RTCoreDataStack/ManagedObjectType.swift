@@ -102,18 +102,21 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///
 	/// - Parameters:
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
-	///   - includePending: Bool to set includePendingChanges. Defaults to `true`.
+	///   - includePending: Bool to set FetchRequest.includePendingChanges. Defaults to `true` (same as Core Data).
+	///   - returnsObjectsAsFaults: Bool to set FetchRequest.returnsObjectsAsFaults. Defaults to `true` (same as Core Data). Set this to `false` if you want your returned objects to be fully populated which is very useful during background imports.
 	///   - predicate: `NSPredicate` condition to apply to the fetch. Defaults to `nil`.
 	///   - sortDescriptors: array of `NSSortDescriptor`s to apply. Defaults to `nil`.
 	/// - Returns: Instance of `NSFetchRequest` with appropriate type
 	public static func fetchRequest(in context: NSManagedObjectContext,
 	                         includePending: Bool = true,
+							 returnsObjectsAsFaults: Bool = true,
 	                         predicate: NSPredicate? = nil,
 	                         sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 		) -> NSFetchRequest<Self> {
 
 		let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
 		fetchRequest.includesPendingChanges = includePending
+		fetchRequest.returnsObjectsAsFaults = returnsObjectsAsFaults
 		fetchRequest.predicate = predicate
 		fetchRequest.sortDescriptors = sortDescriptors
 
@@ -145,11 +148,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///
 	/// - Parameters:
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
+	///   - includePending: Bool to set FetchRequest.includePendingChanges. Defaults to `true` (same as Core Data).
+	///   - returnsObjectsAsFaults: Bool to set FetchRequest.returnsObjectsAsFaults. Defaults to `true` (same as CoreData). Set this to `false` if you want your returned objects to be fully populated which is very useful during background imports.
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - sortDescriptors: (optional) array of `NSSortDescriptio`s to apply to the fetched results
 	/// - Returns: an Array of Entity objects of appropriate type
 	public static func fetch(in context: NSManagedObjectContext,
 	                  includePending: Bool = true,
+					  returnsObjectsAsFaults: Bool = true,
 	                  predicate: NSPredicate? = nil,
 	                  sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 		) -> [Self] {
@@ -161,7 +167,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 
 	/// Looks for an object matching given predicate in the given context.
-	///	Only returns the object if it's not a fault. This methods does not access persistent store (no Fetch)
+	///	Only returns the object if it‘s not a fault. This methods does not access persistent store (no Fetch).
 	///
 	/// - Parameters:
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
