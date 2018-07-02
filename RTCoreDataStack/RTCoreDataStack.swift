@@ -87,6 +87,35 @@ private struct SetupFlags: OptionSet {
 }
 
 
+extension RTCoreDataStack {
+	/// Returns URL for the user's Documents folder
+	public static var defaultStoreFolderURL: URL {
+		guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+			let log = String(format: "E | %@:%@/%@ Could not fetch Documents directory",
+							 String(describing: self), #file, #line)
+			fatalError(log)
+		}
+		return documentsURL
+	}
+
+	/// Returns String representing only alphanumerics from app's name
+	private static var cleanAppName: String {
+		guard let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String else {
+			let log = String(format: "E | %@:%@/%@ Unable to fetch CFBundleName from main bundle",
+							 String(describing: self), #file, #line)
+			fatalError(log)
+		}
+		return appName.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+	}
+
+	public static var defaultStoreFileName: String {
+		return "\( cleanAppName ).sqlite"
+	}
+
+	public static var defaultStoreURL: URL {
+		return defaultStoreFolderURL.appendingPathComponent(defaultStoreFileName)
+	}
+}
 
 
 //MARK:- Setup
@@ -117,10 +146,10 @@ fileprivate extension RTCoreDataStack {
 		let url: URL
 		if let storeURL = storeURL {	//	if the target URL is supplied
 			//	then make sure that the path is usable. create all missing directories in the path, if needed
-			verify(storeURL: storeURL)
+			RTCoreDataStack.verify(storeURL: storeURL)
 			url = storeURL
 		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
-			url = defaultStoreURL.appendingPathComponent(cleanAppName).appendingPathExtension("sqlite")
+			url = RTCoreDataStack.defaultStoreURL
 		}
 		let mom = managedObjectModel(named: dataModelName)
 
@@ -128,7 +157,16 @@ fileprivate extension RTCoreDataStack {
 		self.dataModel = mom
 
 		//	setup persistent store coordinators
+		setupPersistentStoreCoordinators(using: mom)
 
+		//	setup DidSaveNotification handling
+		setupNotifications()
+
+		//	report back
+		setupDone(flags: .base)
+	}
+
+	func setupPersistentStoreCoordinators(using mom: NSManagedObjectModel) {
 		self.mainCoordinator = {
 			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
 			connectStores(toCoordinator: psc, andExecute: { [unowned self] in
@@ -148,11 +186,6 @@ fileprivate extension RTCoreDataStack {
 			return psc
 		}()
 
-		//	setup DidSaveNotification handling
-		setupNotifications()
-
-		//	report back
-		setupDone(flags: .base)
 	}
 
 	/// Attach the persistent stores to the supplied Persistent Store Coordinator.
@@ -208,21 +241,11 @@ fileprivate extension RTCoreDataStack {
 		return sd
 	}
 
-	/// Returns URL for the user's Documents folder
-	var defaultStoreURL: URL {
-		guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-			let log = String(format: "E | %@:%@/%@ Could not fetch Documents directory",
-			                 String(describing: self), #file, #line)
-			fatalError(log)
-		}
-		return documentsURL
-	}
-
 	/// Verifies that store URL path exists. It will create all the intermediate directories specified in the path.
 	/// If that fails, it will crash the app.
 	///
 	/// - parameter url: URL to verify. Must include the file segment at the end; this method will remove last path component and then use the rest as directory path
-	func verify(storeURL url: URL) {
+	static func verify(storeURL url: URL) {
 		let directoryURL = url.deletingLastPathComponent()
 		do {
 			try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
@@ -231,16 +254,6 @@ fileprivate extension RTCoreDataStack {
 			                 String(describing: self), #file, #line, directoryURL.path, error.localizedDescription)
 			fatalError(log)
 		}
-	}
-
-	/// Returns String representing only alphanumerics from app's name
-	var cleanAppName: String {
-		guard let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String else {
-			let log = String(format: "E | %@:%@/%@ Unable to fetch CFBundleName from main bundle",
-			                 String(describing: self), #file, #line)
-			fatalError(log)
-		}
-		return appName.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
 	}
 
 	/// Instantiates NSManagedObjectModel. If it can't create one, it will crash the app
@@ -359,3 +372,102 @@ public extension RTCoreDataStack {
 		return moc
 	}
 }
+
+//	MARK: Migration
+
+extension RTCoreDataStack {
+	public convenience init(withDataModelNamed dataModel: String? = nil, migratingFrom oldStoreURL: URL? = nil, to storeURL: URL, callback: @escaping Callback = {}) {
+		let fm = FileManager.default
+
+		//	what's the old URL?
+		let oldURL: URL = oldStoreURL ?? RTCoreDataStack.defaultStoreURL
+
+		//	is there a core data store file at the old url?
+		let shouldMigrate = fm.fileExists(atPath: oldURL.path)
+
+		//	if nothing to migrate, then just start with new URL
+		if !shouldMigrate {
+			self.init(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+			return
+		}
+
+		//	is there a file at new URL?
+		//	(maybe migration was already done and deleting old file failed originally)
+		if fm.fileExists(atPath: storeURL.path) {
+			//	init with new URL
+			self.init(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+
+			//	attempt to delete old file again
+			deleteDocumentAtUrl(url: oldURL)
+			return
+		}
+
+
+		//	ok, we need to migrate.
+
+		//	so first make a dummy instance
+		self.init()
+
+		//	new storeURL must be full file URL, not directory URL
+		RTCoreDataStack.verify(storeURL: storeURL)
+
+		//	build Model
+		let mom = managedObjectModel(named: dataModel)
+		self.dataModel = mom
+
+		//	setup temporary migration PSC
+		let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+		//	connect old store
+		self.storeURL = oldURL
+		connectStores(toCoordinator: psc)
+
+		//	ok, now migrate to new location
+		var storeOptions = [AnyHashable : Any]()
+		storeOptions[NSMigratePersistentStoresAutomaticallyOption] = true
+		storeOptions[NSInferMappingModelAutomaticallyOption] = true
+
+		if let store = psc.persistentStore(for: oldURL) {
+			do {
+				try psc.migratePersistentStore(store, to: storeURL, options: storeOptions, withType: NSSQLiteStoreType)
+
+				//	successful migration, so update the value of store URL
+				self.storeURL = storeURL
+				self.callback = callback
+
+				//	setup persistent store coordinators
+				setupPersistentStoreCoordinators(using: mom)
+
+				//	setup DidSaveNotification handling
+				setupNotifications()
+
+				//	report back
+				setupDone(flags: .base)
+
+				deleteDocumentAtUrl(url: oldURL)
+
+			} catch let error {
+				let log = String(format: "E | %@:%@/%@ Failed to migrate old store to new URL: %@,\n%@",
+								 String(describing: self), #file, #line, storeURL.path, error as NSError)
+				fatalError(log)
+			}
+		} else {
+			let log = String(format: "E | %@:%@/%@ Failed to migrate due to missing old store",
+							 String(describing: self), #file, #line)
+			fatalError(log)
+		}
+	}
+
+	private func deleteDocumentAtUrl(url: URL){
+		let fileCoordinator = NSFileCoordinator(filePresenter: nil)
+		fileCoordinator.coordinate(writingItemAt: url, options: .forDeleting, error: nil, byAccessor: {
+			(urlForModifying) -> Void in
+			do {
+				try FileManager.default.removeItem(at: urlForModifying)
+			} catch let error {
+				print("Failed to remove item with error: \(error as NSError )")
+			}
+		})
+	}
+}
+
+

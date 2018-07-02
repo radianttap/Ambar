@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'RTCoreDataStack'
-  s.version      = '4.1.1'
+  s.version      = '4.2'
   s.summary      = 'A Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
   s.homepage     = 'https://github.com/radianttap/RTSwiftCoreDataStack'
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -12,7 +12,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/radianttap/RTSwiftCoreDataStack.git" }
   s.source_files = 'RTCoreDataStack/*.{swift}'
   s.frameworks   = 'Foundation', 'CoreData'
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
   s.swift_version = '4.0'
 
   s.description  = <<-DESC
