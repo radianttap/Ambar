@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Company" representedClassName="Company" syncable="YES">
+        <attribute name="industry" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="attributeValueScalarType" value="IndustryType"/>
+            </userInfo>
+        </attribute>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="symbol" attributeType="String" syncable="YES"/>
         <relationship name="stockupdates" toMany="YES" deletionRule="Cascade" destinationEntity="StockUpdate" inverseName="company" inverseEntity="StockUpdate" syncable="YES"/>
@@ -26,7 +31,7 @@
         <attribute name="viewsCountOptional" optional="YES" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Company" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Company" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="StockUpdate" positionX="-54" positionY="9" width="128" height="120"/>
         <element name="TmplTestEntity" positionX="-63" positionY="45" width="128" height="210"/>
     </elements>

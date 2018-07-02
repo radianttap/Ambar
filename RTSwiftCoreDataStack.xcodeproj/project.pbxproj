@@ -22,11 +22,11 @@
 
 /* Begin PBXBuildFile section */
 		4E9D8ED946A2DA829C2EFE32 /* Pods_RTSwiftCoreDataStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0993A3AF09552A71EDAAD419 /* Pods_RTSwiftCoreDataStack.framework */; };
+		D031813720EA3475006F3183 /* IndustryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031813620EA3475006F3183 /* IndustryType.swift */; };
 		D09310011EF1503E00A94445 /* _Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFD1EF1503E00A94445 /* _Company.swift */; };
 		D09310021EF1503E00A94445 /* _StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */; };
 		D09310061EF1507500A94445 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310041EF1507500A94445 /* Company.swift */; };
 		D09310071EF1507500A94445 /* StockUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09310051EF1507500A94445 /* StockUpdate.swift */; };
-		D0B08E2A1F1D091A00DF20D5 /* CoreDataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B08E291F1D091A00DF20D5 /* CoreDataRepresentable.swift */; };
 		D0B3E4561DBE026600882AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3E4551DBE026600882AC3 /* AppDelegate.swift */; };
 		D0B3E45F1DBE026600882AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E45E1DBE026600882AC3 /* Assets.xcassets */; };
 		D0B3E4621DBE026700882AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0B3E4601DBE026700882AC3 /* LaunchScreen.storyboard */; };
@@ -39,13 +39,13 @@
 /* Begin PBXFileReference section */
 		0993A3AF09552A71EDAAD419 /* Pods_RTSwiftCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RTSwiftCoreDataStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E0CF3C9C61FB0DB25A71D3 /* Pods-RTSwiftCoreDataStack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSwiftCoreDataStack.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack.debug.xcconfig"; sourceTree = "<group>"; };
+		D031813620EA3475006F3183 /* IndustryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndustryType.swift; sourceTree = "<group>"; };
 		D08D37B11EF2096700AF722D /* TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmplTestEntity.swift; sourceTree = "<group>"; };
 		D08D37B21EF2096E00AF722D /* _TmplTestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TmplTestEntity.swift; sourceTree = "<group>"; };
 		D0930FFD1EF1503E00A94445 /* _Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Company.swift; sourceTree = "<group>"; };
 		D0930FFE1EF1503E00A94445 /* _StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _StockUpdate.swift; sourceTree = "<group>"; };
 		D09310041EF1507500A94445 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		D09310051EF1507500A94445 /* StockUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockUpdate.swift; sourceTree = "<group>"; };
-		D0B08E291F1D091A00DF20D5 /* CoreDataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepresentable.swift; sourceTree = "<group>"; };
 		D0B3E4521DBE026600882AC3 /* RTSwiftCoreDataStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTSwiftCoreDataStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B3E4551DBE026600882AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B3E45E1DBE026600882AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				D09310031EF1507500A94445 /* mogen-classes */,
 				D0930FFC1EF1503E00A94445 /* mogen-properties */,
 				D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */,
-				D0B08E291F1D091A00DF20D5 /* CoreDataRepresentable.swift */,
+				D031813620EA3475006F3183 /* IndustryType.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -159,7 +159,6 @@
 				D0B3E44F1DBE026600882AC3 /* Frameworks */,
 				D0B3E4501DBE026600882AC3 /* Resources */,
 				AAC2C22C1CB1C8511EF744CF /* [CP] Embed Pods Frameworks */,
-				A82AA0AAB36CDC7603A092F0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -229,28 +228,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RTSwiftCoreDataStack-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A82AA0AAB36CDC7603A092F0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AAC2C22C1CB1C8511EF744CF /* [CP] Embed Pods Frameworks */ = {
@@ -259,9 +246,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RTCoreDataStack/RTCoreDataStack.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RTCoreDataStack.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -297,7 +287,7 @@
 				D09310011EF1503E00A94445 /* _Company.swift in Sources */,
 				D0F2A1261EF29A5F00BA1115 /* TmplTestController.swift in Sources */,
 				D09310071EF1507500A94445 /* StockUpdate.swift in Sources */,
-				D0B08E2A1F1D091A00DF20D5 /* CoreDataRepresentable.swift in Sources */,
+				D031813720EA3475006F3183 /* IndustryType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
