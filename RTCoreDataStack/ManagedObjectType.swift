@@ -61,7 +61,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 		guard let results = try? context.fetch(fetchRequest) else { return [] }
 
-		let arr = results.flatMap( { $0[property] as? T } )
+		let arr = results.compactMap( { $0[property] as? T } )
 		return Set<T>(arr)
 	}
 
@@ -90,7 +90,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 		guard let results = try? context.fetch(fetchRequest) else { return [] }
 
-		let arr = results.flatMap({ initWith($0) })
+		let arr = results.compactMap({ initWith($0) })
 		return arr
 	}
 
