@@ -15,13 +15,13 @@ public final class RTCoreDataStack {
 
 	/// Until this is true, data store is not available.
 	///	Do **not** attempt to access any of the Core Data objects until `isReady=true`
-	public fileprivate(set) var isReady: Bool = false
+	public private(set) var isReady: Bool = false
 
 	/// Managed Model instance used by the stack
-	public fileprivate(set) var dataModel: NSManagedObjectModel!
+	public private(set) var dataModel: NSManagedObjectModel!
 
 	/// Full URL to the location of the SQLite file
-	public fileprivate(set) var storeURL: URL!
+	public private(set) var storeURL: URL!
 
 	/// Instantiates the whole stack, giving you full control over what model to use and where the resulting file should be.
 	///
@@ -37,13 +37,13 @@ public final class RTCoreDataStack {
 	}
 
 	/// Instance of PersistentStoreCoordinator intended for main thread's contexts
-	public fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
+	public private(set) var mainCoordinator: NSPersistentStoreCoordinator!
 
 	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
-	public fileprivate(set) var writerCoordinator: NSPersistentStoreCoordinator!
+	public private(set) var writerCoordinator: NSPersistentStoreCoordinator!
 
 	/// Main MOC, connected to mainCoordinator. Use it for all the UI
-	public fileprivate(set) var mainContext: NSManagedObjectContext!
+	public private(set) var mainContext: NSManagedObjectContext!
 	///	Alias for `mainContext`
 	public var viewContext: NSManagedObjectContext { return mainContext }
 
@@ -63,8 +63,8 @@ public final class RTCoreDataStack {
 		NotificationCenter.default.removeObserver(self)
 	}
 
-	fileprivate var callback: Callback?
-	fileprivate var setupFlags: SetupFlags = .none
+	private var callback: Callback?
+	private var setupFlags: SetupFlags = .none
 }
 
 
@@ -120,7 +120,7 @@ extension RTCoreDataStack {
 
 //MARK:- Setup
 @available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate extension RTCoreDataStack {
+private extension RTCoreDataStack {
 
 	/// Called only once, when the entire setup is done and ready
 	func setupDone(flags: SetupFlags) {
@@ -290,7 +290,7 @@ fileprivate extension RTCoreDataStack {
 
 //MARK:- Notifications
 @available(iOS 8.4, watchOS 2.0, tvOS 9.0, *)
-fileprivate extension RTCoreDataStack {
+private extension RTCoreDataStack {
 
 	//	Subscribe the stack to any context's DidSaveNotification
 	func setupNotifications() {

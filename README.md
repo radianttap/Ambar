@@ -32,9 +32,9 @@ Lastly, you *should* supply a simple callback to be informed when the store and 
 Upon successful instantiation, the stack will have two instances of `NSPersistentStoreCoordinator`: 
 
 ```swift
-fileprivate(set) var mainCoordinator: NSPersistentStoreCoordinator!
+private(set) var mainCoordinator: NSPersistentStoreCoordinator!
 
-fileprivate(set) var writerCoordinator: NSPersistentStoreCoordinator!
+private(set) var writerCoordinator: NSPersistentStoreCoordinator!
 ```
 
 You can access them if you need to but that shouldn’t really be necessary – see _Useful MOCs_ below. You can’t override nor delete them.
@@ -46,7 +46,7 @@ The second – writer – should be used by contexts created in background threa
 ### Main MOC
 
 ```
-fileprivate(set) var mainContext: NSManagedObjectContext!
+private(set) var mainContext: NSManagedObjectContext!
 ```
 
 An instance of `NSManagedObjectContext` created in the main thread, wired to `mainCoordinator` and with merge policy set to favor state of objects in the persistent store (on the disk) versus those in the memory.

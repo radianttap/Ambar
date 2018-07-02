@@ -21,7 +21,7 @@ final class TmplTestController: UIViewController {
 }
 
 
-fileprivate extension TmplTestController {
+private extension TmplTestController {
 
 	func testDataSource() {
 		guard let moc = moc else { return }
