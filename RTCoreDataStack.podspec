@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary      = 'A Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
   s.homepage     = 'https://github.com/radianttap/RTSwiftCoreDataStack'
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author       = { 'Aleksandar Vacić' => 'radianttap.com' }
+  s.author       = { 'Aleksandar Vacić' => 'aplus.rs' }
   s.social_media_url   			= "https://twitter.com/radiantav"
   s.ios.deployment_target 		= "8.4"
   s.watchos.deployment_target 	= "2.0"
@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
                    * Also includes `editorContext`
                    * All MOCs are already predefined to use appropriate `mergePolicy` values.
                    * Easy-to-use ability to create any specific MOC instance you may need.
+				   * Seamless migration of the existing Core Data store to another URL
 
                    * Includes `ManagedObjectType` protocol which you can adopt and automatically get simple to use properly-typed methods for `NSFetchRequest` of objects, specific properties, count + automatic generation of typed `NSFetchedResultsController`
                    * Custom non-throwable `MOC.save` method which automatically performs save of the `parentContext` too if there is one and returns save error inside optional callback.
