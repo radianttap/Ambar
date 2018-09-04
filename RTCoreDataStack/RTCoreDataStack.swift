@@ -193,7 +193,7 @@ private extension RTCoreDataStack {
 	/// - parameter psc:         Instance of PSC
 	/// - parameter postConnect: Optional closure to execute after successful add (of the stores)
 	func connectStores(toCoordinator psc: NSPersistentStoreCoordinator, andExecute postConnect: (()-> Void)? = nil) {
-		if #available(iOS 10.0, *) {
+		if #available(iOS 10.0, tvOS 10.0, *) {
 			psc.addPersistentStore(with: storeDescription, completionHandler: { [unowned self] (sd, error) in
 				if let error = error {
 					let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
@@ -232,7 +232,7 @@ private extension RTCoreDataStack {
 		setupDone(flags: .mainMOC)
 	}
 
-	@available(iOS 10.0, *)
+	@available(iOS 10.0, tvOS 10.0, *)
 	var storeDescription: NSPersistentStoreDescription {
 		let sd = NSPersistentStoreDescription(url: storeURL)
 		//	use options that allow automatic model migrations
