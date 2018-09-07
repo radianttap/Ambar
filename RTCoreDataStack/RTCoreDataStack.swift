@@ -91,7 +91,7 @@ extension RTCoreDataStack {
 	/// Returns URL for the user's Documents folder
 	public static var defaultStoreFolderURL: URL {
 		guard let documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
-			let log = String(format: "E | %@:%@/%@ Could not fetch Documents directory",
+			let log = String(format: "E | %@:%@/%@ Could not fetch Application Support directory",
 							 String(describing: self), #file, #line)
 			fatalError(log)
 		}
