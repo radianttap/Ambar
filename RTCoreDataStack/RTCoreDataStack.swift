@@ -150,6 +150,7 @@ private extension RTCoreDataStack {
 			url = storeURL
 		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
 			url = RTCoreDataStack.defaultStoreURL
+			RTCoreDataStack.verify(storeURL: url)
 		}
 		let mom = managedObjectModel(named: dataModelName)
 
@@ -247,6 +248,12 @@ private extension RTCoreDataStack {
 	/// - parameter url: URL to verify. Must include the file segment at the end; this method will remove last path component and then use the rest as directory path
 	static func verify(storeURL url: URL) {
 		let directoryURL = url.deletingLastPathComponent()
+
+		var isFolder: ObjCBool = true
+		if FileManager.default.fileExists(atPath: directoryURL.path, isDirectory: &isFolder), isFolder.boolValue {
+			return
+		}
+
 		do {
 			try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
 		} catch(let error) {
