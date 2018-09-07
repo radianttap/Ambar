@@ -1,5 +1,5 @@
 PODS:
-  - RTCoreDataStack (4.2)
+  - RTCoreDataStack (5.0)
 
 DEPENDENCIES:
   - RTCoreDataStack (from `./`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  RTCoreDataStack: 6ade52a076401c5ce51f7f8082d7bd1dd1a9ce92
+  RTCoreDataStack: a96f6097fb828147b24c0fca04865f0a9f61e184
 
-PODFILE CHECKSUM: b7ffd1d41932b952b35fcbe280cafe84b6ac3941
+PODFILE CHECKSUM: 4317ecbc9286939a9fd1c94bc42ebe2304a2ac9f
 
 COCOAPODS: 1.5.3

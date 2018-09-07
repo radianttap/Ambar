@@ -5,3 +5,9 @@ target 'RTSwiftCoreDataStack' do
 
 	pod 'RTCoreDataStack', :path => './'
 end
+
+target 'tvOSDemo' do
+	platform :tvos, '9.0'
+
+	pod 'RTCoreDataStack', :path => './'
+end
