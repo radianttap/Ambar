@@ -90,7 +90,14 @@ private struct SetupFlags: OptionSet {
 extension RTCoreDataStack {
 	/// Returns URL for the user's Documents folder
 	public static var defaultStoreFolderURL: URL {
-		guard let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+		let searchPathOption: FileManager.SearchPathDirectory
+		#if os(tvOS)
+		searchPathOption = .cachesDirectory
+		#else
+		searchPathOption = .applicationSupportDirectory
+		#endif
+
+		guard let url = FileManager.default.urls(for: searchPathOption, in: .userDomainMask).first else {
 			let log = String(format: "E | %@:%@/%@ Could not fetch Application Support directory",
 							 String(describing: self), #file, #line)
 			fatalError(log)
@@ -250,13 +257,14 @@ private extension RTCoreDataStack {
 		let directoryURL = url.deletingLastPathComponent()
 
 		var isFolder: ObjCBool = true
-		if FileManager.default.fileExists(atPath: directoryURL.path, isDirectory: &isFolder), isFolder.boolValue {
+		let isExists = FileManager.default.fileExists(atPath: directoryURL.path, isDirectory: &isFolder)
+		if isExists && isFolder.boolValue {
 			return
 		}
 
 		do {
 			try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
-		} catch(let error) {
+		} catch let error {
 			let log = String(format: "E | %@:%@/%@ Error verifying (creating) full URL path %@:\n%@",
 			                 String(describing: self), #file, #line, directoryURL.path, error.localizedDescription)
 			fatalError(log)
