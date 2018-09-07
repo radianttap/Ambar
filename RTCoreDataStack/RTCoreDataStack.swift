@@ -90,12 +90,12 @@ private struct SetupFlags: OptionSet {
 extension RTCoreDataStack {
 	/// Returns URL for the user's Documents folder
 	public static var defaultStoreFolderURL: URL {
-		guard let documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+		guard let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
 			let log = String(format: "E | %@:%@/%@ Could not fetch Application Support directory",
 							 String(describing: self), #file, #line)
 			fatalError(log)
 		}
-		return documentsURL
+		return url
 	}
 
 	/// Returns String representing only alphanumerics from app's name
