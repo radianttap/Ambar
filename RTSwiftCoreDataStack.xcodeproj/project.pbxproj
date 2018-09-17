@@ -239,7 +239,7 @@
 				TargetAttributes = {
 					D0B3E4511DBE026600882AC3 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					D0E6ACBB1DC0B35C0083C496 = {
@@ -551,8 +551,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.radianttap.RTSwiftCoreDataStack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -565,8 +564,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.radianttap.RTSwiftCoreDataStack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
