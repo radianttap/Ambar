@@ -1,18 +1,18 @@
 Pod::Spec.new do |s|
   s.name         = 'RTCoreDataStack'
-  s.version      = '5.1'
+  s.version      = '5.2'
   s.summary      = 'A Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
   s.homepage     = 'https://github.com/radianttap/RTSwiftCoreDataStack'
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { 'Aleksandar Vacić' => 'aplus.rs' }
   s.social_media_url   			= "https://twitter.com/radiantav"
   s.ios.deployment_target 		= "8.4"
-  s.watchos.deployment_target 	= "2.0"
+  s.watchos.deployment_target 	= "3.0"
   s.tvos.deployment_target 		= "9.0"
   s.source       = { :git => "https://github.com/radianttap/RTSwiftCoreDataStack.git" }
   s.source_files = 'RTCoreDataStack/*.{swift}'
   s.frameworks   = 'Foundation', 'CoreData'
-  s.swift_version = '4.1'
+  s.swift_version = '4.2'
 
   s.description  = <<-DESC
                    RT(Swift)CoreDataStack is pure Swift wrapper for Core Data stack. It works equally well in simple apps with just the main (view) context as well as is data intensive apps which require continuous import and display of data of any complexity.
