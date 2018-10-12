@@ -1,10 +1,10 @@
 # Swift RTCoreDataStack
 
-Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 8 and above.
+Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 8, watchOS 3, tvOS 10 and above.
 
 This is a rewrite of the same library I used in Objective-C projects. It’s used in several fairly large and complex apps with lots of background imports, thus it's fairly stable and usable in practice. Still, test all assumptions like hell.
 
-The library is fairly small and well commented.
+The library is fairly small and well commented. Latest version uses Swift 4.2. Supports SQLite and in-memory store types.
 
 ## Usage 
 
