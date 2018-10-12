@@ -21,13 +21,16 @@ public final class ManagedSetMonitor<T>: NSObject where T: NSManagedObject {
 	public private(set) var objectIDs: Set<NSManagedObjectID>
 
 	private var callback: Callback = {_, _ in}
+	private var moc: NSManagedObjectContext
 
 	private init(objects: Set<T>) {
+		guard let moc = objects.first?.managedObjectContext else {
+			fatalError("Must supply at least one object in the set.")
+		}
+		self.moc = moc
 		self.objects = objects
 		self.objectIDs = Set( objects.map{ $0.objectID } )
 		super.init()
-
-		observe()
 	}
 
 	deinit {
@@ -41,6 +44,8 @@ extension ManagedSetMonitor {
 	public convenience init(objects: Set<T>, callback: @escaping Callback) {
 		self.init(objects: objects)
 		self.callback = callback
+
+		observe()
 	}
 
 
@@ -50,10 +55,12 @@ extension ManagedSetMonitor {
 		let nc = NotificationCenter.default
 		let name = Notification.Name.NSManagedObjectContextObjectsDidChange
 
-		nc.addObserver(forName: name, object: nil, queue: OperationQueue.main) {
+		nc.addObserver(forName: name, object: moc, queue: OperationQueue.main) {
 			[weak self] note in
-			guard let self = self else { return }
-			guard let userInfo = note.userInfo as? [String: Any] else { return }
+			guard
+				let self = self,
+				let userInfo = note.userInfo as? [String: Any]
+			else { return }
 
 			var updatedSet: Set<T> = []
 			var deletedSet: Set<NSManagedObjectID> = []

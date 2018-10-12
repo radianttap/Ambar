@@ -31,6 +31,7 @@
 		A0B43D011381CA02184D028EE63733A7 /* Pods-tvOSDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5CFA4D4601E929A8DB8AFBF2D25C61 /* Pods-tvOSDemo-dummy.m */; };
 		A8BCA9184B65432C5BB3CA48747EBE16 /* RTCoreDataStack-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C39E0FF1597052BC5DE5B35A690ECC /* RTCoreDataStack-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52D223002D03DA47BE2FA913A503651 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23192D143900D135A1429803DBA04FE8 /* Foundation.framework */; };
+		D0063B802171186F00B23BE6 /* EntityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0063B7F2171186F00B23BE6 /* EntityMonitor.swift */; };
 		D5479EBFA83D734D4E1684F67D444B59 /* NSManagedObjectContext-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8533CA603A3B37DA468934D7E186DC5 /* NSManagedObjectContext-Extensions.swift */; };
 		F13A4FE102CD7AD57819E2C154ADD2C8 /* CoreDataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866F1231D7F9752E58A1006B78F74E69 /* CoreDataRepresentable.swift */; };
 /* End PBXBuildFile section */
@@ -67,22 +68,22 @@
 		573C290E43CE26FDE1546CAC1A24A2ED /* Pods-tvOSDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-tvOSDemo.modulemap"; sourceTree = "<group>"; };
 		5B0A96F34A69552320F219C3892350AC /* Pods-tvOSDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-tvOSDemo-Info.plist"; sourceTree = "<group>"; };
 		5D508347577EC8B58C6C521FCE24E99C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		5DBC65DE0D4E2C73BF9FDACE0789DC23 /* Pods_tvOSDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_tvOSDemo.framework; path = "Pods-tvOSDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E2030D222E9B8CA5DC8AAAAC4346C8F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		5EED1B90C749F5BFEB35DEC56723C318 /* Pods_RTSwiftCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_RTSwiftCoreDataStack.framework; path = "Pods-RTSwiftCoreDataStack.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DBC65DE0D4E2C73BF9FDACE0789DC23 /* Pods_tvOSDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tvOSDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E2030D222E9B8CA5DC8AAAAC4346C8F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		5EED1B90C749F5BFEB35DEC56723C318 /* Pods_RTSwiftCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RTSwiftCoreDataStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D507CDEE8E27CFA534DA0B3489B1C8 /* RTCoreDataStack-tvOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "RTCoreDataStack-tvOS.xcconfig"; path = "../RTCoreDataStack-tvOS/RTCoreDataStack-tvOS.xcconfig"; sourceTree = "<group>"; };
 		658EFB67BDB4BBF4172ACD3EC8E8AC39 /* Pods-tvOSDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tvOSDemo.release.xcconfig"; sourceTree = "<group>"; };
-		66AF9DCBDD5FA174E8A9C503DF62AA7A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		66AF9DCBDD5FA174E8A9C503DF62AA7A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		707E797068E055728E36FE4F2FAB0540 /* Pods-RTSwiftCoreDataStack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RTSwiftCoreDataStack.release.xcconfig"; sourceTree = "<group>"; };
 		754A1773FCA3A10FFDD7E6023CDFEF3D /* RTCoreDataStack.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RTCoreDataStack.swift; path = RTCoreDataStack/RTCoreDataStack.swift; sourceTree = "<group>"; };
 		7F6FFBBE091C2C7CD8F14AEBF38649EB /* Pods-RTSwiftCoreDataStack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RTSwiftCoreDataStack.debug.xcconfig"; sourceTree = "<group>"; };
-		81C2068D960795BE67EBFACB541F6E2C /* RTCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RTCoreDataStack.framework; path = "RTCoreDataStack-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81C2068D960795BE67EBFACB541F6E2C /* RTCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RTCoreDataStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		866F1231D7F9752E58A1006B78F74E69 /* CoreDataRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CoreDataRepresentable.swift; path = RTCoreDataStack/CoreDataRepresentable.swift; sourceTree = "<group>"; };
 		892877F7B84FC8EE9910A398DC2BE910 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.3.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98D7FBAF5E391DECA5FB1CB5216CF44F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		99C2F84D1EC34431E47329868449D3A7 /* Pods-tvOSDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-tvOSDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9F50315298E687A5EDFC50C8040620AC /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = RTCoreDataStack.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9F50315298E687A5EDFC50C8040620AC /* RTCoreDataStack.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = RTCoreDataStack.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1620392E1F4B86586D1D76032FC52A4 /* CoreDataError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CoreDataError.swift; path = RTCoreDataStack/CoreDataError.swift; sourceTree = "<group>"; };
 		A586287A424D3F401C902C50A2DC9FC8 /* RTCoreDataStack-tvOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; name = "RTCoreDataStack-tvOS.modulemap"; path = "../RTCoreDataStack-tvOS/RTCoreDataStack-tvOS.modulemap"; sourceTree = "<group>"; };
 		A8592786B9C6E27CC3775AE6268F14BA /* RTCoreDataStack-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "RTCoreDataStack-tvOS-dummy.m"; path = "../RTCoreDataStack-tvOS/RTCoreDataStack-tvOS-dummy.m"; sourceTree = "<group>"; };
@@ -92,7 +93,8 @@
 		B5AE936158A24AE9D70319ED1D012106 /* RTCoreDataStack-tvOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RTCoreDataStack-tvOS-prefix.pch"; path = "../RTCoreDataStack-tvOS/RTCoreDataStack-tvOS-prefix.pch"; sourceTree = "<group>"; };
 		C8B5A2CF20E5BA358AB83C0C5ABCD3DE /* RTCoreDataStack-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RTCoreDataStack-iOS-dummy.m"; sourceTree = "<group>"; };
 		CAA02EB6839973079FCB45428D329C35 /* RTCoreDataStack-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RTCoreDataStack-iOS-prefix.pch"; sourceTree = "<group>"; };
-		CBC2E2E8815E33DE9DF6C645CBCA1774 /* RTCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RTCoreDataStack.framework; path = "RTCoreDataStack-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBC2E2E8815E33DE9DF6C645CBCA1774 /* RTCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RTCoreDataStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0063B7F2171186F00B23BE6 /* EntityMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntityMonitor.swift; path = RTCoreDataStack/EntityMonitor.swift; sourceTree = "<group>"; };
 		D4C39E0FF1597052BC5DE5B35A690ECC /* RTCoreDataStack-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RTCoreDataStack-iOS-umbrella.h"; sourceTree = "<group>"; };
 		D5A8734F706D52CC43164B13E2448436 /* ManagedObjectType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ManagedObjectType.swift; path = RTCoreDataStack/ManagedObjectType.swift; sourceTree = "<group>"; };
 		D8533CA603A3B37DA468934D7E186DC5 /* NSManagedObjectContext-Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSManagedObjectContext-Extensions.swift"; path = "RTCoreDataStack/NSManagedObjectContext-Extensions.swift"; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				866F1231D7F9752E58A1006B78F74E69 /* CoreDataRepresentable.swift */,
 				D5A8734F706D52CC43164B13E2448436 /* ManagedObjectType.swift */,
 				479419C758D18429EAFDAC51D21B0FEB /* ManagedSetMonitor.swift */,
+				D0063B7F2171186F00B23BE6 /* EntityMonitor.swift */,
 				D8533CA603A3B37DA468934D7E186DC5 /* NSManagedObjectContext-Extensions.swift */,
 				754A1773FCA3A10FFDD7E6023CDFEF3D /* RTCoreDataStack.swift */,
 				1351F76E5C567263CE8BA9074D55FC54 /* Pod */,
@@ -407,6 +410,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					03EB5013B24DFEC60E0CAB98FC813873 = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -501,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				921F4A0FFA76DC3A3D8D29526539D1B3 /* Pods-RTSwiftCoreDataStack-dummy.m in Sources */,
+				D0063B802171186F00B23BE6 /* EntityMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,8 +714,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
@@ -772,8 +780,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -819,6 +826,7 @@
 			baseConfigurationReference = 7F6FFBBE091C2C7CD8F14AEBF38649EB /* Pods-RTSwiftCoreDataStack.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -843,6 +851,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -875,8 +884,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
@@ -890,6 +898,7 @@
 			baseConfigurationReference = 707E797068E055728E36FE4F2FAB0540 /* Pods-RTSwiftCoreDataStack.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -912,8 +921,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
