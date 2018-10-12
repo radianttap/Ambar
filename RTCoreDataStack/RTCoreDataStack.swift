@@ -20,17 +20,25 @@ public final class RTCoreDataStack {
 	/// Managed Model instance used by the stack
 	public private(set) var dataModel: NSManagedObjectModel!
 
-	/// Full URL to the location of the SQLite file
-	public private(set) var storeURL: URL!
+	/// Full URL to the location of the SQLite file.
+	///	It's `nil` if you use in-memory storage type.
+	public private(set) var storeURL: URL?
 
-	/// Instantiates the whole stack, giving you full control over what model to use and where the resulting file should be.
+	///	Type of Core Data store. It's indirectly chosen by the initializer you're using.
+	///	By default, it's SQLite.
+	public private(set) var storeType: String
+
+	/// Instantiates the whole stack with SQLite backing, giving you full control over what model to use and where the resulting file should be.
 	///
+	/// - parameter storeType: String, with possible values: `NSSQLiteStoreType` or `NSInMemoryStoreType`
 	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied,
-	/// - parameter storeURL: Full URL where to create the .sqlite file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group.
+	/// - parameter storeURL: Full URL where to create the .sqlite file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group. Omit or supply `nil` when using `NSInMemoryStoreType` store type.
 	/// - parameter callback: A block to call once setup is completed. RTCoreDataStack.isReady is set to true before callback is executed.
 	///
 	/// - returns: Instance of RTCoreDataStack
-	public init(withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {}) {
+	public init(storeType: String = NSSQLiteStoreType, withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {}) {
+		self.storeType = storeType
+
 		DispatchQueue.main.async { [unowned self] in
 			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
 		}
@@ -150,18 +158,20 @@ private extension RTCoreDataStack {
 	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {}) {
 		self.callback = callback
 
-		let url: URL
-		if let storeURL = storeURL {	//	if the target URL is supplied
-			//	then make sure that the path is usable. create all missing directories in the path, if needed
-			RTCoreDataStack.verify(storeURL: storeURL)
-			url = storeURL
-		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
-			url = RTCoreDataStack.defaultStoreURL
-			RTCoreDataStack.verify(storeURL: url)
+		if storeType == NSSQLiteStoreType {
+			let url: URL
+			if let storeURL = storeURL {	//	if the target URL is supplied
+				//	then make sure that the path is usable. create all missing directories in the path, if needed
+				RTCoreDataStack.verify(storeURL: storeURL)
+				url = storeURL
+			} else {	//	otherwise build the name using cleaned app name and place in the local app's container
+				url = RTCoreDataStack.defaultStoreURL
+				RTCoreDataStack.verify(storeURL: url)
+			}
+			self.storeURL = url
 		}
-		let mom = managedObjectModel(named: dataModelName)
 
-		self.storeURL = url
+		let mom = managedObjectModel(named: dataModelName)
 		self.dataModel = mom
 
 		//	setup persistent store coordinators
@@ -205,7 +215,7 @@ private extension RTCoreDataStack {
 			psc.addPersistentStore(with: storeDescription, completionHandler: { [unowned self] (sd, error) in
 				if let error = error {
 					let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
-					                 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
+									 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
 					fatalError(log)
 				}
 				if let postConnect = postConnect {
@@ -219,13 +229,13 @@ private extension RTCoreDataStack {
 				NSInferMappingModelAutomaticallyOption: true
 			]
 			do {
-				try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+				try psc.addPersistentStore(ofType: storeType, configurationName: nil, at: storeURL, options: options)
 				if let postConnect = postConnect {
 					postConnect()
 				}
 			} catch (let error) {
 				let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
-				                 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
+								 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
 				fatalError(log)
 			}
 		}
@@ -242,11 +252,27 @@ private extension RTCoreDataStack {
 
 	@available(iOS 10.0, tvOS 10.0, *)
 	var storeDescription: NSPersistentStoreDescription {
-		let sd = NSPersistentStoreDescription(url: storeURL)
-		//	use options that allow automatic model migrations
-		sd.setOption(true as NSObject?, forKey: NSMigratePersistentStoresAutomaticallyOption)
-		sd.shouldInferMappingModelAutomatically = true
-		return sd
+		switch storeType {
+		case NSSQLiteStoreType:
+			guard let storeURL = storeURL else { fatalError("E | StoreURL missing. It's required when using SQLiteStoreType.")}
+			let sd = NSPersistentStoreDescription(url: storeURL)
+			//	use options that allow automatic model migrations
+			sd.setOption(true as NSObject?, forKey: NSMigratePersistentStoresAutomaticallyOption)
+			sd.shouldInferMappingModelAutomatically = true
+			return sd
+
+		case NSInMemoryStoreType:
+			let sd = NSPersistentStoreDescription()
+			sd.type = storeType
+			//	use options that allow automatic model migrations
+			sd.setOption(true as NSObject?, forKey: NSMigratePersistentStoresAutomaticallyOption)
+			sd.shouldInferMappingModelAutomatically = true
+			return sd
+
+		default:
+			fatalError("E | Must use either `NSSQLiteStoreType` (\( NSSQLiteStoreType )) or `NSInMemoryStoreType` (\( NSInMemoryStoreType )) as storeType.")
+			break
+		}
 	}
 
 	/// Verifies that store URL path exists. It will create all the intermediate directories specified in the path.
