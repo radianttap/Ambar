@@ -20,6 +20,7 @@ final class TmplTestController: UIViewController {
 	}
 
 	var monitoredObjects: ManagedSetMonitor<TmplTestEntity>?
+	var watcher: EntityMonitor<TmplTestEntity>?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
