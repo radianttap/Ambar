@@ -13,9 +13,16 @@ final class TmplTestController: UIViewController {
 
 	var moc: NSManagedObjectContext? {
 		didSet {
-//			if !self.isViewLoaded { return }
-//			testDataSource()
+			if !self.isViewLoaded { return }
+			testDataSource()
 		}
+	}
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.backgroundColor = .orange
+
+		testDataSource()
 	}
 
 }

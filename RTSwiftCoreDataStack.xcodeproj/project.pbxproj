@@ -133,6 +133,7 @@
 		D0B3E4491DBE026600882AC3 = {
 			isa = PBXGroup;
 			children = (
+				D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */,
 				D0E6ACBF1DC0B4C10083C496 /* DataModel */,
 				D0B3E4541DBE026600882AC3 /* RTSwiftCoreDataStackExample */,
 				D0F575502142FE3E005F5E48 /* tvOS Demo */,
@@ -165,7 +166,6 @@
 		D0E6ACBF1DC0B4C10083C496 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
-				D0F2A1251EF29A5F00BA1115 /* TmplTestController.swift */,
 				D09310031EF1507500A94445 /* mogen-classes */,
 				D0930FFC1EF1503E00A94445 /* mogen-properties */,
 				D0E6ACCB1DC0C5270083C496 /* Example.xcdatamodeld */,

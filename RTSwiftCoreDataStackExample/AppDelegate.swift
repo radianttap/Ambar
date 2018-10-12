@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import RTCoreDataStack
 
 @UIApplicationMain
@@ -20,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 		window = UIWindow(frame: UIScreen.main.bounds)
 		window?.rootViewController = TmplTestController()
 
+		//	SQLite backing store
 		coreDataStack = RTCoreDataStack {
 			[unowned self] in
 			print("RTCoreDataStack is ready")
@@ -28,6 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 				vc.moc = self.coreDataStack.mainContext
 			}
 		}
+
+		//	in-memory backing store
+//		coreDataStack = RTCoreDataStack(storeType: NSInMemoryStoreType) {
+//			[unowned self] in
+//			print("RTCoreDataStack is ready")
+//
+//			if let vc = self.window?.rootViewController as? TmplTestController {
+//				vc.moc = self.coreDataStack.mainContext
+//			}
+//		}
 
 		return true
 	}
