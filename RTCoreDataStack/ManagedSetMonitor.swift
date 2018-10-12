@@ -9,8 +9,8 @@
 import Foundation
 import CoreData
 
-///	Offers real-time observation over a particular NSManagedObject entity.
-///	If any changes are observed in the given objects – either update or delete – supplied callback will be called
+///	Offers real-time observation over a set of particular NSManagedObject entities.
+///	If any changes are observed in the given objects – either update or delete – supplied callback will be called.
 
 public final class ManagedSetMonitor<T>: NSObject where T: NSManagedObject {
 	///	First argument is a set of NSManagedObjects which were updated in the MOC.
@@ -28,6 +28,11 @@ public final class ManagedSetMonitor<T>: NSObject where T: NSManagedObject {
 		super.init()
 
 		observe()
+	}
+
+	deinit {
+		let nc = NotificationCenter.default
+		nc.removeObserver(self)
 	}
 }
 
