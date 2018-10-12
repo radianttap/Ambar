@@ -1,5 +1,5 @@
 //
-//  ManagedSetWatcher.swift
+//  ManagedSetMonitor.swift
 //  RTSwiftCoreDataStack
 //
 //  Copyright © 2016 Radiant Tap
@@ -12,7 +12,7 @@ import CoreData
 ///	Offers real-time observation over a particular NSManagedObject entity.
 ///	If any changes are observed in the given objects – either update or delete – supplied callback will be called
 
-public final class ManagedSetWatcher<T>: NSObject where T: NSManagedObject {
+public final class ManagedSetMonitor<T>: NSObject where T: NSManagedObject {
 	///	First argument is a set of NSManagedObjects which were updated in the MOC.
 	///	Second argument is a set of NSManagedObjectIDs which were deleted from the MOC.
 	public typealias Callback = (Set<T>, Set<NSManagedObjectID>) -> Void
@@ -31,7 +31,7 @@ public final class ManagedSetWatcher<T>: NSObject where T: NSManagedObject {
 	}
 }
 
-extension ManagedSetWatcher {
+extension ManagedSetMonitor {
 	///	Supply a set of NSManagedObject instances and a `Callback` to get informed when anything happens with them.
 	public convenience init(objects: Set<T>, callback: @escaping Callback) {
 		self.init(objects: objects)

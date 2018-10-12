@@ -27,7 +27,7 @@
 		ABAD050145F9C88B54984C9B5D3CAAA5 /* RTCoreDataStack-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E29D7CC2B4ED16397D0EB01243654EF /* RTCoreDataStack-tvOS-dummy.m */; };
 		B9AAAFD6A21B44517117B292B9D80DAE /* Pods-RTSwiftCoreDataStack-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 774703C3A303E35203C4054511D1A9BB /* Pods-RTSwiftCoreDataStack-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE8FF9197E89164E2BE4ACD002D8A8FA /* RTCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2605F6D3CE9B5F1FE11D95566E9FDE72 /* RTCoreDataStack.swift */; };
-		D0063B7E2171007B00B23BE6 /* ManagedSetWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0063B7D2171007B00B23BE6 /* ManagedSetWatcher.swift */; };
+		D0063B7E2171007B00B23BE6 /* ManagedSetMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0063B7D2171007B00B23BE6 /* ManagedSetMonitor.swift */; };
 		E32824048E72BEEC5AA48933DFA01C0B /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38761228CD5FE85810E4B93E80936C4 /* CoreDataError.swift */; };
 		F022128498A2DCFB48F80298CB762E54 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A55AFC457A50B28985A0503C3E7957 /* ManagedObjectType.swift */; };
 		F700D26875AF8CC33644B17D879927A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D508347577EC8B58C6C521FCE24E99C /* Foundation.framework */; };
@@ -93,7 +93,7 @@
 		C388BA99E9E22E488821FDD245548673 /* RTCoreDataStack-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RTCoreDataStack-iOS-dummy.m"; sourceTree = "<group>"; };
 		CBC2E2E8815E33DE9DF6C645CBCA1774 /* RTCoreDataStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RTCoreDataStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF7B04C96CD1A531F4542A5FB2F9CED7 /* RTCoreDataStack-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RTCoreDataStack-iOS-prefix.pch"; sourceTree = "<group>"; };
-		D0063B7D2171007B00B23BE6 /* ManagedSetWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ManagedSetWatcher.swift; path = RTCoreDataStack/ManagedSetWatcher.swift; sourceTree = "<group>"; };
+		D0063B7D2171007B00B23BE6 /* ManagedSetMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ManagedSetMonitor.swift; path = RTCoreDataStack/ManagedSetMonitor.swift; sourceTree = "<group>"; };
 		D4BC86946F9C27AAE2907F369D029907 /* Pods-RTSwiftCoreDataStack-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-RTSwiftCoreDataStack-acknowledgements.plist"; sourceTree = "<group>"; };
 		E170D37FE10DBE9CD37F9B169D3888C0 /* Pods-RTSwiftCoreDataStack-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RTSwiftCoreDataStack-dummy.m"; sourceTree = "<group>"; };
 		E38761228CD5FE85810E4B93E80936C4 /* CoreDataError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CoreDataError.swift; path = RTCoreDataStack/CoreDataError.swift; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 				14A55AFC457A50B28985A0503C3E7957 /* ManagedObjectType.swift */,
 				1510D4C82F5997EFFC26FEC13CFDA92A /* NSManagedObjectContext-Extensions.swift */,
 				2605F6D3CE9B5F1FE11D95566E9FDE72 /* RTCoreDataStack.swift */,
-				D0063B7D2171007B00B23BE6 /* ManagedSetWatcher.swift */,
+				D0063B7D2171007B00B23BE6 /* ManagedSetMonitor.swift */,
 				1150F78D2FDF2DF891AF6E69E9D92B39 /* Pod */,
 				13A9067954D86F5F37F8964EE9F148DE /* Support Files */,
 			);
@@ -454,7 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97D71C54C8879F92DF2A8A3BC4773A97 /* Pods-RTSwiftCoreDataStack-dummy.m in Sources */,
-				D0063B7E2171007B00B23BE6 /* ManagedSetWatcher.swift in Sources */,
+				D0063B7E2171007B00B23BE6 /* ManagedSetMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
