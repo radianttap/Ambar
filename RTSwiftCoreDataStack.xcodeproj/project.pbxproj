@@ -301,7 +301,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-tvOSDemo/Pods-tvOSDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-tvOSDemo/Pods-tvOSDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/RTCoreDataStack-tvOS/RTCoreDataStack.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -310,7 +310,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tvOSDemo/Pods-tvOSDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tvOSDemo/Pods-tvOSDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A4B0F7213CCAA9E064A5EF18 /* [CP] Check Pods Manifest.lock */ = {
@@ -337,7 +337,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/RTCoreDataStack-iOS/RTCoreDataStack.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -346,7 +346,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RTSwiftCoreDataStack/Pods-RTSwiftCoreDataStack-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C5C8E8366E6939C625083BE1 /* [CP] Check Pods Manifest.lock */ = {

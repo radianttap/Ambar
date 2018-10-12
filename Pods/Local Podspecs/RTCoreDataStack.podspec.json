@@ -1,6 +1,6 @@
 {
   "name": "RTCoreDataStack",
-  "version": "5.1",
+  "version": "5.3",
   "summary": "A Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.",
   "homepage": "https://github.com/radianttap/RTSwiftCoreDataStack",
   "license": {
@@ -13,7 +13,7 @@
   "social_media_url": "https://twitter.com/radiantav",
   "platforms": {
     "ios": "8.4",
-    "watchos": "2.0",
+    "watchos": "3.0",
     "tvos": "9.0"
   },
   "source": {
@@ -24,6 +24,6 @@
     "Foundation",
     "CoreData"
   ],
-  "swift_version": "4.1",
+  "swift_version": "4.2",
   "description": "RT(Swift)CoreDataStack is pure Swift wrapper for Core Data stack. It works equally well in simple apps with just the main (view) context as well as is data intensive apps which require continuous import and display of data of any complexity.\n\n* Has two PersistentStoreCoordinator instances: `mainCoordinator` and `writerCoordinator`\n            * Use `mainContext` or `viewContext` for all your UI needs (connected to main PSC).\n            * Use as many `importerContext`s as you need - all import is done automatically on background thread. Connected to writerPSC.\n* Automatic merge between `importerContext` and the `mainContext`\n            * Also includes `editorContext`\n            * All MOCs are already predefined to use appropriate `mergePolicy` values.\n            * Easy-to-use ability to create any specific MOC instance you may need.\n* Seamless migration of the existing Core Data store to another URL\n\n            * Includes `ManagedObjectType` protocol which you can adopt and automatically get simple to use properly-typed methods for `NSFetchRequest` of objects, specific properties, count + automatic generation of typed `NSFetchedResultsController`\n            * Custom non-throwable `MOC.save` method which automatically performs save of the `parentContext` too if there is one and returns save error inside optional callback."
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import RTCoreDataStack
 
 final class TmplTestController: UIViewController {
 
@@ -17,6 +18,8 @@ final class TmplTestController: UIViewController {
 			testDataSource()
 		}
 	}
+
+	var monitoredObjects: ManagedSetMonitor<TmplTestEntity>?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
