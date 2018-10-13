@@ -196,13 +196,25 @@ private extension RTCoreDataStack {
 			return psc
 		}()
 
-		self.writerCoordinator = {
-			let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-			connectStores(toCoordinator: psc) { [unowned self] in
-				self.setupDone(flags: .writePSC)
-			}
-			return psc
-		}()
+		switch storeType {
+		case NSSQLiteStoreType:
+			self.writerCoordinator = {
+				let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+				connectStores(toCoordinator: psc) { [unowned self] in
+					self.setupDone(flags: .writePSC)
+				}
+				return psc
+			}()
+
+		case NSInMemoryStoreType:
+			//	use the same coordinator, since in-memory store is one and only
+			//	no files on disk and thus no coordination to care about
+			self.writerCoordinator = self.mainCoordinator
+			self.setupDone(flags: .writePSC)
+
+		default:
+			break
+		}
 
 	}
 
