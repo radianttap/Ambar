@@ -16,6 +16,7 @@ public final class EntityMonitor<T>: NSObject where T: NSManagedObject {
 
 	private var callback: Callback = {_, _, _ in}
 	private var moc: NSManagedObjectContext
+	private var predicate: NSPredicate?
 
 	private init(context: NSManagedObjectContext) {
 		self.moc = context
@@ -30,9 +31,10 @@ public final class EntityMonitor<T>: NSObject where T: NSManagedObject {
 
 extension EntityMonitor {
 	///	Supply `Callback` to get informed when objects representing entity `T` are inserted, updated, deleted from given `NSManagedObjectContext`.
-	public convenience init(context: NSManagedObjectContext, callback: @escaping Callback) {
+	public convenience init(context: NSManagedObjectContext, predicate: NSPredicate? = nil, callback: @escaping Callback) {
 		self.init(context: context)
 		self.callback = callback
+		self.predicate = predicate
 
 		observe()
 	}
@@ -68,6 +70,12 @@ extension EntityMonitor {
 				//	filter-out anything that's not T
 				let set: Set<T> = Set(deletedObjects.compactMap { return $0 as? T })
 				deletedSet = set
+			}
+
+			if let predicate = self.predicate {
+				insertedSet = insertedSet.filter { predicate.evaluate(with: $0) }
+				updatedSet = updatedSet.filter { predicate.evaluate(with: $0) }
+				deletedSet = deletedSet.filter { predicate.evaluate(with: $0) }
 			}
 
 			//	report back
