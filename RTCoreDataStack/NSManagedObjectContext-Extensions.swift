@@ -20,6 +20,7 @@ public extension NSManagedObjectContext {
 	public func save(_ callback: @escaping (CoreDataError?) -> Void = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
+			return
 		}
 
 		//	async save, to not block the thread it's called on
