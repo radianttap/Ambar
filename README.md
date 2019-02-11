@@ -1,6 +1,11 @@
 # Ambar
 // formerly: RT(Swift)CoreDataStack //
 
+> Noun
+> ambar (plural ambars)
+>
+> Any of various kinds of subterranean or barn-like granary, depending on context, in Iran, Turkey, Russia or the Balkans.
+
 Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 8.4, watchOS 3, tvOS 10 and above.
 
 The library is fairly small and well commented. Latest version uses Swift 4.2. Supports SQLite and in-memory store types.
