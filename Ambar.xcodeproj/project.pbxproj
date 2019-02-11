@@ -60,6 +60,8 @@
 		D0A3D3592212245F00695166 /* Ambar */ = {
 			isa = PBXGroup;
 			children = (
+				D0A3D35A2212245F00695166 /* Ambar.h */,
+				D0A3D35B2212245F00695166 /* Info.plist */,
 				D0A3D3662212250800695166 /* CoreDataError.swift */,
 				D0A3D3622212250800695166 /* CoreDataRepresentable.swift */,
 				D0A3D3632212250800695166 /* CoreDataStack.swift */,
@@ -67,8 +69,6 @@
 				D0A3D3642212250800695166 /* ManagedObjectType.swift */,
 				D0A3D3672212250800695166 /* ManagedSetMonitor.swift */,
 				D0A3D3652212250800695166 /* NSManagedObjectContext-Extensions.swift */,
-				D0A3D35A2212245F00695166 /* Ambar.h */,
-				D0A3D35B2212245F00695166 /* Info.plist */,
 			);
 			path = Ambar;
 			sourceTree = "<group>";

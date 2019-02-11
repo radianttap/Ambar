@@ -1,5 +1,5 @@
 //
-//  RTCoreDataStack.swift
+//  CoreDataStack.swift
 //  Ambar
 //
 //  Copyright © 2016 Radiant Tap
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
-public final class RTCoreDataStack {
+public final class CoreDataStack {
 	public typealias Callback = () -> Void
 
 	/// Until this is true, data store is not available.
@@ -95,7 +95,7 @@ private struct SetupFlags: OptionSet {
 }
 
 
-extension RTCoreDataStack {
+extension CoreDataStack {
 	/// Returns URL for the user's Documents folder
 	public static var defaultStoreFolderURL: URL {
 		let searchPathOption: FileManager.SearchPathDirectory
@@ -135,7 +135,7 @@ extension RTCoreDataStack {
 
 //MARK:- Setup
 @available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
-private extension RTCoreDataStack {
+private extension CoreDataStack {
 
 	/// Called only once, when the entire setup is done and ready
 	func setupDone(flags: SetupFlags) {
@@ -162,11 +162,11 @@ private extension RTCoreDataStack {
 			let url: URL
 			if let storeURL = storeURL {	//	if the target URL is supplied
 				//	then make sure that the path is usable. create all missing directories in the path, if needed
-				RTCoreDataStack.verify(storeURL: storeURL)
+				CoreDataStack.verify(storeURL: storeURL)
 				url = storeURL
 			} else {	//	otherwise build the name using cleaned app name and place in the local app's container
-				url = RTCoreDataStack.defaultStoreURL
-				RTCoreDataStack.verify(storeURL: url)
+				url = CoreDataStack.defaultStoreURL
+				CoreDataStack.verify(storeURL: url)
 			}
 			self.storeURL = url
 		}
@@ -343,13 +343,13 @@ private extension RTCoreDataStack {
 
 //MARK:- Notifications
 @available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
-private extension RTCoreDataStack {
+private extension CoreDataStack {
 
 	//	Subscribe the stack to any context's DidSaveNotification
 	func setupNotifications() {
 
 		NotificationCenter.default.addObserver(self,
-		                                       selector: #selector(RTCoreDataStack.handle(notification:)),
+		                                       selector: #selector(CoreDataStack.handle(notification:)),
 		                                       name: .NSManagedObjectContextDidSave,
 		                                       object: nil)
 	}
@@ -385,7 +385,7 @@ private extension RTCoreDataStack {
 
 //MARK:- Contexts
 @available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
-public extension RTCoreDataStack {
+public extension CoreDataStack {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy
@@ -428,12 +428,12 @@ public extension RTCoreDataStack {
 
 //	MARK: Migration
 
-extension RTCoreDataStack {
+extension CoreDataStack {
 	public convenience init(withDataModelNamed dataModel: String? = nil, migratingFrom oldStoreURL: URL? = nil, to storeURL: URL, callback: @escaping Callback = {}) {
 		let fm = FileManager.default
 
 		//	what's the old URL?
-		let oldURL: URL = oldStoreURL ?? RTCoreDataStack.defaultStoreURL
+		let oldURL: URL = oldStoreURL ?? CoreDataStack.defaultStoreURL
 
 		//	is there a core data store file at the old url?
 		let shouldMigrate = fm.fileExists(atPath: oldURL.path)
@@ -462,7 +462,7 @@ extension RTCoreDataStack {
 		self.init()
 
 		//	new storeURL must be full file URL, not directory URL
-		RTCoreDataStack.verify(storeURL: storeURL)
+		CoreDataStack.verify(storeURL: storeURL)
 
 		//	build Model
 		let mom = managedObjectModel(named: dataModel)
