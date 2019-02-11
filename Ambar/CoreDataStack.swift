@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
+@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 public final class CoreDataStack {
 	public typealias Callback = () -> Void
 
@@ -134,7 +134,7 @@ extension CoreDataStack {
 
 
 //MARK:- Setup
-@available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
+@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 private extension CoreDataStack {
 
 	/// Called only once, when the entire setup is done and ready
@@ -342,7 +342,7 @@ private extension CoreDataStack {
 
 
 //MARK:- Notifications
-@available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
+@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 private extension CoreDataStack {
 
 	//	Subscribe the stack to any context's DidSaveNotification
@@ -384,7 +384,7 @@ private extension CoreDataStack {
 
 
 //MARK:- Contexts
-@available(iOS 8.4, watchOS 2.0, tvOS 10.0, *)
+@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 public extension CoreDataStack {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
