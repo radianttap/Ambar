@@ -28,6 +28,8 @@
 		D0A3D3662212250800695166 /* CoreDataError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		D0A3D3672212250800695166 /* ManagedSetMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedSetMonitor.swift; sourceTree = "<group>"; };
 		D0A3D3682212250800695166 /* EntityMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMonitor.swift; sourceTree = "<group>"; };
+		D0A3D370221227D600695166 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D0A3D371221227D600695166 /* Ambar.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ambar.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,8 @@
 		D0A3D34D2212245F00695166 = {
 			isa = PBXGroup;
 			children = (
+				D0A3D371221227D600695166 /* Ambar.podspec */,
+				D0A3D370221227D600695166 /* README.md */,
 				D0A3D3592212245F00695166 /* Ambar */,
 				D0A3D3582212245F00695166 /* Products */,
 			);
