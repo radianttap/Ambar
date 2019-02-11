@@ -5,6 +5,40 @@ Core Data stack I use for my Core Data based apps. It acts as replacement for `N
 
 The library is fairly small and well commented. Latest version uses Swift 4.2. Supports SQLite and in-memory store types.
 
+## Installation
+
+### Manually 
+
+Just drag `Ambar` folder into your project.
+
+If you prefer to use dependency managers, see below. 
+Releases are tagged with [Semantic Versioning](https://semver.org) in mind.
+
+### CocoaPods
+
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate Coordinator into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+pod 'Ambar', 	:git => 'https://github.com/radianttap/Ambar.git'
+```
+
+### Setting up with Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that automates the process of adding frameworks to your Cocoa application.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate Ambar into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "radianttap/Ambar"
+```
+
 ## How to implement 
 
 Create your instance of the stack in
