@@ -1,6 +1,6 @@
 //
 //  CoreDataRepresentable.swift
-//  RTSwiftCoreDataStack
+//  Ambar
 //
 //  Copyright © 2017 Radiant Tap
 //  MIT License · http://choosealicense.com/licenses/mit/

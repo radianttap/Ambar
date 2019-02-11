@@ -1,6 +1,6 @@
 //
 //  EntityMonitor.swift
-//  RTSwiftCoreDataStack
+//  Ambar
 //
 //  Copyright © 2016 Radiant Tap
 //  MIT License · http://choosealicense.com/licenses/mit/
