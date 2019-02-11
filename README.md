@@ -88,9 +88,9 @@ If you already have some objects loaded in `mainContext` and shown in the UI and
 
 So how to get to them?
 
-**`RTCoreDataStack` handles this automatically for you!**
+**`Ambar` handles this automatically for you!**
 
-It register itself as observer for `NSManagedObjectContextDidSaveNotification` from any context. Then it smartly dismisses any notifications coming from anything except the contexts attached to `writerCoordinator`.
+Its `CoreDataStack` instance register itself as observer for `NSManagedObjectContextDidSaveNotification` from any context. Then it smartly dismisses any notifications coming from anything except the contexts attached to `writerCoordinator`.
 
 By the power of Core Data, this merge will refresh all objects already loaded in `mainContext` and will ignore all the rest. This gives you the best of all worlds: you can import 1000s of objects in the background and if you are showing just 10 of them, those 10 will be updated and the rest never clog your UI thread.
 
