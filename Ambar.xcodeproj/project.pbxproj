@@ -46,6 +46,7 @@
 		D0A3D34D2212245F00695166 = {
 			isa = PBXGroup;
 			children = (
+				D0A3D37222122D5900695166 /* Framework */,
 				D0A3D371221227D600695166 /* Ambar.podspec */,
 				D0A3D370221227D600695166 /* README.md */,
 				D0A3D3592212245F00695166 /* Ambar */,
@@ -64,8 +65,6 @@
 		D0A3D3592212245F00695166 /* Ambar */ = {
 			isa = PBXGroup;
 			children = (
-				D0A3D35A2212245F00695166 /* Ambar.h */,
-				D0A3D35B2212245F00695166 /* Info.plist */,
 				D0A3D3662212250800695166 /* CoreDataError.swift */,
 				D0A3D3622212250800695166 /* CoreDataRepresentable.swift */,
 				D0A3D3632212250800695166 /* CoreDataStack.swift */,
@@ -75,6 +74,15 @@
 				D0A3D3652212250800695166 /* NSManagedObjectContext-Extensions.swift */,
 			);
 			path = Ambar;
+			sourceTree = "<group>";
+		};
+		D0A3D37222122D5900695166 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				D0A3D35A2212245F00695166 /* Ambar.h */,
+				D0A3D35B2212245F00695166 /* Info.plist */,
+			);
+			path = Framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,7 +312,7 @@
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Ambar/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Framework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -329,7 +337,7 @@
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Ambar/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Framework/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
