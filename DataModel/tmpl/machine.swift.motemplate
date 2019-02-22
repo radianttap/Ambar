@@ -1,0 +1,94 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.swift instead.
+
+import CoreData
+<$if hasAdditionalHeaderFile$>import <$additionalHeaderFileName$><$endif$>
+<$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
+
+
+public extension <$managedObjectClassName$> {
+	
+	<$if noninheritedAttributes.@count > 0$>
+	public struct Attributes {<$foreach Attribute noninheritedAttributes do$>
+		static let <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
+	}
+	<$endif$>
+
+	<$if noninheritedRelationships.@count > 0$>
+	public struct Relationships {<$foreach Relationship noninheritedRelationships do$>
+		static let <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
+	}
+	<$endif$>
+
+	
+    // MARK: - Properties
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasDefinedAttributeType$>	
+<$if Attribute.hasScalarAttributeType$>
+
+<$if Attribute.isOptional$>
+<$if Attribute.usesScalarAttributeType$>
+	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
+		get {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willAccessValue(forKey: key)
+			defer { didAccessValue(forKey: key) }
+
+			return primitiveValue(forKey: key) as? <$Attribute.scalarAttributeType$>
+		}
+		set {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willChangeValue(forKey: key)
+			defer { didChangeValue(forKey: key) }
+
+			guard let value = newValue else {
+				setPrimitiveValue(nil, forKey: key)
+				return
+			}
+			setPrimitiveValue(value, forKey: key)
+		}
+	}
+<$else$>
+	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
+<$endif$>
+<$else$>
+<$if Attribute.usesCustomScalarAttributeType$>
+	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$> {
+		get {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willAccessValue(forKey: key)
+			defer { didAccessValue(forKey: key) }
+			
+			if let primitiveValue = primitiveValue(forKey: key) as? <$Attribute.scalarAttributeType$>.CoreDataBaseType, let value = <$Attribute.scalarAttributeType$>(coredataValue: primitiveValue) {
+				return value
+			}
+			return <$Attribute.scalarAttributeType$>.coredataFallback
+		}
+		set {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willChangeValue(forKey: key)
+			defer { didChangeValue(forKey: key) }
+
+			setPrimitiveValue(newValue.coredataValue, forKey: key)
+		}
+	}
+<$else$>
+	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
+<$endif$>
+<$endif$>
+
+<$else$>
+    @NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+<$endif$>
+<$endif$>
+<$endforeach do$>
+
+    // MARK: - Relationships
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+    @NSManaged public var <$Relationship.name$>: Set<<$Relationship.destinationEntity.managedObjectClassName$>><$if Relationship.isOptional$>?<$endif$>
+<$else$>
+    @NSManaged public var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
+<$endif$>
+<$endforeach do$>
+}
