@@ -1,0 +1,3 @@
+cd DataModel
+
+"${SRCROOT}/DataModel/tmpl/mogenerator" --swift --base-class ManagedObject --model MODEL_FILE_NAME.xcdatamodeld --template-path tmpl --human-dir mogen-classes --machine-dir mogen-properties

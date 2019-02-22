@@ -1,6 +1,6 @@
 import Foundation
 import CoreData
-import RTCoreDataStack
+import Ambar
 
 @objc(<$managedObjectClassName$>)
 public class <$managedObjectClassName$>: <$customSuperentity$> {
