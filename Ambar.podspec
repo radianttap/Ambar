@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'Ambar'
-  s.version      = '6.0'
+  s.version      = '6.1'
   s.summary      = 'Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
   s.homepage     = 'https://github.com/radianttap/Ambar'
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -12,7 +12,8 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/radianttap/Ambar.git" }
   s.source_files = 'Ambar/*.{swift}'
   s.frameworks   = 'Foundation', 'CoreData'
-  s.swift_version = '4.2'
+
+  s.swift_versions = ['4.2', '5.0']
 
   s.description  = <<-DESC
                    Ambar is pure Swift wrapper for Core Data stack. It works equally well in simple apps with just the main (view) context as well as is data intensive apps which require continuous import and display of data of any complexity.
