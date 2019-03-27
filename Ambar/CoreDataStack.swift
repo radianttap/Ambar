@@ -95,9 +95,9 @@ private struct SetupFlags: OptionSet {
 }
 
 
-extension CoreDataStack {
+public extension CoreDataStack {
 	/// Returns URL for the user's Documents folder
-	public static var defaultStoreFolderURL: URL {
+	static var defaultStoreFolderURL: URL {
 		let searchPathOption: FileManager.SearchPathDirectory
 		#if os(tvOS)
 		searchPathOption = .cachesDirectory
@@ -123,11 +123,11 @@ extension CoreDataStack {
 		return appName.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
 	}
 
-	public static var defaultStoreFileName: String {
+	static var defaultStoreFileName: String {
 		return "\( cleanAppName ).sqlite"
 	}
 
-	public static var defaultStoreURL: URL {
+	static var defaultStoreURL: URL {
 		return defaultStoreFolderURL.appendingPathComponent(defaultStoreFileName)
 	}
 }
@@ -389,7 +389,7 @@ public extension CoreDataStack {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy
-	public func importerContext() -> NSManagedObjectContext {
+	func importerContext() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		moc.persistentStoreCoordinator = writerCoordinator
 		moc.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -399,7 +399,7 @@ public extension CoreDataStack {
 	/// Use temporary MOC is for cases where you need short-lived managed objects. Whatever you do in here is never saved, as its `mergePolicy` is set to NSRollbackMergePolicy. Which means all `save()` calls will silently fail
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSRollbackMergePolicy, with the same PSC as `mainContext`
-	public func temporaryContext() -> NSManagedObjectContext {
+	func temporaryContext() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		moc.persistentStoreCoordinator = mainCoordinator
 		moc.mergePolicy = NSRollbackMergePolicy
@@ -412,7 +412,7 @@ public extension CoreDataStack {
 	/// You must make sure that `mainContext` is not read-only when calling this method (assert is run and if it is read-only your app will crash).
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy and parentContext=mainManagedObjectContext
-	public func editorContext() -> NSManagedObjectContext {
+	func editorContext() -> NSManagedObjectContext {
 		if isMainContextReadOnly {
 			let log = String(format: "E | %@:%@/%@ Can't create editorContext when isMainContextReadOnly=true.\nHint: you can set it temporary to false, make the changes, save them using save(callback:) and revert to true inside the callback block.",
 			                 String(describing: self), #file, #line)
@@ -428,8 +428,8 @@ public extension CoreDataStack {
 
 //	MARK: Migration
 
-extension CoreDataStack {
-	public convenience init(withDataModelNamed dataModel: String? = nil, migratingFrom oldStoreURL: URL? = nil, to storeURL: URL, callback: @escaping Callback = {}) {
+public extension CoreDataStack {
+	convenience init(withDataModelNamed dataModel: String? = nil, migratingFrom oldStoreURL: URL? = nil, to storeURL: URL, callback: @escaping Callback = {}) {
 		let fm = FileManager.default
 
 		//	what's the old URL?

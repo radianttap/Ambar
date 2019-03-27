@@ -17,7 +17,7 @@ public extension NSManagedObjectContext {
 	///
 	/// - parameter callback: closure to be informed about possible errors during save. Or simply as pingback so you know where the save is completed.
 	///
-	public func save(_ callback: @escaping (CoreDataError?) -> Void = {_ in}) {
+	func save(_ callback: @escaping (CoreDataError?) -> Void = {_ in}) {
 		if !self.hasChanges {
 			callback(nil)
 			return
