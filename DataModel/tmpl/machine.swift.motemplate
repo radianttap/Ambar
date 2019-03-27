@@ -9,13 +9,13 @@ import CoreData
 public extension <$managedObjectClassName$> {
 	
 	<$if noninheritedAttributes.@count > 0$>
-	public struct Attributes {<$foreach Attribute noninheritedAttributes do$>
+	struct Attributes {<$foreach Attribute noninheritedAttributes do$>
 		static let <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
 	}
 	<$endif$>
 
 	<$if noninheritedRelationships.@count > 0$>
-	public struct Relationships {<$foreach Relationship noninheritedRelationships do$>
+	struct Relationships {<$foreach Relationship noninheritedRelationships do$>
 		static let <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
 	}
 	<$endif$>
@@ -28,7 +28,7 @@ public extension <$managedObjectClassName$> {
 
 <$if Attribute.isOptional$>
 <$if Attribute.usesScalarAttributeType$>
-	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
+	<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
 		get {
 			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
 			willAccessValue(forKey: key)
@@ -49,11 +49,11 @@ public extension <$managedObjectClassName$> {
 		}
 	}
 <$else$>
-	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
+	@NSManaged <$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.usesCustomScalarAttributeType$>
-	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$> {
+	<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$> {
 		get {
 			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
 			willAccessValue(forKey: key)
@@ -73,12 +73,12 @@ public extension <$managedObjectClassName$> {
 		}
 	}
 <$else$>
-	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
+	@NSManaged <$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
 <$endif$>
 <$endif$>
 
 <$else$>
-    @NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    @NSManaged <$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>
@@ -86,9 +86,9 @@ public extension <$managedObjectClassName$> {
     // MARK: - Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-    @NSManaged public var <$Relationship.name$>: Set<<$Relationship.destinationEntity.managedObjectClassName$>><$if Relationship.isOptional$>?<$endif$>
+    @NSManaged var <$Relationship.name$>: Set<<$Relationship.destinationEntity.managedObjectClassName$>><$if Relationship.isOptional$>?<$endif$>
 <$else$>
-    @NSManaged public var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
+    @NSManaged var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 <$endif$>
 <$endforeach do$>
 }
