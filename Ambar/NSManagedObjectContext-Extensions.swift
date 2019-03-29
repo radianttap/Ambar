@@ -10,6 +10,27 @@ import Foundation
 import CoreData
 
 public extension NSManagedObjectContext {
+	/// Takes NSManagedObject instance from any MOC and creates valid instance of the same object in this MOC.
+	///
+	/// - Parameter mo: NSManagedObject instance, from any context.
+	/// - Returns: NSManagedObject instance in current context.
+	/// - Throws: `CoreDataError.readFailed` if casting into `T` is no successful or Core Data exceptions thrown by either `existingObject(with:)` or `object(with:)`.
+	func localInstance<T>(of mo: T) throws -> T
+		where T: NSManagedObject & ManagedObjectType
+	{
+		if mo.managedObjectContext == self {
+			refresh(mo, mergeChanges: true)
+			return mo
+		}
+
+		if let obj = try existingObject(with: mo.objectID) as? T {
+			return obj
+		} else if let obj = object(with: mo.objectID) as? T {
+			return obj
+		}
+
+		throw CoreDataError.readFailed
+	}
 	/// Performs save on the given context. Automatically saves its parentContext if available.
 	///	If any errors occur, it will return them in the optional callback.
 	///
