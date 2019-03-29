@@ -66,28 +66,23 @@ public extension NSManagedObjectContext {
 	/// - parameter shouldPropagate: if `true`, save will propagate through parentContexts chain all the way to the store; otherwise it just save the current context. Default is `true`.
 	/// - parameter callback: closure to be informed about possible errors during save. Or simply as pingback so you know where the save is completed.
 	///
-	func save(shouldPropagate propagated: Bool = true, callback: @escaping (CoreDataError?) -> Void = {_ in}) {
+	func save(shouldPropagate propagated: Bool = true,
+			  callback: @escaping (CoreDataError?) -> Void = {_ in} )
+	{
 		if !hasChanges {
 			callback(nil)
 			return
 		}
 
-		if concurrencyType == .mainQueueConcurrencyType {
-			//	in main MOC, perform async save, to avoid blocking the app
-			perform {
-				[unowned self] in
-				self.actualSave(shouldPropagate: propagated, callback: callback)
-			}
-		} else {
-			//	in background MOCs, perform sync save
-			performAndWait {
-				[unowned self] in
-				self.actualSave(shouldPropagate: propagated, callback: callback)
-			}
+		perform {
+			[unowned self] in
+			self.actualSave(shouldPropagate: propagated, callback: callback)
 		}
 	}
 
-	private func actualSave(shouldPropagate propagated: Bool = true, callback: @escaping (CoreDataError?) -> Void = {_ in}) {
+	private func actualSave(shouldPropagate propagated: Bool = true,
+							callback: @escaping (CoreDataError?) -> Void = {_ in} )
+	{
 		do {
 			try self.save()
 
