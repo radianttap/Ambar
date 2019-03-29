@@ -18,14 +18,38 @@ public extension NSManagedObjectContext {
 	func localInstance<T>(of mo: T) throws -> T
 		where T: NSManagedObject & ManagedObjectType
 	{
-		if mo.managedObjectContext == self {
+		guard let otherMOC = mo.managedObjectContext else {
+			throw CoreDataError.readFailed
+		}
+
+		//	if this is the same MOC, just refresh it with values from the store and return
+
+		if otherMOC == self {
 			refresh(mo, mergeChanges: true)
 			return mo
 		}
 
-		if let obj = try existingObject(with: mo.objectID) as? T {
+		//	ok, we need proper NSManagedObjectID
+		let objectID: NSManagedObjectID
+
+		if persistentStoreCoordinator != otherMOC.persistentStoreCoordinator {
+			//	if PSC is not the same, need to get ManagedObjectID in current PSC
+			let uri = mo.objectID.uriRepresentation()
+			guard let localObjectID = otherMOC.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: uri) else {
+				throw CoreDataError.readFailed
+			}
+			objectID = localObjectID
+
+		} else {
+			//	otherwise simply take the value
+			objectID = mo.objectID
+		}
+
+		//	ok now, get the proper object now in this MOC
+
+		if let obj = try existingObject(with: objectID) as? T {
 			return obj
-		} else if let obj = object(with: mo.objectID) as? T {
+		} else if let obj = object(with: objectID) as? T {
 			return obj
 		}
 
