@@ -15,7 +15,7 @@
 
 Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 8.4, watchOS 3, tvOS 10 and above.
 
-The library is fairly small and well commented. Latest version uses Swift 4.2. Supports SQLite and in-memory store types.
+The library is fairly small and well commented. Supports SQLite and in-memory store types.
 
 ## Installation
 
@@ -61,20 +61,26 @@ Create your instance of the stack in
 You are free to create as many instances you want but I **really** recommend to create just one and pass it along to all the objects and view controllers. 
 
 ```swift
-init(withDataModelNamed dataModel: String? = nil,
+init(storeType: String = NSSQLiteStoreType,
+	     withDataModelNamed dataModel: String? = nil,
 	     storeURL: URL? = nil,
+	     usingSeparatePSCs: Bool = true,
 	     callback: Callback? = nil)
 ```
+
+By default, Ambar uses SQLite store type. Another supported option is in-memory store.
 
 You can supply the name (no extension) of the specific model you want to use. If you don’t, library will create a model by merging all models it finds in the app bundle.
 
 You can supply a specific directory URL where the .sqlite file will be created. This is useful if you are using AppGroups (to share the store with extensions). If you don’t supply it, app will create the store in the app’s Documents directory.
 
+By default, Ambar will create two separate `NSPersistentStoreCoordinator` instances: one for main thread and reads, another for background imports. If you want to override this and use just one PSC instance, then supply `usingSeparatePSCs: false` in the init.
+
 Lastly, you *should* supply a simple callback to be informed when the store and the entire stack is ready to be used. Store setup is done asynchronously, which is why you have `isReady` property to let you know when you can use it.
 
 ## Main Features
 
-Upon successful instantiation, the stack will have two instances of `NSPersistentStoreCoordinator`: 
+Upon successful instantiation, the stack will (by default) have two instances of `NSPersistentStoreCoordinator`: 
 
 ```swift
 private(set) var mainCoordinator: NSPersistentStoreCoordinator!
@@ -87,6 +93,8 @@ You can access them if you need to but that shouldn’t really be necessary – 
 The first – main – should be used by main-thread bound contexts.  Mostly for reading data out of the store.
 
 The second – writer – should be used by contexts created in background threads, usually for saving data into the store.
+
+If you want to override this and use just one PSC instance, then supply `usingSeparatePSCs: false` in the init for the `CoreDataStack`.
 
 ### Main MOC
 
