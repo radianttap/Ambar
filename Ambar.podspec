@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'Ambar'
-  s.version      = '6.1'
+  s.version      = '6.1.1'
   s.summary      = 'Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
   s.homepage     = 'https://github.com/radianttap/Ambar'
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Ambar/*.{swift}'
   s.frameworks   = 'Foundation', 'CoreData'
 
+  s.swift_version = '5.0'
   s.swift_versions = ['4.2', '5.0']
 
   s.description  = <<-DESC
