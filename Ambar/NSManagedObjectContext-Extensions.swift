@@ -74,9 +74,21 @@ public extension NSManagedObjectContext {
 			return
 		}
 
-		performAndWait {
-			[unowned self] in
-			self.actualSave(shouldPropagate: propagated, callback: callback)
+		if concurrencyType == .mainQueueConcurrencyType {
+			//	in main MOC, perform async save, to avoid blocking the main thread
+			//	pay attention to not have multiple concurrent writes, otherwise you'll get "optimistic locking failure"
+			perform {
+				[unowned self] in
+				self.actualSave(shouldPropagate: propagated, callback: callback)
+			}
+		} else {
+			//	in background MOCs, perform sync save
+			//	this will make sure that writes are queued-up and
+			//	you'll not have an issue of the same record being written into twice
+			performAndWait {
+				[unowned self] in
+				self.actualSave(shouldPropagate: propagated, callback: callback)
+			}
 		}
 	}
 
