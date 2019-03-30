@@ -453,7 +453,11 @@ public extension CoreDataStack {
 //	MARK: Migration
 
 public extension CoreDataStack {
-	convenience init(withDataModelNamed dataModel: String? = nil, migratingFrom oldStoreURL: URL? = nil, to storeURL: URL, callback: @escaping Callback = {}) {
+	convenience init(withDataModelNamed dataModel: String? = nil,
+					 migratingFrom oldStoreURL: URL? = nil,
+					 to storeURL: URL,
+					 usingSeparatePSCs: Bool = true,
+					 callback: @escaping Callback = {}) {
 		let fm = FileManager.default
 
 		//	what's the old URL?
@@ -464,7 +468,7 @@ public extension CoreDataStack {
 
 		//	if nothing to migrate, then just start with new URL
 		if !shouldMigrate {
-			self.init(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+			self.init(withDataModelNamed: dataModel, storeURL: storeURL, usingSeparatePSCs: usingSeparatePSCs, callback: callback)
 			return
 		}
 
@@ -472,7 +476,7 @@ public extension CoreDataStack {
 		//	(maybe migration was already done and deleting old file failed originally)
 		if fm.fileExists(atPath: storeURL.path) {
 			//	init with new URL
-			self.init(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+			self.init(withDataModelNamed: dataModel, storeURL: storeURL, usingSeparatePSCs: usingSeparatePSCs, callback: callback)
 
 			//	attempt to delete old file again
 			deleteDocumentAtUrl(url: oldURL)
@@ -484,6 +488,7 @@ public extension CoreDataStack {
 
 		//	so first make a dummy instance
 		self.init()
+		self.isUsingSeparatePersistentStoreCoordinators = usingSeparatePSCs
 
 		//	new storeURL must be full file URL, not directory URL
 		CoreDataStack.verify(storeURL: storeURL)
