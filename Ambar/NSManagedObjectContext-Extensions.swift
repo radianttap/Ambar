@@ -74,7 +74,7 @@ public extension NSManagedObjectContext {
 			return
 		}
 
-		perform {
+		performAndWait {
 			[unowned self] in
 			self.actualSave(shouldPropagate: propagated, callback: callback)
 		}
