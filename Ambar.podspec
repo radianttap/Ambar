@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.frameworks   = 'Foundation', 'CoreData'
 
   s.swift_version = '5.0'
-  s.swift_versions = ['4.2', '5.0']
+#  s.swift_versions = ['4.2', '5.0']
 
   s.description  = <<-DESC
                    Ambar is pure Swift wrapper for Core Data stack. It works equally well in simple apps with just the main (view) context as well as is data intensive apps which require continuous import and display of data of any complexity.
