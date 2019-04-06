@@ -28,16 +28,31 @@ public final class CoreDataStack {
 	///	By default, it's SQLite.
 	public private(set) var storeType: String
 
+	///	If `false`, it means that `writerCoordinator` is the same as `mainCoordinator`.
+	///	If `true`, then writerCoordinator is wholy separate NSPSC instance. (This is default).
+	///
+	///	Prior to iOS 10, the PSC could only handle one request at a time,
+	/// which could impact reading performance if you do a lot of writes (imports) in background MOCs.
+	///	In iOS 10 and later, NSPSC maintains a connection pool to SQLite and can execute one write and multiple read requests simultaneously.
+	public private(set) var isUsingSeparatePersistentStoreCoordinators: Bool
+
 	/// Instantiates the whole stack with SQLite backing, giving you full control over what model to use and where the resulting file should be.
 	///
 	/// - parameter storeType: String, with possible values: `NSSQLiteStoreType` or `NSInMemoryStoreType`
 	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied,
 	/// - parameter storeURL: Full URL where to create the .sqlite file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group. Omit or supply `nil` when using `NSInMemoryStoreType` store type.
+	/// - parameter usingSeparatePSCs: (see discussion about `isUsingSeparatePersistentStoreCoordinators` property)
 	/// - parameter callback: A block to call once setup is completed. RTCoreDataStack.isReady is set to true before callback is executed.
 	///
 	/// - returns: Instance of RTCoreDataStack
-	public init(storeType: String = NSSQLiteStoreType, withDataModelNamed dataModel: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {}) {
+	public init(storeType: String = NSSQLiteStoreType,
+				withDataModelNamed dataModel: String? = nil,
+				storeURL: URL? = nil,
+				usingSeparatePSCs: Bool = true,
+				callback: @escaping Callback = {})
+	{
 		self.storeType = storeType
+		self.isUsingSeparatePersistentStoreCoordinators = usingSeparatePSCs
 
 		DispatchQueue.main.async { [unowned self] in
 			self.setup(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
@@ -64,7 +79,7 @@ public final class CoreDataStack {
 		}
 	}
 
-	/// Enable or disable automatic merge between importerMOCs and mainMOC
+	/// Enable or disable automatic merge between importer MOCs and main MOC.
 	public var shouldMergeIncomingSavedObjects: Bool = true
 
 	deinit {
@@ -155,7 +170,10 @@ private extension CoreDataStack {
 	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied,
 	/// - parameter storeURL: Full URL where to create the .sqlite file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group.
 	/// - parameter callback: A block to call once setup is completed. RTCoreDataStack.isReady is set to true before callback is executed.
-	func setup(withDataModelNamed dataModelName: String? = nil, storeURL: URL? = nil, callback: @escaping Callback = {}) {
+	func setup(withDataModelNamed dataModelName: String? = nil,
+			   storeURL: URL? = nil,
+			   callback: @escaping Callback = {})
+	{
 		self.callback = callback
 
 		if storeType == NSSQLiteStoreType {
@@ -198,13 +216,19 @@ private extension CoreDataStack {
 
 		switch storeType {
 		case NSSQLiteStoreType:
-			self.writerCoordinator = {
-				let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-				connectStores(toCoordinator: psc) { [unowned self] in
-					self.setupDone(flags: .writePSC)
-				}
-				return psc
-			}()
+			if isUsingSeparatePersistentStoreCoordinators {
+				self.writerCoordinator = {
+					let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+					connectStores(toCoordinator: psc) { [unowned self] in
+						self.setupDone(flags: .writePSC)
+					}
+					return psc
+				}()
+
+			} else {
+				self.writerCoordinator = self.mainCoordinator
+				self.setupDone(flags: .writePSC)
+			}
 
 		case NSInMemoryStoreType:
 			//	use the same coordinator, since in-memory store is one and only
@@ -429,7 +453,11 @@ public extension CoreDataStack {
 //	MARK: Migration
 
 public extension CoreDataStack {
-	convenience init(withDataModelNamed dataModel: String? = nil, migratingFrom oldStoreURL: URL? = nil, to storeURL: URL, callback: @escaping Callback = {}) {
+	convenience init(withDataModelNamed dataModel: String? = nil,
+					 migratingFrom oldStoreURL: URL? = nil,
+					 to storeURL: URL,
+					 usingSeparatePSCs: Bool = true,
+					 callback: @escaping Callback = {}) {
 		let fm = FileManager.default
 
 		//	what's the old URL?
@@ -440,7 +468,7 @@ public extension CoreDataStack {
 
 		//	if nothing to migrate, then just start with new URL
 		if !shouldMigrate {
-			self.init(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+			self.init(withDataModelNamed: dataModel, storeURL: storeURL, usingSeparatePSCs: usingSeparatePSCs, callback: callback)
 			return
 		}
 
@@ -448,7 +476,7 @@ public extension CoreDataStack {
 		//	(maybe migration was already done and deleting old file failed originally)
 		if fm.fileExists(atPath: storeURL.path) {
 			//	init with new URL
-			self.init(withDataModelNamed: dataModel, storeURL: storeURL, callback: callback)
+			self.init(withDataModelNamed: dataModel, storeURL: storeURL, usingSeparatePSCs: usingSeparatePSCs, callback: callback)
 
 			//	attempt to delete old file again
 			deleteDocumentAtUrl(url: oldURL)
@@ -460,6 +488,7 @@ public extension CoreDataStack {
 
 		//	so first make a dummy instance
 		self.init()
+		self.isUsingSeparatePersistentStoreCoordinators = usingSeparatePSCs
 
 		//	new storeURL must be full file URL, not directory URL
 		CoreDataStack.verify(storeURL: storeURL)

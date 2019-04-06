@@ -9,6 +9,7 @@
 import Foundation
 
 public enum CoreDataError: Error {
+	case readFailed
 	case saveFailed(Error)
 	case deleteFailed(Error)
 }
