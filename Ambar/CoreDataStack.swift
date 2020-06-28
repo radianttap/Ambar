@@ -87,7 +87,7 @@ public final class CoreDataStack {
 	}
 
 	private var callback: Callback?
-	private var setupFlags: SetupFlags = .none
+	private var setupFlags: SetupFlags = []
 }
 
 
@@ -100,7 +100,6 @@ private struct SetupFlags: OptionSet {
 		self.rawValue = rawValue
 	}
 
-	static let none = SetupFlags(rawValue: 0)
 	static let base = SetupFlags(rawValue: 1)
 	static let mainPSC = SetupFlags(rawValue: 2)
 	static let writePSC = SetupFlags(rawValue: 4)
