@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 public final class CoreDataStack {
 	public typealias Callback = () -> Void
 
@@ -148,7 +147,6 @@ public extension CoreDataStack {
 
 
 //MARK:- Setup
-@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 private extension CoreDataStack {
 
 	/// Called only once, when the entire setup is done and ready
@@ -246,34 +244,18 @@ private extension CoreDataStack {
 	/// - parameter psc:         Instance of PSC
 	/// - parameter postConnect: Optional closure to execute after successful add (of the stores)
 	func connectStores(toCoordinator psc: NSPersistentStoreCoordinator, andExecute postConnect: (()-> Void)? = nil) {
-		if #available(iOS 10.0, tvOS 10.0, *) {
-			psc.addPersistentStore(with: storeDescription, completionHandler: { [unowned self] (sd, error) in
-				if let error = error {
-					let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
-									 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
-					fatalError(log)
-				}
-				if let postConnect = postConnect {
-					postConnect()
-				}
-			})
-		} else {
-			//	fallback for < iOS 10
-			let options = [
-				NSMigratePersistentStoresAutomaticallyOption: true,
-				NSInferMappingModelAutomaticallyOption: true
-			]
-			do {
-				try psc.addPersistentStore(ofType: storeType, configurationName: nil, at: storeURL, options: options)
-				if let postConnect = postConnect {
-					postConnect()
-				}
-			} catch (let error) {
+		psc.addPersistentStore(with: storeDescription, completionHandler: {
+			[unowned self] (sd, error) in
+			
+			if let error = error {
 				let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
 								 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
 				fatalError(log)
 			}
-		}
+			if let postConnect = postConnect {
+				postConnect()
+			}
+		})
 	}
 
 	func setupMainContext() {
@@ -365,7 +347,6 @@ private extension CoreDataStack {
 
 
 //MARK:- Notifications
-@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 private extension CoreDataStack {
 
 	//	Subscribe the stack to any context's DidSaveNotification
@@ -407,7 +388,6 @@ private extension CoreDataStack {
 
 
 //MARK:- Contexts
-@available(iOS 8.4, watchOS 3.0, tvOS 10.0, *)
 public extension CoreDataStack {
 	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
