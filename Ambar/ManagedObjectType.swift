@@ -177,11 +177,21 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: Non-faulted object or nil
+	///
+	///	Note: supplied NSPredicate should be specific enough to yied just one instance.
+	///	In case there are multiple objects that satisfy given predicate, this method will return `nil` as it's impossible to generalize how to pick the right object.
+	///	
+	///	(This likely indicates an error in data management, some time earlier in app lifecycle.)
 	static func find(in context: NSManagedObjectContext, predicate: NSPredicate) -> Self? {
-		for obj in context.registeredObjects where !obj.isFault {
-			guard let res = obj as? Self, predicate.evaluate(with: res) else { continue }
-			return res
+		let arr = context.registeredObjects.compactMap({ $0 as? Self }).filter({ !$0.isFault && predicate.evaluate(with: $0) })
+		if arr.count == 0 {
+			return nil
 		}
+		
+		if arr.count == 1 {
+			return arr.first
+		}
+		
 		return nil
 	}
 
