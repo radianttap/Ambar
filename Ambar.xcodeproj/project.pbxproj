@@ -18,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D07691C825C9CB12009E683D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		D0A3D3572212245F00695166 /* Ambar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ambar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A3D35A2212245F00695166 /* Ambar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ambar.h; sourceTree = "<group>"; };
 		D0A3D35B2212245F00695166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +47,7 @@
 		D0A3D34D2212245F00695166 = {
 			isa = PBXGroup;
 			children = (
+				D07691C825C9CB12009E683D /* Package.swift */,
 				D0A3D37222122D5900695166 /* Framework */,
 				D0A3D371221227D600695166 /* Ambar.podspec */,
 				D0A3D370221227D600695166 /* README.md */,
@@ -233,6 +235,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 6.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -297,6 +300,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 6.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
