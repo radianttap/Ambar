@@ -1,8 +1,9 @@
 [![](https://img.shields.io/github/tag/radianttap/Ambar.svg?label=current)](https://github.com/radianttap/Ambar/releases)
-![platforms: iOS|tvOS|watchOS](https://img.shields.io/badge/platform-iOS|tvOS|watchOS-blue.svg)
-[![](https://img.shields.io/github/license/radianttap/Ambar.svg)](https://github.com/radianttap/Ambar/blob/master/LICENSE)
+![platforms: iOS|tvOS|watchOS](https://img.shields.io/badge/platform-iOS|tvOS|watchOS-blue.svg)\
+[![](https://img.shields.io/github/license/radianttap/Ambar.svg)](https://github.com/radianttap/Ambar/blob/master/LICENSE)\
+[![SwiftPM ready](https://img.shields.io/badge/SwiftPM-ready-FA7343.svg?style=flat)](https://swift.org/package-manager/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-AD4709.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-fb0006.svg)](https://cocoapods.org)
+[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-fb0006.svg)](https://cocoapods.org)\
 ![](https://img.shields.io/badge/swift-5-223344.svg?logo=swift&labelColor=FA7343&logoColor=white)
 
 # Ambar
@@ -13,7 +14,7 @@
 >
 > Any of various kinds of subterranean or barn-like granary, depending on context, in Iran, Turkey, Russia or the Balkans.
 
-Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 10+, watchOS 4+, tvOS 10+.
+Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 12+, watchOS 6+, tvOS 12+.
 
 The library is fairly small and well commented. Supports SQLite and in-memory store types.
 
@@ -25,6 +26,10 @@ Just drag `Ambar` folder into your project.
 
 If you prefer to use dependency managers, see below. 
 Releases are tagged with [Semantic Versioning](https://semver.org) in mind.
+
+### Swift Package Manager 
+
+Ready, just add this repo URL as Package.
 
 ### CocoaPods
 
