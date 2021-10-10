@@ -1,5 +1,5 @@
 [![](https://img.shields.io/github/tag/radianttap/Ambar.svg?label=current)](https://github.com/radianttap/Ambar/releases)
-![platforms: iOS|tvOS|watchOS](https://img.shields.io/badge/platform-iOS|tvOS|watchOS-blue.svg)\
+![platforms: iOS|tvOS|watchOS|macOS](https://img.shields.io/badge/platform-iOS|tvOS|watchOS|macOS-blue.svg)
 [![](https://img.shields.io/github/license/radianttap/Ambar.svg)](https://github.com/radianttap/Ambar/blob/master/LICENSE)\
 [![SwiftPM ready](https://img.shields.io/badge/SwiftPM-ready-FA7343.svg?style=flat)](https://swift.org/package-manager/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-AD4709.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -14,7 +14,7 @@
 >
 > Any of various kinds of subterranean or barn-like granary, depending on context, in Iran, Turkey, Russia or the Balkans.
 
-Core Data stack I use for my Core Data based apps. It acts as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 12+, watchOS 6+, tvOS 12+.
+Core Data stack I use for my Core Data based apps. Act as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 12+, watchOS 6+, tvOS 12+.
 
 The library is fairly small and well commented. Supports SQLite and in-memory store types.
 
@@ -33,7 +33,8 @@ Ready, just add this repo URL as Package.
 
 ### CocoaPods
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate Coordinator into your Xcode project using CocoaPods, specify it in your `Podfile`:
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. 
+To integrate Ambar into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
 pod 'Ambar', 	:git => 'https://github.com/radianttap/Ambar.git'
@@ -109,7 +110,7 @@ private(set) var mainContext: NSManagedObjectContext!
 
 An instance of `NSManagedObjectContext` created in the main thread, wired to `mainCoordinator` and with merge policy set to favor state of objects in the persistent store (on the disk) versus those in the memory.
 
-You should use this MOC to drive your UI.
+You should use this MOC to drive your UI. It's also available as alias `viewContext` to make it drop-in compatible with [Apple's implementation](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext).
 
 ### Useful MOCs
 

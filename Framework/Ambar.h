@@ -6,7 +6,7 @@
 //  Copyright © 2019 Radiant Tap. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Ambar.
 FOUNDATION_EXPORT double AmbarVersionNumber;
