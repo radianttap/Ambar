@@ -119,9 +119,9 @@ public extension CoreDataStack {
 		#endif
 
 		guard let url = FileManager.default.urls(for: searchPathOption, in: .userDomainMask).first else {
-			let log = String(format: "E | %@:%@/%@ Could not fetch Application Support directory",
-							 String(describing: self), #file, #line)
-			fatalError(log)
+			let log = String(format: "E | %@:%@/%@ Could not fetch %@ directory",
+							 String(describing: self), #file, #line, searchPathOption.rawValue)
+			preconditionFailure(log)
 		}
 		return url
 	}
@@ -131,7 +131,7 @@ public extension CoreDataStack {
 		guard let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String else {
 			let log = String(format: "E | %@:%@/%@ Unable to fetch CFBundleName from main bundle",
 							 String(describing: self), #file, #line)
-			fatalError(log)
+			preconditionFailure(log)
 		}
 		return appName.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
 	}
@@ -250,7 +250,7 @@ private extension CoreDataStack {
 			if let error = error {
 				let log = String(format: "E | %@:%@/%@ Error adding persistent stores to coordinator %@:\n%@",
 								 String(describing: self), #file, #line, String(describing: psc), error.localizedDescription)
-				fatalError(log)
+				preconditionFailure(log)
 			}
 			if let postConnect = postConnect {
 				postConnect()
@@ -267,11 +267,10 @@ private extension CoreDataStack {
 		setupDone(flags: .mainMOC)
 	}
 
-	@available(iOS 10.0, tvOS 10.0, *)
 	var storeDescription: NSPersistentStoreDescription {
 		switch storeType {
 		case NSSQLiteStoreType:
-			guard let storeURL = storeURL else { fatalError("E | StoreURL missing. It's required when using SQLiteStoreType.")}
+			guard let storeURL = storeURL else { preconditionFailure("E | StoreURL missing. It's required when using SQLiteStoreType.")}
 			let sd = NSPersistentStoreDescription(url: storeURL)
 			//	use options that allow automatic model migrations
 			sd.setOption(true as NSObject?, forKey: NSMigratePersistentStoresAutomaticallyOption)
@@ -287,7 +286,7 @@ private extension CoreDataStack {
 			return sd
 
 		default:
-			fatalError("E | Must use either `NSSQLiteStoreType` (\( NSSQLiteStoreType )) or `NSInMemoryStoreType` (\( NSInMemoryStoreType )) as storeType.")
+			preconditionFailure("E | Must use either `NSSQLiteStoreType` (\( NSSQLiteStoreType )) or `NSInMemoryStoreType` (\( NSInMemoryStoreType )) as storeType.")
 			break
 		}
 	}
@@ -310,7 +309,7 @@ private extension CoreDataStack {
 		} catch let error {
 			let log = String(format: "E | %@:%@/%@ Error verifying (creating) full URL path %@:\n%@",
 			                 String(describing: self), #file, #line, directoryURL.path, error.localizedDescription)
-			fatalError(log)
+			preconditionFailure(log)
 		}
 	}
 
@@ -324,7 +323,7 @@ private extension CoreDataStack {
 			guard let mom = NSManagedObjectModel.mergedModel(from: nil) else {
 				let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel by merging all models in the main bundle",
 				                 String(describing: self), #file, #line)
-				fatalError(log)
+				preconditionFailure(log)
 			}
 			return mom
 		}
@@ -335,7 +334,7 @@ private extension CoreDataStack {
 			else {
 				let log = String(format: "E | %@:%@/%@ Unable to create ManagedObjectModel using name %@",
 				                 String(describing: self), #file, #line, name!)
-				fatalError(log)
+			preconditionFailure(log)
 		}
 
 		return mom
@@ -419,7 +418,7 @@ public extension CoreDataStack {
 		if isMainContextReadOnly {
 			let log = String(format: "E | %@:%@/%@ Can't create editorContext when isMainContextReadOnly=true.\nHint: you can set it temporary to false, make the changes, save them using save(callback:) and revert to true inside the callback block.",
 			                 String(describing: self), #file, #line)
-			fatalError(log)
+			preconditionFailure(log)
 		}
 
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -509,12 +508,12 @@ public extension CoreDataStack {
 			} catch let error {
 				let log = String(format: "E | %@:%@/%@ Failed to migrate old store to new URL: %@,\n%@",
 								 String(describing: self), #file, #line, storeURL.path, error as NSError)
-				fatalError(log)
+				preconditionFailure(log)
 			}
 		} else {
 			let log = String(format: "E | %@:%@/%@ Failed to migrate due to missing old store",
 							 String(describing: self), #file, #line)
-			fatalError(log)
+			preconditionFailure(log)
 		}
 	}
 
