@@ -33,13 +33,13 @@ extension CoreDataError: CustomDebugStringConvertible {
 	public var debugDescription: String {
 		switch self {
 			case .readFailed(let str):
-				return "CoreData read failed:\n\( str )"
+				return "CoreData read failed:\n\( str ?? "" )"
 
 			case .saveFailed(let err):
-				return "CoreData save failed:\n\( err )"
+				return "CoreData save failed:\n\( String(reflecting: err) )"
 
 			case .deleteFailed(let err):
-				return "CoreData delete failed:\n\( err )"
+				return "CoreData delete failed:\n\( String(reflecting: err) )"
 		}
 	}
 }
@@ -61,6 +61,7 @@ extension CoreDataError: LocalizedError {
 		}
 	}
 
+	///	Outputs `debugDescription` which should include all possible information needed to debug the issue.
 	public var failureReason: String? {
 		return debugDescription
 	}
