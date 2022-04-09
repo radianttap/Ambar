@@ -19,7 +19,7 @@ public extension NSManagedObjectContext {
 		where T: NSManagedObject & ManagedObjectType
 	{
 		guard let otherMOC = mo.managedObjectContext else {
-			throw CoreDataError.readFailed
+			throw CoreDataError.readFailed("Missing ManagedObjectContext on the managed object: \(mo)")
 		}
 
 		//	if this is the same MOC, just refresh it with values from the store and return
@@ -36,7 +36,7 @@ public extension NSManagedObjectContext {
 			//	if PSC is not the same, need to get ManagedObjectID in current PSC
 			let uri = mo.objectID.uriRepresentation()
 			guard let localObjectID = otherMOC.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: uri) else {
-				throw CoreDataError.readFailed
+				throw CoreDataError.readFailed("Failed to acquire ManagedObjectID in our PersistentStoreCoordinator, corresponding to the one from the other PSC: \( uri )")
 			}
 			objectID = localObjectID
 
@@ -53,7 +53,7 @@ public extension NSManagedObjectContext {
 			return obj
 		}
 
-		throw CoreDataError.readFailed
+		throw CoreDataError.readFailed("Failed to load \( T.self ) with ManagedObjectID: \( objectID )")
 	}
 
 
