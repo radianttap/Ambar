@@ -187,16 +187,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///	
 	///	(This likely indicates an error in data management, some time earlier in app lifecycle.)
 	static func find(in context: NSManagedObjectContext, predicate: NSPredicate) -> Self? {
-		let arr = context.registeredObjects.compactMap({ $0 as? Self }).filter({ !$0.isFault && predicate.evaluate(with: $0) })
-		if arr.count == 0 {
-			return nil
-		}
-		
-		if arr.count == 1 {
-			return arr.first
-		}
-		
-		return nil
+		let obj = context.registeredObjects.compactMap({ $0 as? Self }).first(where: ({ !$0.isFault && predicate.evaluate(with: $0) }) )
+		return obj
 	}
 
 
