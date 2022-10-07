@@ -110,6 +110,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	static func fetchRequest(in context: NSManagedObjectContext,
 	                         includePending: Bool = true,
 							 returnsObjectsAsFaults: Bool = true,
+							 relationshipKeyPathsForPrefetching: [String]? = nil,
 	                         predicate: NSPredicate? = nil,
 	                         sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 		) -> NSFetchRequest<Self> {
@@ -117,6 +118,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
 		fetchRequest.includesPendingChanges = includePending
 		fetchRequest.returnsObjectsAsFaults = returnsObjectsAsFaults
+		fetchRequest.relationshipKeyPathsForPrefetching = relationshipKeyPathsForPrefetching
 		fetchRequest.predicate = predicate
 		fetchRequest.sortDescriptors = sortDescriptors
 
@@ -156,6 +158,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	static func fetch(in context: NSManagedObjectContext,
 	                  includePending: Bool = true,
 					  returnsObjectsAsFaults: Bool = true,
+					  relationshipKeyPathsForPrefetching: [String]? = nil,
 	                  predicate: NSPredicate? = nil,
 	                  sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 		) -> [Self] {
@@ -163,6 +166,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		let fr = fetchRequest(in: context,
 							  includePending: includePending,
 							  returnsObjectsAsFaults: returnsObjectsAsFaults,
+							  relationshipKeyPathsForPrefetching: relationshipKeyPathsForPrefetching,
 							  predicate: predicate,
 							  sortedWith: sortDescriptors)
 		guard let results = try? context.fetch(fr) else { return [] }
@@ -230,12 +234,19 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	/// - Returns: Instance of `NSFetchedResultsController` with appropriate type
 	static func fetchedResultsController(in context: NSManagedObjectContext,
 	                                     includePending: Bool = true,
+										 relationshipKeyPathsForPrefetching: [String]? = nil,
 	                                     sectionNameKeyPath: String? = nil,
 	                                     predicate: NSPredicate? = nil,
 	                                     sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 		) -> NSFetchedResultsController<Self> {
 
-		let fr = fetchRequest(in: context, includePending: includePending, predicate: predicate, sortedWith: sortDescriptors)
+		let fr = fetchRequest(
+			in: context,
+			includePending: includePending,
+			relationshipKeyPathsForPrefetching: relationshipKeyPathsForPrefetching,
+			predicate: predicate,
+			sortedWith: sortDescriptors
+		)
 		let frc: NSFetchedResultsController<Self> = NSFetchedResultsController(fetchRequest: fr,
 		                                                                       managedObjectContext: context,
 		                                                                       sectionNameKeyPath: sectionNameKeyPath,
