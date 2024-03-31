@@ -257,7 +257,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - completion: completion block at the end of successful delete.
 	static func delete(in context: NSManagedObjectContext,
 	                   predicate: NSPredicate? = nil,
-	                   completion: (Int, CoreDataError?) -> Void = {_, _ in}) {
+	                   completion: (Int, AmbarError?) -> Void = {_, _ in}) {
 
 		let fr = fetchRequest(in: context, predicate: predicate)
 		fr.includesPropertyValues = false
@@ -273,7 +273,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 			objectsToDelete.forEach({ context.delete($0) })
 			completion(count, nil)
 		} catch let error {
-			completion(0, CoreDataError.deleteFailed(error))
+			completion(0, AmbarError.coreDataError(error))
 		}
 	}
 }
