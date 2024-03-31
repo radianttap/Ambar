@@ -7,55 +7,21 @@
 ![](https://img.shields.io/badge/swift-5-223344.svg?logo=swift&labelColor=FA7343&logoColor=white)
 
 # Ambar
-// formerly: RT(Swift)CoreDataStack //
 
-> Noun
-> ambar (plural ambars)
->
-> Any of various kinds of subterranean or barn-like granary, depending on context, in Iran, Turkey, Russia or the Balkans.
+> Noun: ambar (plural ambars)\
+> Any of various kinds of subterranean or barn-like granary in Serbia.
 
-Core Data stack I use for my Core Data based apps. Act as replacement for `NSPersistantContainer` Apple added in iOS 10 SDK. It supports iOS 12+, watchOS 6+, tvOS 12+.
+Ambar is Core Data stack with two separate `NSPersistentStoreCoordinator` instances: one for main thread and store reads, another for background imports. If you don’t need this setup, you should use Apple’s `NSPersistentContainer`.
 
-The library is fairly small and well commented. Supports SQLite and in-memory store types.
+In any case, look into `ManagedObjectType`  —  if your model classes adopt this protocol they will gain several useful methods to fetch data.
+
+Note: version 8 is complete rewrite of the library, aimed at apps using Swift strict concurrency. Main change from version 7 is removal of the setup callbacks.
 
 ## Installation
 
-### Manually 
+Just add this repo’s URL as Swift Package Manager dependency.
 
-Just drag `Ambar` folder into your project.
-
-If you prefer to use dependency managers, see below. 
-Releases are tagged with [Semantic Versioning](https://semver.org) in mind.
-
-### Swift Package Manager 
-
-Ready, just add this repo URL as Package.
-
-### CocoaPods
-
-[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. 
-To integrate Ambar into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```ruby
-pod 'Ambar', 	:git => 'https://github.com/radianttap/Ambar.git'
-```
-
-### Setting up with Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that automates the process of adding frameworks to your Cocoa application.
-
-You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
-
-```bash
-$ brew update
-$ brew install carthage
-```
-
-To integrate Ambar into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "radianttap/Ambar"
-```
+(Might also be possible to use this through [CocoaPods](https://cocoapods.org) or [Carthage](https://github.com/Carthage/Carthage) but I don’t care about those anymore.)
 
 ## How to implement 
 
@@ -67,50 +33,24 @@ Create your instance of the stack in
 You are free to create as many instances you want but I **really** recommend to create just one and pass it along to all the objects and view controllers. 
 
 ```swift
-init(storeType: String = NSSQLiteStoreType,
-	     withDataModelNamed dataModel: String? = nil,
-	     storeURL: URL? = nil,
-	     usingSeparatePSCs: Bool = true,
-	     callback: Callback? = nil)
 ```
 
-By default, Ambar uses SQLite store type. Another supported option is in-memory store.
+By default, Ambar uses SQLite store type (personally I have never used anything else).
 
 You can supply the name (no extension) of the specific model you want to use. If you don’t, library will create a model by merging all models it finds in the app bundle.
 
-You can supply a specific directory URL where the .sqlite file will be created. This is useful if you are using AppGroups (to share the store with extensions). If you don’t supply it, app will create the store in the app’s Documents directory.
-
-By default, Ambar will create two separate `NSPersistentStoreCoordinator` instances: one for main thread and reads, another for background imports. If you want to override this and use just one PSC instance, then supply `usingSeparatePSCs: false` in the init.
-
-Lastly, you *should* supply a simple callback to be informed when the store and the entire stack is ready to be used. Store setup is done asynchronously, which is why you have `isReady` property to let you know when you can use it.
-
-## Main Features
-
-Upon successful instantiation, the stack will (by default) have two instances of `NSPersistentStoreCoordinator`: 
-
-```swift
-private(set) var mainCoordinator: NSPersistentStoreCoordinator!
-
-private(set) var writerCoordinator: NSPersistentStoreCoordinator!
-```
-
-You can access them if you need to but that shouldn’t really be necessary – see _Useful MOCs_ below. You can’t override nor delete them.
-
-The first – main – should be used by main-thread bound contexts.  Mostly for reading data out of the store.
-
-The second – writer – should be used by contexts created in background threads, usually for saving data into the store.
-
-If you want to override this and use just one PSC instance, then supply `usingSeparatePSCs: false` in the init for the `CoreDataStack`.
+You can supply a specific directory URL where the `.sqlite` file will be created. This is useful if you are using AppGroups (to share the store with extensions). If you don’t supply it, app will create the store in the app’s Documents directory.
 
 ### Main MOC
 
 ```
-private(set) var mainContext: NSManagedObjectContext!
+private let mainContext: NSManagedObjectContext
+private let viewContext: NSManagedObjectContext
 ```
 
 An instance of `NSManagedObjectContext` created in the main thread, wired to `mainCoordinator` and with merge policy set to favor state of objects in the persistent store (on the disk) versus those in the memory.
 
-You should use this MOC to drive your UI. It's also available as alias `viewContext` to make it drop-in compatible with [Apple's implementation](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext).
+You should use this MOC to drive your UI. Same object is also available as `viewContext` to make it drop-in compatible with [Apple's implementation](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext).
 
 ### Useful MOCs
 
@@ -142,7 +82,7 @@ Textbook usage for this is when you need to create new objects, like new order i
 
 ## Killer feature: automatic, smart merge on save
 
-If you have read carefully, you may have noticed that `importerContext` is connected to `writerCoordinator`. This means that objects created in it and later saved to the persistent store will never reach the `mainContext` and thus your UI will have no idea about them.
+If you have read carefully, you may have noticed that `importerContext` is connected to `writerCoordinator`. This means that objects created in it and later saved to the persistent store will not reach the `mainContext` and thus your UI will have no idea about them.
 
 If you already have some objects loaded in `mainContext` and shown in the UI and those objects are updated through the background import and saved to disk, your main MOC will have no idea about those changes. Your `NSFetchedResultsControllerDelegate` callbacks will also not pick them up.
 
@@ -154,7 +94,7 @@ Its `CoreDataStack` instance register itself as observer for `NSManagedObjectCon
 
 By the power of Core Data, this merge will refresh all objects already loaded in `mainContext` and will ignore all the rest. This gives you the best of all worlds: you can import 1000s of objects in the background and if you are showing just 10 of them, those 10 will be updated and the rest never clog your UI thread.
 
-Additionally, if you smartly chunk out your background import calls, you are free to continually import data – say through web sockets – and never, ever encounter a merge conflict nor experience memory issues.
+Additionally, if you smartly chunk out your background import calls, you are free to continually import data and don’t encounter a merge conflict nor experience memory issues.
 
 ## Options
 
@@ -163,13 +103,6 @@ var isMainContextReadOnly: Bool = false
 ```
 
 This property will make `mainContext` readonly. If you attempt to save anything in it while this is `true`, those saves will be ignored. If you call `editorContext()` while this is `true`, you app will crash.
-
-```
-var shouldMergeIncomingSavedObjects: Bool = true
-```
-
-This property allows you to turn off automatic merge between the `importerContext`s and `mainContext`.
-
 
 ## Give back
 
