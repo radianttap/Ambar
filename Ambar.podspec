@@ -1,20 +1,20 @@
 Pod::Spec.new do |s|
   s.name         = 'Ambar'
-  s.version      = '7.2.1'
-  s.summary      = 'Core Data library with lots of options to initialize the whole stack. Especially useful and usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
+  s.version      = '8.0'
+  s.summary      = 'Core Data library, replacement for NSPersistanceContainer. Especially usable for heavy background processing, since - by default - it uses setup with two PSCs, one for reading in the main thread and one for writing in background thread.'
   s.homepage     = 'https://github.com/radianttap/Ambar'
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { 'Aleksandar Vacić' => 'aplus.rs' }
   s.social_media_url   			= "https://twitter.com/radiantav"
-  s.ios.deployment_target 		= "12.0"
-  s.watchos.deployment_target 	= "6.0"
-  s.tvos.deployment_target 		= "12.0"
-  s.osx.deployment_target 		= "10.12"
+  s.ios.deployment_target 		= "15.0"
+  s.watchos.deployment_target 	= "10.0"
+  s.tvos.deployment_target 		= "15.0"
+  s.osx.deployment_target 		= "10.15"
   s.source       = { :git => "https://github.com/radianttap/Ambar.git" }
   s.source_files = 'Ambar/*.{swift}'
   s.frameworks   = 'Foundation', 'CoreData'
 
-  s.swift_version = '5.1'
+  s.swift_version = '5.5'
 
   s.description  = <<-DESC
                    Ambar is pure Swift wrapper for Core Data stack. It works equally well in simple apps with just the main (view) context as well as is data intensive apps which require continuous import and display of data of any complexity.
@@ -29,6 +29,5 @@ Pod::Spec.new do |s|
 				   * Seamless migration of the existing Core Data store to another URL
 
                    * Includes `ManagedObjectType` protocol which you can adopt and automatically get simple to use properly-typed methods for `NSFetchRequest` of objects, specific properties, count + automatic generation of typed `NSFetchedResultsController`
-                   * Custom non-throwable `MOC.save` method which automatically performs save of the `parentContext` too if there is one and returns save error inside optional callback.
                    DESC
 end
