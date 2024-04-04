@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public final class CoreDataStack {	//: @unchecked Sendable
+public final class CoreDataStack: @unchecked Sendable {
 	/// Managed Model instance used by the stack
 	public private(set) var dataModel: NSManagedObjectModel
 
