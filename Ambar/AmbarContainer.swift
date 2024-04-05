@@ -10,9 +10,6 @@ import Foundation
 import CoreData
 
 public final class AmbarContainer: NSPersistentContainer {
-	/// Managed Model instance used by the stack
-	public private(set) var dataModel: NSManagedObjectModel
-
 	/// Full URL to the location of the SQLite file.
 	///	It's `nil` if you use in-memory storage type.
 	public private(set) var storeURL: URL?
@@ -43,10 +40,8 @@ public final class AmbarContainer: NSPersistentContainer {
 		}
 		self.storeURL = url
 		
-		let mom = try Self.managedObjectModel(named: dataModelName)
-		self.dataModel = mom
-		
 		let appName = try Self.cleanAppName()
+		let mom = try Self.managedObjectModel(named: dataModelName)
 		super.init(name: dataModelName ?? appName, managedObjectModel: mom)
 
 		try Self.connectStores(storeType: storeType, at: url, toCoordinator: persistentStoreCoordinator)
