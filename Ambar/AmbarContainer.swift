@@ -49,7 +49,7 @@ public final class AmbarContainer: NSPersistentContainer {
 		let appName = try Self.cleanAppName()
 		super.init(name: dataModelName ?? appName, managedObjectModel: mom)
 
-		try Self.connectStores(storeType: storeType, at: url, toCoordinator: mainCoordinator)
+		try Self.connectStores(storeType: storeType, at: url, toCoordinator: persistentStoreCoordinator)
 
 		switch storeType {
 			case .sqlite, .binary:
@@ -57,16 +57,11 @@ public final class AmbarContainer: NSPersistentContainer {
 				try Self.connectStores(storeType: storeType, at: url, toCoordinator: writerCoordinator)
 
 			default:	//.inMemory
-				writerCoordinator = mainCoordinator
+				writerCoordinator = persistentStoreCoordinator
 		}
 
 		//	finally — setup DidSaveNotification handling
 		setupNotifications()
-	}
-
-	/// Instance of PersistentStoreCoordinator intended for main thread's contexts
-	public var mainCoordinator: NSPersistentStoreCoordinator {
-		self.persistentStoreCoordinator
 	}
 
 	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
@@ -129,12 +124,6 @@ private extension AmbarContainer {
 		} catch let err {
 			throw AmbarError.setupError(err)
 		}
-	}
-
-	func setupMainContext() {
-		let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-		moc.persistentStoreCoordinator = mainCoordinator
-//		moc.mergePolicy = (isMainContextReadOnly) ? NSRollbackMergePolicy : NSMergeByPropertyStoreTrumpMergePolicy
 	}
 
 	/// Verifies that store URL path exists. It will create all the intermediate directories specified in the path.
@@ -219,7 +208,7 @@ private extension AmbarContainer {
 
 		// ignore stuff from unknown PSCs
 		if let coordinator = savedContext.persistentStoreCoordinator {
-			if coordinator !== mainCoordinator && coordinator !== writerCoordinator { return }
+			if coordinator !== persistentStoreCoordinator && coordinator !== writerCoordinator { return }
 		}
 
 		viewContext.perform {
@@ -251,7 +240,7 @@ public extension AmbarContainer {
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSRollbackMergePolicy, with the same PSC as `viewContext`
 	func temporaryContext() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-		moc.persistentStoreCoordinator = mainCoordinator
+		moc.persistentStoreCoordinator = persistentStoreCoordinator
 		moc.mergePolicy = NSMergePolicy.rollback
 		return moc
 	}
