@@ -24,7 +24,7 @@ public final class AmbarContainer: NSPersistentContainer {
 	public init(storeType: NSPersistentStore.StoreType = .sqlite,
 				withDataModelNamed dataModelName: String? = nil,
 				storeURL: URL? = nil
-	) async throws {
+	) throws {
 		
 		let url: URL
 		if let storeURL = storeURL {
