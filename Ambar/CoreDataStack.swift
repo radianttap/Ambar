@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public final class CoreDataStack: @unchecked Sendable {
+public final class AmbarContainer: NSPersistentContainer {
 	/// Managed Model instance used by the stack
 	public private(set) var dataModel: NSManagedObjectModel
 
@@ -30,12 +30,14 @@ public final class CoreDataStack: @unchecked Sendable {
 	) async throws {
 		
 		let url: URL
-		if let storeURL = storeURL {	//	if the target URL is supplied
+		if let storeURL = storeURL {
+			//	if the target URL is supplied
 			//	then make sure that the path is usable. create all missing directories in the path, if needed
 			try Self.verify(storeURL: storeURL)
 			url = storeURL
 			
-		} else {	//	otherwise build the name using cleaned app name and place in the local app's container
+		} else {
+			//	otherwise build the name using cleaned app name and place in the local app's container
 			url = try Self.defaultStoreURL()
 			try Self.verify(storeURL: url)
 		}
@@ -44,46 +46,39 @@ public final class CoreDataStack: @unchecked Sendable {
 		let mom = try Self.managedObjectModel(named: dataModelName)
 		self.dataModel = mom
 		
-		//	setup persistent store coordinators
-		mainCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
+		let appName = try Self.cleanAppName()
+		super.init(name: dataModelName ?? appName, managedObjectModel: mom)
+
 		try Self.connectStores(storeType: storeType, at: url, toCoordinator: mainCoordinator)
 
 		switch storeType {
 			case .sqlite, .binary:
 				writerCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
-				try Self.connectStores(storeType: storeType, at: url, toCoordinator: mainCoordinator)
+				try Self.connectStores(storeType: storeType, at: url, toCoordinator: writerCoordinator)
 
 			default:	//.inMemory
 				writerCoordinator = mainCoordinator
 		}
-		
-		let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-		moc.persistentStoreCoordinator = mainCoordinator
-		moc.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-		mainContext = moc
-		viewContext = moc
-		
 
-		//	setup DidSaveNotification handling
+		//	finally — setup DidSaveNotification handling
 		setupNotifications()
 	}
 
 	/// Instance of PersistentStoreCoordinator intended for main thread's contexts
-	public let mainCoordinator: NSPersistentStoreCoordinator
+	public var mainCoordinator: NSPersistentStoreCoordinator {
+		self.persistentStoreCoordinator
+	}
 
 	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
-	public let writerCoordinator: NSPersistentStoreCoordinator
+	public private(set) var writerCoordinator: NSPersistentStoreCoordinator!
 
-	/// Instance of MOC to use for main thread.
-	public let mainContext: NSManagedObjectContext
-
-	///	Alias for `mainContext`
-	public let viewContext: NSManagedObjectContext
-
+	///	By default it's `false` which means that `mergePolicy` is `NSMergePolicy.mergeByPropertyStoreTrump`.
+	///
+	///	If set to true, it switches to `NSMergePolicy.rollback`.
 	public var isMainContextReadOnly: Bool = false {
 		didSet {
 			if isMainContextReadOnly == oldValue { return }
-			mainContext.mergePolicy = (isMainContextReadOnly) ? NSMergePolicy.rollback : NSMergePolicy.mergeByPropertyStoreTrump
+			viewContext.mergePolicy = (isMainContextReadOnly) ? NSMergePolicy.rollback : NSMergePolicy.mergeByPropertyStoreTrump
 		}
 	}
 
@@ -92,23 +87,7 @@ public final class CoreDataStack: @unchecked Sendable {
 	}
 }
 
-public extension CoreDataStack {
-	/// Returns URL where the Core Data file will be created.
-	static func defaultStoreFolderURL() throws -> URL {
-		let searchPathOption: FileManager.SearchPathDirectory
-		#if os(tvOS)
-		searchPathOption = .cachesDirectory
-		#else
-		searchPathOption = .applicationSupportDirectory
-		#endif
-
-		guard let url = FileManager.default.urls(for: searchPathOption, in: .userDomainMask).first else {
-			let log = String(format: "%@ | Could not fetch %@ directory", #function, searchPathOption.rawValue)
-			throw AmbarError.setupBlocker(log)
-		}
-		return url
-	}
-
+public extension AmbarContainer {
 	/// Returns String representing only alphanumerics from app's name.
 	static func cleanAppName() throws -> String {
 		guard let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String else {
@@ -124,16 +103,16 @@ public extension CoreDataStack {
 	}
 
 	nonisolated static func defaultStoreURL() throws -> URL {
-		let folder = try defaultStoreFolderURL()
+		let folder = Self.defaultDirectoryURL()
 		let file = try defaultStoreFileName()
 		return folder.appendingPathComponent(file)
 	}
 }
 
 
-//	MARK:- Setup
+//	MARK: - Setup
 
-private extension CoreDataStack {
+private extension AmbarContainer {
 	/// Attach the persistent stores to the supplied Persistent Store Coordinator.
 	///
 	/// - parameter psc:         Instance of PSC
@@ -212,18 +191,18 @@ private extension CoreDataStack {
 
 //	MARK: - Notifications
 
-private extension CoreDataStack {
-
-	//	Subscribe the stack to any context's DidSaveNotification
+private extension AmbarContainer {
+	//	Subscribe Ambar to any context's DidSaveNotification
 	func setupNotifications() {
-
-		NotificationCenter.default.addObserver(self,
-		                                       selector: #selector(CoreDataStack.handle(notification:)),
-		                                       name: .NSManagedObjectContextDidSave,
-		                                       object: nil)
+		NotificationCenter.default.addObserver(
+			self,
+		    selector: #selector(AmbarContainer.handle(notification:)),
+		    name: .NSManagedObjectContextDidSave,
+		    object: nil
+		)
 	}
 
-	/// Automatically merges all new, deleted and changed objects from background importerContexts into the mainContext
+	/// Automatically merges all new, deleted and changed objects from background importerContexts into the viewContext
 	///
 	/// - parameter notification: must be NSManagedObjectContextDidSave notification
 	@objc func handle(notification: Notification) {
@@ -231,11 +210,11 @@ private extension CoreDataStack {
 		guard let savedContext = notification.object as? NSManagedObjectContext else { return }
 
 		// ignore change notifications from the main MOC
-		if savedContext === mainContext { return }
+		if savedContext === viewContext { return }
 
-		// ignore change notifications from the direct child of the mainContext. this merges automatically when save is invoked
+		// ignore change notifications from the direct child of the viewContext. this merges automatically when save is invoked
 		if let parentContext = savedContext.parent {
-			if parentContext === mainContext { return }
+			if parentContext === viewContext { return }
 		}
 
 		// ignore stuff from unknown PSCs
@@ -243,16 +222,19 @@ private extension CoreDataStack {
 			if coordinator !== mainCoordinator && coordinator !== writerCoordinator { return }
 		}
 
-		mainContext.perform({ [unowned self] in
-			self.mainContext.mergeChanges(fromContextDidSave: notification)
-			})
+		viewContext.perform {
+			[unowned self] in
+			self.viewContext.mergeChanges(fromContextDidSave: notification)
+		}
 	}
 }
 
 
-//MARK:- Contexts
-public extension CoreDataStack {
-	/// Importer MOC is your best path to import large amounts of data in the background. Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
+//	MARK: - Contexts
+
+public extension AmbarContainer {
+	/// Importer MOC is your best path to import large amounts of data in the background. 
+	/// Its `mergePolicy` is set to favor objects in memory versus those in the store, thus in case of conflicts newly imported data will trump whatever is on disk.
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy
 	func importerContext() -> NSManagedObjectContext {
@@ -262,9 +244,11 @@ public extension CoreDataStack {
 		return moc
 	}
 
-	/// Use temporary MOC is for cases where you need short-lived managed objects. Whatever you do in here is never saved, as its `mergePolicy` is set to NSRollbackMergePolicy. Which means all `save()` calls will silently fail
+	/// Use temporary MOC is for cases where you need short-lived managed objects. 
+	/// Whatever you do in here is never saved, as its `mergePolicy` is set to NSRollbackMergePolicy.
+	/// Which means all `save()` calls will silently fail.
 	///
-	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSRollbackMergePolicy, with the same PSC as `mainContext`
+	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSRollbackMergePolicy, with the same PSC as `viewContext`
 	func temporaryContext() -> NSManagedObjectContext {
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		moc.persistentStoreCoordinator = mainCoordinator
@@ -272,10 +256,11 @@ public extension CoreDataStack {
 		return moc
 	}
 
-	/// Use this MOC for all cases where you need to allow the customer to create new objects that will be saved to disk. For example, to "add new" / "edit existing" contact in contact management app.
+	/// Use this MOC for all cases where you need to allow the customer to create new objects that will be saved to disk. 
+	/// For example, to "add new" / "edit existing" contact in contact management app.
 	///
-	/// It is always set to use mainContext as its `parentContext`, so any saves are transfered to the `mainContext` and thus available to the UI.
-	/// You must make sure that `mainContext` is not read-only when calling this method (assert is run and if it is read-only your app will crash).
+	/// It is always set to use viewContext as its `parentContext`, so any saves are transfered to the `viewContext` and thus available to the UI.
+	/// You must make sure that `viewContext` is not read-only when calling this method (assert is run and if it is read-only your app will crash).
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy and parentContext=mainManagedObjectContext
 	func editorContext() -> NSManagedObjectContext {
@@ -286,7 +271,7 @@ public extension CoreDataStack {
 		}
 
 		let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-		moc.parent = mainContext
+		moc.parent = viewContext
 		moc.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 		return moc
 	}
@@ -294,7 +279,7 @@ public extension CoreDataStack {
 
 //	MARK: Migration
 
-public extension CoreDataStack {
+public extension AmbarContainer {
 	convenience init(storeType: NSPersistentStore.StoreType = .sqlite,
 					 withDataModelNamed dataModelName: String? = nil,
 					 migratingFrom oldStoreURL: URL? = nil,
@@ -303,7 +288,7 @@ public extension CoreDataStack {
 		let fm = FileManager.default
 
 		//	what's the old URL?
-		let oldURL: URL = try oldStoreURL ?? (try CoreDataStack.defaultStoreURL())
+		let oldURL: URL = try oldStoreURL ?? (try Self.defaultStoreURL())
 
 		//	is there a core data store file at the old url?
 		let shouldMigrate = fm.fileExists(atPath: oldURL.path)
@@ -329,7 +314,7 @@ public extension CoreDataStack {
 		//	ok, we need to migrate.
 
 		//	new storeURL must be full file URL, not directory URL
-		try CoreDataStack.verify(storeURL: storeURL)
+		try Self.verify(storeURL: storeURL)
 
 		//	build Model
 		let mom = try Self.managedObjectModel(named: dataModelName)
@@ -355,8 +340,6 @@ public extension CoreDataStack {
 			//	delete file at old URL
 			deleteDocumentAtUrl(url: oldURL)
 
-			//
-
 		} catch let err {
 			throw AmbarError.setupError(err)
 		}
@@ -364,8 +347,10 @@ public extension CoreDataStack {
 
 	private func deleteDocumentAtUrl(url: URL){
 		let fileCoordinator = NSFileCoordinator(filePresenter: nil)
+
 		fileCoordinator.coordinate(writingItemAt: url, options: .forDeleting, error: nil, byAccessor: {
 			(urlForModifying) -> Void in
+
 			do {
 				try FileManager.default.removeItem(at: urlForModifying)
 			} catch let error {
