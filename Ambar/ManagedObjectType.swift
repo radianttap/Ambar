@@ -255,10 +255,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - context: `NSManagedObjectContext` in which to perform the batch delete
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - completion: completion block at the end of successful delete.
-	static func delete(in context: NSManagedObjectContext,
-	                   predicate: NSPredicate? = nil,
-	                   completion: (Int, AmbarError?) -> Void = {_, _ in}) {
-
+	@discardableResult
+	static func delete(in context: NSManagedObjectContext, predicate: NSPredicate? = nil) throws -> Int {
 		let fr = fetchRequest(in: context, predicate: predicate)
 		fr.includesPropertyValues = false
 
@@ -266,14 +264,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 			let objectsToDelete: [Self] = try context.fetch(fr)
 			let count = objectsToDelete.count
 			if count == 0 {
-				completion(0, nil)
-				return
+				return 0
 			}
 
-			objectsToDelete.forEach({ context.delete($0) })
-			completion(count, nil)
+			objectsToDelete.forEach { context.delete($0) }
+			return count
+
 		} catch let error {
-			completion(0, AmbarError.coreDataError(error))
+			throw AmbarError.coreDataError(error)
 		}
 	}
 }
