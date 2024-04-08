@@ -279,7 +279,7 @@ public extension AmbarContainer {
 
 		//	if nothing to migrate, then just start with new URL
 		if !shouldMigrate {
-			try await self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
+			try self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
 			return
 		}
 
@@ -287,7 +287,7 @@ public extension AmbarContainer {
 		//	(maybe migration was already done and deleting old file failed originally)
 		if fm.fileExists(atPath: storeURL.path) {
 			//	init with new URL
-			try await self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
+			try self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
 
 			//	attempt to delete old file again
 			deleteDocumentAtUrl(url: oldURL)
@@ -319,7 +319,7 @@ public extension AmbarContainer {
 			//	migrate to new URL
 			let _ = try psc.migratePersistentStore(store, to: storeURL, options: options, type: storeType)
 			
-			try await self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
+			try self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
 
 			//	delete file at old URL
 			deleteDocumentAtUrl(url: oldURL)
