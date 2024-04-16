@@ -59,10 +59,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		fetchRequest.returnsDistinctResults = true
 		fetchRequest.propertiesToFetch = [entity.attributesByName[property] as Any]
 
-		guard let results = try? context.fetch(fetchRequest) else { return [] }
+		do {
+			let results = try context.fetch(fetchRequest)
+			let arr = results.compactMap { $0[property] as? T }
+			return Set<T>(arr)
 
-		let arr = results.compactMap( { $0[property] as? T } )
-		return Set<T>(arr)
+		} catch {
+			return []
+		}
 	}
 
 
@@ -88,10 +92,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		let p = properties.map({ entity.attributesByName[$0] as Any })
 		fetchRequest.propertiesToFetch = p
 
-		guard let results = try? context.fetch(fetchRequest) else { return [] }
+		do {
+			let results = try context.fetch(fetchRequest)
+			let arr = results.compactMap({ initWith($0) })
+			return arr
 
-		let arr = results.compactMap({ initWith($0) })
-		return arr
+		} catch {
+			return []
+		}
 	}
 
 
@@ -142,8 +150,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		fetchRequest.includesPendingChanges = includePending
 		fetchRequest.resultType = .countResultType
 		fetchRequest.returnsDistinctResults = true
-		guard let num = try? context.count(for: fetchRequest) else { return 0 }
-		return num
+
+		do {
+			let num = try context.count(for: fetchRequest)
+			return num
+
+		} catch {
+			return 0
+		}
 	}
 	
 	/// Fetches objects of given type, **including** any pending changes in the context
@@ -169,8 +183,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 							  relationshipKeyPathsForPrefetching: relationshipKeyPathsForPrefetching,
 							  predicate: predicate,
 							  sortedWith: sortDescriptors)
-		guard let results = try? context.fetch(fr) else { return [] }
-		return results
+
+		do {
+			let results = try context.fetch(fr)
+			return results
+
+		} catch {
+			return []
+		}
 	}
 
 
@@ -208,8 +228,14 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		let fr = fetchRequest(in: context, predicate: predicate)
 		fr.returnsObjectsAsFaults = false
 		fr.fetchLimit = 1
-		guard let objects = try? context.fetch(fr) else { return nil }
-		return objects.first
+		
+		do {
+			let results = try context.fetch(fr)
+			return results.first
+
+		} catch {
+			return nil
+		}
 	}
 
 
@@ -239,10 +265,12 @@ public extension ManagedObjectType where Self: NSManagedObject {
 			predicate: predicate,
 			sortedWith: sortDescriptors
 		)
-		let frc: NSFetchedResultsController<Self> = NSFetchedResultsController(fetchRequest: fr,
-		                                                                       managedObjectContext: context,
-		                                                                       sectionNameKeyPath: sectionNameKeyPath,
-		                                                                       cacheName: nil)
+		let frc: NSFetchedResultsController<Self> = NSFetchedResultsController(
+			fetchRequest: fr,
+		    managedObjectContext: context,
+		    sectionNameKeyPath: sectionNameKeyPath,
+		    cacheName: nil
+		)
 		return frc
 	}
 
