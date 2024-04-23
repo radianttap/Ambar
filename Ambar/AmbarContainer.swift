@@ -54,6 +54,8 @@ public final class AmbarContainer: NSPersistentContainer {
 			default:	//.inMemory
 				writerCoordinator = persistentStoreCoordinator
 		}
+		
+		viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
 
 		//	finally — setup DidSaveNotification handling
 		setupNotifications()
@@ -65,10 +67,10 @@ public final class AmbarContainer: NSPersistentContainer {
 	///	By default it's `false` which means that `mergePolicy` is `NSMergePolicy.mergeByPropertyStoreTrump`.
 	///
 	///	If set to true, it switches to `NSMergePolicy.rollback`.
-	public var isMainContextReadOnly: Bool = false {
+	public var isViewContextReadOnly: Bool = false {
 		didSet {
-			if isMainContextReadOnly == oldValue { return }
-			viewContext.mergePolicy = (isMainContextReadOnly) ? NSMergePolicy.rollback : NSMergePolicy.mergeByPropertyStoreTrump
+			if isViewContextReadOnly == oldValue { return }
+			viewContext.mergePolicy = (isViewContextReadOnly) ? NSMergePolicy.rollback : NSMergePolicy.mergeByPropertyStoreTrump
 		}
 	}
 
@@ -248,7 +250,7 @@ public extension AmbarContainer {
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy and parentContext=mainManagedObjectContext
 	func editorContext() -> NSManagedObjectContext {
-		if isMainContextReadOnly {
+		if isViewContextReadOnly {
 			let log = String(format: "E | %@:%@/%@ Can't create editorContext when isMainContextReadOnly=true.\nHint: you can set it temporary to false, make the changes, save them using save(callback:) and revert to true inside the callback block.",
 			                 String(describing: self), #file, #line)
 			preconditionFailure(log)
