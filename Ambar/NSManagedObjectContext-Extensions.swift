@@ -14,7 +14,8 @@ public extension NSManagedObjectContext {
 	///
 	/// - Parameter mo: NSManagedObject instance, from any context.
 	/// - Returns: NSManagedObject instance in current context.
-	/// - Throws: `CoreDataError.readFailed` if casting into `T` is no successful or Core Data exceptions thrown by either `existingObject(with:)` or `object(with:)`.
+	/// - Throws: `AmbarError.other` if casting into `T` is no successful or Core Data exceptions thrown by either `existingObject(with:)` or `object(with:)`.
+
 	func localInstance<T>(of mo: T) throws -> T
 		where T: NSManagedObject & ManagedObjectType
 	{
@@ -45,7 +46,7 @@ public extension NSManagedObjectContext {
 			objectID = mo.objectID
 		}
 
-		//	ok now, get the proper object now in this MOC
+		//	get the proper object, valid in this MOC
 
 		if let obj = try existingObject(with: objectID) as? T {
 			return obj
