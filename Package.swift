@@ -15,12 +15,14 @@ let package = Package(
     products: [
         .library(
             name: "Ambar",
-            targets: ["Ambar"]),
+            targets: ["Ambar"]
+		),
     ],
     targets: [
         .target(
             name: "Ambar",
 			dependencies: [],
-            path: "Ambar")
+            path: "Ambar"
+		)
 	]
 )
