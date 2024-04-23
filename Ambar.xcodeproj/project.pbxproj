@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		D0A3D35C2212245F00695166 /* Ambar.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A3D35A2212245F00695166 /* Ambar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A3D3692212250800695166 /* CoreDataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3D3622212250800695166 /* CoreDataRepresentable.swift */; };
-		D0A3D36A2212250800695166 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3D3632212250800695166 /* CoreDataStack.swift */; };
 		D0A3D36B2212250800695166 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3D3642212250800695166 /* ManagedObjectType.swift */; };
 		D0A3D36C2212250800695166 /* NSManagedObjectContext-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3D3652212250800695166 /* NSManagedObjectContext-Extensions.swift */; };
 		D0A3D36D2212250800695166 /* AmbarError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3D3662212250800695166 /* AmbarError.swift */; };
+		D0A483BE2BD7A80A00001D22 /* AmbarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A483BD2BD7A80A00001D22 /* AmbarContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +21,6 @@
 		D0A3D35A2212245F00695166 /* Ambar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ambar.h; sourceTree = "<group>"; };
 		D0A3D35B2212245F00695166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0A3D3622212250800695166 /* CoreDataRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataRepresentable.swift; sourceTree = "<group>"; };
-		D0A3D3632212250800695166 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D0A3D3642212250800695166 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		D0A3D3652212250800695166 /* NSManagedObjectContext-Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext-Extensions.swift"; sourceTree = "<group>"; };
 		D0A3D3662212250800695166 /* AmbarError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmbarError.swift; sourceTree = "<group>"; };
@@ -29,6 +28,7 @@
 		D0A3D3682212250800695166 /* EntityMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMonitor.swift; sourceTree = "<group>"; };
 		D0A3D370221227D600695166 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D0A3D371221227D600695166 /* Ambar.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ambar.podspec; sourceTree = "<group>"; };
+		D0A483BD2BD7A80A00001D22 /* AmbarContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmbarContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,9 +65,9 @@
 		D0A3D3592212245F00695166 /* Ambar */ = {
 			isa = PBXGroup;
 			children = (
+				D0A483BD2BD7A80A00001D22 /* AmbarContainer.swift */,
 				D0A3D3662212250800695166 /* AmbarError.swift */,
 				D0A3D3622212250800695166 /* CoreDataRepresentable.swift */,
-				D0A3D3632212250800695166 /* CoreDataStack.swift */,
 				D0A3D3682212250800695166 /* EntityMonitor.swift */,
 				D0A3D3642212250800695166 /* ManagedObjectType.swift */,
 				D0A3D3672212250800695166 /* ManagedSetMonitor.swift */,
@@ -169,8 +169,8 @@
 				D0A3D36B2212250800695166 /* ManagedObjectType.swift in Sources */,
 				D0A3D36C2212250800695166 /* NSManagedObjectContext-Extensions.swift in Sources */,
 				D0A3D36D2212250800695166 /* AmbarError.swift in Sources */,
+				D0A483BE2BD7A80A00001D22 /* AmbarContainer.swift in Sources */,
 				D0A3D3692212250800695166 /* CoreDataRepresentable.swift in Sources */,
-				D0A3D36A2212250800695166 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
