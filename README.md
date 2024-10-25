@@ -1,46 +1,44 @@
 [![](https://img.shields.io/github/tag/radianttap/Ambar.svg?label=current)](https://github.com/radianttap/Ambar/releases)
-![platforms: iOS|tvOS|watchOS|macOS](https://img.shields.io/badge/platform-iOS|tvOS|watchOS|macOS-blue.svg)
-[![](https://img.shields.io/github/license/radianttap/Ambar.svg)](https://github.com/radianttap/Ambar/blob/master/LICENSE)\
-[![SwiftPM ready](https://img.shields.io/badge/SwiftPM-ready-FA7343.svg?style=flat)](https://swift.org/package-manager/)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-AD4709.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-fb0006.svg)](https://cocoapods.org)\
-![](https://img.shields.io/badge/swift-5-223344.svg?logo=swift&labelColor=FA7343&logoColor=white)
+[![](https://img.shields.io/github/license/radianttap/Ambar.svg)](https://github.com/radianttap/Ambar/blob/master/LICENSE)
+![](https://img.shields.io/badge/swift-6.0-223344.svg?logo=swift&labelColor=FA7343&logoColor=white)
+\
+![platforms: iOS|tvOS|watchOS|macOS|visionOS](https://img.shields.io/badge/platform-iOS_15_·_tvOS_15_·_watchOS_10_·_macOS_12_·_visionOS_1-blue.svg)
 
 # Ambar
 
 > Noun: ambar (plural ambars)\
 > Any of various kinds of subterranean or barn-like granary in Serbia.
 
-AmbarContainer is subclass of `NSPersistentContainer` which implements two separate `NSPersistentStoreCoordinator` instances: one (the system default) for main thread and store reads and another for background imports. If you don’t need this setup, you should use Apple’s `NSPersistentContainer`.
+`AmbarContainer` is subclass of `NSPersistentContainer` which implements two separate `NSPersistentStoreCoordinator` instances: 
+- one (the system default) for main thread and store reads and
+- another for background imports. 
 
-In any case, look into `ManagedObjectType`  —  if your model classes adopt this protocol they will gain several useful methods to fetch data.
+If you don’t need this setup, you should use Apple’s `NSPersistentContainer`.
+
+In both cases, look into `ManagedObjectType`  —  if your model classes adopt this protocol they will gain several useful methods to fetch data.
 
 ### Notes 
-- V8 requires iOS 15+ since it uses new Core Data types declared in that version.
-- V8 is complete rewrite of the library, aimed at apps using Swift strict concurrency. 
+- v9 is using Swift 6 language mode and has strict-concurrency checking enabled.
+- v8 requires iOS 15+ since it uses new Core Data types declared in that version.
+- v8 is complete rewrite of the library, aimed at apps using Swift strict concurrency. 
 - Main change from version 7 is removal of the setup callbacks. I also removed all references to MOGenerator since I switched to SwiftGen templates a long time ago.
 
 ## Installation
 
-Just add this repo’s URL as Swift Package Manager dependency. Use version `8.0.0` or newer.
-
-(Might also be possible to use this through [CocoaPods](https://cocoapods.org) or [Carthage](https://github.com/Carthage/Carthage) but I don’t care about those anymore.)
+Just add this repo’s URL as Swift Package Manager dependency. Use version `9.0.0` or newer.
 
 ## How to implement 
 
 Create your instance of the `AmbarContainer` in
 
 * main thread
-* as early as possible in your app, usually in `application(willFinishLaunching…)` in the AppDelegate.swift
+* as early as possible in your app, usually in `application(willFinishLaunching…)` in the _AppDelegate.swift_.
 
 ```swift
 do {
 	coreDataStack = try AmbarContainer(storeURL: url)
 
 } catch let err {
-	guard let err = err as? AmbarError else {
-		preconditionFailure("Should not happen")
-	}
 	log(level: .severe, "Failed to setup Core Data store:\n\( err )")
 }
 ```
@@ -57,7 +55,7 @@ Since `AmbarContainer` subclasses `NSPersistentContainer`, it already has [`view
 
 This MOC uses merge policy of `.mergeByPropertyStoreTrump` set to favor state of objects in the persistent store (on the disk) versus those in the memory.
 
-If you want to enforce this even further, you can set `isViewContextReadOnly` property to true which will switch mergePolicy to `.rollback` thus silently preventing any store write from the viewContext.
+If you want to enforce this even further, you can set `isViewContextReadOnly` property to true which will switch mergePolicy to `.rollback` thus silently preventing any store write from the `viewContext`.
 
 ### Useful MOCs
 
@@ -67,7 +65,7 @@ Library has three additional useful methods, to create specific MOCs.
 func importerContext() -> NSManagedObjectContext
 ```
 
-This method returns MOC attached to mentioned `writerCoordinator` and its merge policy *favors state of objects in the memory*. This makes it perfect for background imports, since whatever is created / changed it would trample objects on the disk.
+This method returns MOC attached to mentioned `writerCoordinator` and its merge policy *favors state of objects in the memory*. This makes it perfect for background imports, since whatever is created / changed would trample objects on the disk.
 
 Call this method from background queues and use it to process items and save them directly to disk, without ever touching main thread. Since such processing is fairly short, it's very easy to import just about anything and still keep your UI thread fluent.
 

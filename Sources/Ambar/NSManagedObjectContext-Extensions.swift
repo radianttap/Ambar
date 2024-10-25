@@ -16,9 +16,7 @@ public extension NSManagedObjectContext {
 	/// - Returns: NSManagedObject instance in current context.
 	/// - Throws: `AmbarError.other` if casting into `T` is no successful or Core Data exceptions thrown by either `existingObject(with:)` or `object(with:)`.
 
-	func localInstance<T>(of mo: T) throws -> T
-		where T: NSManagedObject & ManagedObjectType
-	{
+	func localInstance<T>(of mo: T) throws -> T where T: NSManagedObject & ManagedObjectType {
 		guard let otherMOC = mo.managedObjectContext else {
 			throw AmbarError.other("Missing ManagedObjectContext on the managed object: \(mo)")
 		}
