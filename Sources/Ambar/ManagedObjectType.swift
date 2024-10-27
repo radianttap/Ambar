@@ -284,7 +284,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - completion: completion block at the end of successful delete.
 	@discardableResult
-	static func delete(in context: NSManagedObjectContext, predicate: NSPredicate? = nil) throws -> Int {
+	static func delete(in context: NSManagedObjectContext, predicate: NSPredicate? = nil) throws(AmbarError) -> Int {
 		let fr = fetchRequest(in: context, predicate: predicate)
 		fr.includesPropertyValues = false
 		
