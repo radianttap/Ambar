@@ -20,10 +20,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Ambar",
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
+            name: "Ambar"
 		)
 	],
 	swiftLanguageModes: [.v6]
