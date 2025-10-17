@@ -18,13 +18,17 @@ public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 	/// Instantiates the whole stack with SQLite backing, giving you full control over what model to use and where the resulting file should be.
 	///
 	/// - parameter storeType: `NSPersistentStore.StoreType`
-	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied, Ambar will merge all .momd found in the bundle.
+	/// - parameter dataModelName: String representing the name (without extension) of the model file to use. If not supplied, Ambar will merge all `.momd` found in the bundle.
+	/// - parameter bundle: If this is `nil`, it will search through `Bundle.main`. If your `.momd` file is located inside a Swift package, then it will not find it thus you need to supply `Bundle.module` value for that particular package.
+	/// - parameter managedObjectModel: Supply pre-built `NSManagedObjectModel` instance. If supplied, it takes precedence over previous two parameters (they are ignored). Use this if your `.momd` file is in some custom location and can't be found and built in normal way.
 	/// - parameter storeURL: Full URL where to create the `.sqlite` file. Must include the file at the end as well (can't be just directory). If not supplied, user's Documents directory will be used + alphanumerics from app's name. Possible use: when you want to setup the store file into completely custom location. Like say shared container in App Group. Omit or supply `nil` when using `.inMemory` store type.
 	///
 	/// - returns: Instance of `CoreDataStack`
 	public init(
 		storeType: NSPersistentStore.StoreType = .sqlite,
 		withDataModelNamed dataModelName: String? = nil,
+		inBundle bundle: Bundle? = nil,
+		managedObjectModel: NSManagedObjectModel? = nil,
 		storeURL: URL? = nil
 	) throws(AmbarError) {
 		
@@ -43,24 +47,10 @@ public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 		self.storeURL = url
 		
 		let appName = try Self.cleanAppName()
-		let mom = try Self.managedObjectModel(named: dataModelName)
+		let mom = try Self.managedObjectModel(named: dataModelName, fromBundle: bundle, orSupplied: managedObjectModel)
+
 		super.init(name: dataModelName ?? appName, managedObjectModel: mom)
-		
-		try Self.connectStores(storeType: storeType, at: url, toCoordinator: persistentStoreCoordinator)
-		
-		switch storeType {
-			case .sqlite, .binary:
-				writerCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
-				try Self.connectStores(storeType: storeType, at: url, toCoordinator: writerCoordinator)
-				
-			default:	//.inMemory
-				writerCoordinator = persistentStoreCoordinator
-		}
-		
-		viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-		
-		//	finally — setup DidSaveNotification handling
-		setupNotifications()
+		try completeSetup(storeType: storeType, url: url, mom: mom)
 	}
 	
 	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
@@ -107,6 +97,24 @@ public extension AmbarContainer {
 //	MARK: - Setup
 
 private extension AmbarContainer {
+	func completeSetup(storeType: NSPersistentStore.StoreType = .sqlite, url: URL, mom: NSManagedObjectModel) throws(AmbarError) {
+		try Self.connectStores(storeType: storeType, at: url, toCoordinator: persistentStoreCoordinator)
+		
+		switch storeType {
+			case .sqlite, .binary:
+				writerCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
+				try Self.connectStores(storeType: storeType, at: url, toCoordinator: writerCoordinator)
+				
+			default:	//.inMemory
+				writerCoordinator = persistentStoreCoordinator
+		}
+		
+		viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+		
+		//	finally — setup DidSaveNotification handling
+		setupNotifications()
+	}
+	
 	/// Attach the persistent stores to the supplied Persistent Store Coordinator.
 	///
 	/// - parameter psc:         Instance of PSC
@@ -155,19 +163,25 @@ private extension AmbarContainer {
 	/// - parameter name: optional name of the Model file. Useful when you want to creates two stacks and copy data between them
 	///
 	/// - returns: NSManagedObjectModel instance, ready to create PSC
-	static func managedObjectModel(named name: String? = nil) throws(AmbarError) -> NSManagedObjectModel {
+	static func managedObjectModel(named name: String? = nil, fromBundle suppliedBundle: Bundle? = nil, orSupplied suppliedMOM: NSManagedObjectModel? = nil) throws(AmbarError) -> NSManagedObjectModel {
+		if let suppliedMOM {
+			return suppliedMOM
+		}
+		
+		let bundle = suppliedBundle ?? Bundle.main
+		
 		if name == nil {
-			guard let mom = NSManagedObjectModel.mergedModel(from: nil) else {
+			guard let mom = NSManagedObjectModel.mergedModel(from: [bundle]) else {
 				throw AmbarError.setupBlocker("Unable to create ManagedObjectModel by merging all models in the main bundle")
 			}
 			return mom
 		}
 		
 		guard
-			let url = Bundle.main.url(forResource: name, withExtension: "momd"),
+			let url = bundle.url(forResource: name, withExtension: "momd"),
 			let mom = NSManagedObjectModel(contentsOf: url)
 		else {
-			let log = String(format: "Unable to create ManagedObjectModel using name: %@", name ?? "")
+			let log = String(format: "Unable to create ManagedObjectModel using name: %@, from Bundle: %@", name ?? "", bundle)
 			throw AmbarError.setupBlocker(log)
 		}
 		return mom
@@ -271,6 +285,8 @@ public extension AmbarContainer {
 	convenience init(
 		storeType: NSPersistentStore.StoreType = .sqlite,
 		withDataModelNamed dataModelName: String? = nil,
+		inBundle bundle: Bundle? = nil,
+		managedObjectModel: NSManagedObjectModel? = nil,
 		migratingFrom oldStoreURL: URL? = nil,
 		to storeURL: URL
 	) async throws(AmbarError) {
@@ -311,7 +327,7 @@ public extension AmbarContainer {
 		try Self.verify(storeURL: storeURL)
 		
 		//	build Model
-		let mom = try Self.managedObjectModel(named: dataModelName)
+		let mom = try Self.managedObjectModel(named: dataModelName, fromBundle: bundle, orSupplied: managedObjectModel)
 		
 		//	migration options
 		let options: [AnyHashable: Any] = [
@@ -329,7 +345,7 @@ public extension AmbarContainer {
 			//	migrate to new URL
 			let _ = try psc.migratePersistentStore(store, to: storeURL, options: options, type: storeType)
 			
-			try self.init(storeType: storeType, withDataModelNamed: dataModelName, storeURL: storeURL)
+			try self.init(storeType: storeType, withDataModelNamed: dataModelName, inBundle: bundle, managedObjectModel: managedObjectModel, storeURL: storeURL)
 			
 			//	delete file at old URL
 			deleteDocumentAtUrl(url: oldURL)
