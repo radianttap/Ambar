@@ -88,9 +88,21 @@ public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 		try completeSetup(storeType: storeType, url: url, mom: mom)
 	}
 
+	///	Token for the block-based `NSManagedObjectContextDidSave` observer.
+	///	Written once in `setupNotifications()` during init; read only in `deinit`.
+	private var didSaveObserver: (any NSObjectProtocol)?
+
 	deinit {
-		NotificationCenter.default.removeObserver(self)
+		if let didSaveObserver {
+			NotificationCenter.default.removeObserver(didSaveObserver)
+		}
 	}
+}
+
+///	Escape hatch for threading non-Sendable values through `@Sendable` closures
+///	when the surrounding logic guarantees safe handoff (e.g., Core Data `perform`).
+private struct UncheckedSendable<Value>: @unchecked Sendable {
+	let value: Value
 }
 
 public extension AmbarContainer {
@@ -211,39 +223,44 @@ private extension AmbarContainer {
 //	MARK: - Notifications
 
 private extension AmbarContainer {
-	//	Subscribe Ambar to any context's DidSaveNotification
+	//	Subscribe Ambar to any context's DidSaveNotification using the block-based API.
+	//	The closure is delivered synchronously on the posting thread (queue: nil),
+	//	matching the old target-selector behavior.
 	func setupNotifications() {
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(AmbarContainer.handle(notification:)),
-			name: .NSManagedObjectContextDidSave,
-			object: nil
-		)
+		didSaveObserver = NotificationCenter.default.addObserver(
+			forName: .NSManagedObjectContextDidSave,
+			object: nil,
+			queue: nil
+		) { [weak self] notification in
+			self?.mergeIfNeeded(notification)
+		}
 	}
-	
+
 	/// Automatically merges all new, deleted and changed objects from background importerContexts into the viewContext
 	///
 	/// - parameter notification: must be NSManagedObjectContextDidSave notification
-	@objc func handle(notification: Notification) {
+	func mergeIfNeeded(_ notification: Notification) {
 		//	only deal with notifications coming from MOC
 		guard let savedContext = notification.object as? NSManagedObjectContext else { return }
-		
+
 		// ignore change notifications from the main MOC
 		if savedContext === viewContext { return }
-		
+
 		// ignore change notifications from the direct child of the viewContext. this merges automatically when save is invoked
-		if let parentContext = savedContext.parent {
-			if parentContext === viewContext { return }
-		}
-		
+		if savedContext.parent === viewContext { return }
+
 		// ignore stuff from unknown PSCs
 		if let coordinator = savedContext.persistentStoreCoordinator {
 			if coordinator !== persistentStoreCoordinator && coordinator !== writerCoordinator { return }
 		}
-		
-		viewContext.perform {
-			[unowned self] in
-			self.viewContext.mergeChanges(fromContextDidSave: notification)
+
+		//	`Notification` is not `Sendable`; box it so the hop to viewContext's queue
+		//	doesn't trip Swift 6's @Sendable closure check. The box is safe here because
+		//	the notification is only read inside `perform`, never mutated or shared further.
+		let box = UncheckedSendable(value: notification)
+		viewContext.perform { [weak self] in
+			guard let self else { return }
+			self.viewContext.mergeChanges(fromContextDidSave: box.value)
 		}
 	}
 }
