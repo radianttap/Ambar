@@ -243,16 +243,16 @@ private extension AmbarContainer {
 		//	only deal with notifications coming from MOC
 		guard let savedContext = notification.object as? NSManagedObjectContext else { return }
 
-		// ignore change notifications from the main MOC
+		//	only merge saves from MOCs attached to writerCoordinator — those are the
+		//	background importer contexts whose changes the main PSC would otherwise miss.
+		//	Saves from viewContext itself, its child editor contexts, or any other user-
+		//	created MOC on the main PSC are intentionally ignored.
+		guard savedContext.persistentStoreCoordinator === writerCoordinator else { return }
+
+		//	for `.inMemory` stores, writerCoordinator collapses to persistentStoreCoordinator,
+		//	so the guard above admits viewContext and its children too — filter them out here.
 		if savedContext === viewContext { return }
-
-		// ignore change notifications from the direct child of the viewContext. this merges automatically when save is invoked
 		if savedContext.parent === viewContext { return }
-
-		// ignore stuff from unknown PSCs
-		if let coordinator = savedContext.persistentStoreCoordinator {
-			if coordinator !== persistentStoreCoordinator && coordinator !== writerCoordinator { return }
-		}
 
 		//	`Notification` is not `Sendable`; box it so the hop to viewContext's queue
 		//	doesn't trip Swift 6's @Sendable closure check. The box is safe here because
