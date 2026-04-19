@@ -13,8 +13,34 @@ import CoreData
 public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 	/// Full URL to the location of the SQLite file.
 	///	It's `nil` if you use in-memory storage type.
-	public private(set) var storeURL: URL?
-	
+	public let storeURL: URL?
+
+	///	Backing coordinator for background imports. `nil` for `.inMemory` stores,
+	///	in which case ``writerCoordinator`` falls back to `persistentStoreCoordinator`.
+	private let _writerCoordinator: NSPersistentStoreCoordinator?
+
+	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
+	public var writerCoordinator: NSPersistentStoreCoordinator {
+		_writerCoordinator ?? persistentStoreCoordinator
+	}
+
+	///	Backing storage for ``isViewContextReadOnly``. Accessed only from the main actor.
+	@MainActor private var _isViewContextReadOnly: Bool = false
+
+	///	By default it's `false` which means that `mergePolicy` is `NSMergePolicy.mergeByPropertyStoreTrump`.
+	///
+	///	If set to true, it switches to `NSMergePolicy.rollback`.
+	///
+	///	Must be read or set from the main actor, since it drives `viewContext.mergePolicy`.
+	@MainActor public var isViewContextReadOnly: Bool {
+		get { _isViewContextReadOnly }
+		set {
+			if newValue == _isViewContextReadOnly { return }
+			_isViewContextReadOnly = newValue
+			viewContext.mergePolicy = newValue ? NSMergePolicy.rollback : NSMergePolicy.mergeByPropertyStoreTrump
+		}
+	}
+
 	/// Instantiates the whole stack with SQLite backing, giving you full control over what model to use and where the resulting file should be.
 	///
 	/// - parameter storeType: `NSPersistentStore.StoreType`
@@ -31,41 +57,37 @@ public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 		managedObjectModel: NSManagedObjectModel? = nil,
 		storeURL: URL? = nil
 	) throws(AmbarError) {
-		
+
 		let url: URL
 		if let storeURL = storeURL {
 			//	if the target URL is supplied
 			//	then make sure that the path is usable. create all missing directories in the path, if needed
 			try Self.verify(storeURL: storeURL)
 			url = storeURL
-			
+
 		} else {
 			//	otherwise build the name using cleaned app name and place in the local app's container
 			url = try Self.defaultStoreURL()
 			try Self.verify(storeURL: url)
 		}
 		self.storeURL = url
-		
+
 		let appName = try Self.cleanAppName()
 		let mom = try Self.managedObjectModel(named: dataModelName, fromBundle: bundle, orSupplied: managedObjectModel)
+
+		//	create the background writer coordinator before super.init, so it can be a `let`.
+		//	for `.inMemory` stores, the main PSC doubles as the writer, so leave this nil.
+		switch storeType {
+			case .sqlite, .binary:
+				self._writerCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
+			default:
+				self._writerCoordinator = nil
+		}
 
 		super.init(name: dataModelName ?? appName, managedObjectModel: mom)
 		try completeSetup(storeType: storeType, url: url, mom: mom)
 	}
-	
-	/// Instance of PersistentStoreCoordinator intended for background thread's importing.
-	public private(set) var writerCoordinator: NSPersistentStoreCoordinator!
-	
-	///	By default it's `false` which means that `mergePolicy` is `NSMergePolicy.mergeByPropertyStoreTrump`.
-	///
-	///	If set to true, it switches to `NSMergePolicy.rollback`.
-	public var isViewContextReadOnly: Bool = false {
-		didSet {
-			if isViewContextReadOnly == oldValue { return }
-			viewContext.mergePolicy = (isViewContextReadOnly) ? NSMergePolicy.rollback : NSMergePolicy.mergeByPropertyStoreTrump
-		}
-	}
-	
+
 	deinit {
 		NotificationCenter.default.removeObserver(self)
 	}
@@ -99,18 +121,13 @@ public extension AmbarContainer {
 private extension AmbarContainer {
 	func completeSetup(storeType: NSPersistentStore.StoreType = .sqlite, url: URL, mom: NSManagedObjectModel) throws(AmbarError) {
 		try Self.connectStores(storeType: storeType, at: url, toCoordinator: persistentStoreCoordinator)
-		
-		switch storeType {
-			case .sqlite, .binary:
-				writerCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
-				try Self.connectStores(storeType: storeType, at: url, toCoordinator: writerCoordinator)
-				
-			default:	//.inMemory
-				writerCoordinator = persistentStoreCoordinator
+
+		if let writerPSC = _writerCoordinator {
+			try Self.connectStores(storeType: storeType, at: url, toCoordinator: writerPSC)
 		}
-		
+
 		viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-		
+
 		//	finally — setup DidSaveNotification handling
 		setupNotifications()
 	}
@@ -265,6 +282,7 @@ public extension AmbarContainer {
 	/// You must make sure that `viewContext` is not read-only when calling this method (assert is run and if it is read-only your app will crash).
 	///
 	/// - returns: Newly created MOC with concurrency=NSPrivateQueueConcurrencyType and mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy and parentContext=mainManagedObjectContext
+	@MainActor
 	func editorContext() -> NSManagedObjectContext {
 		if isViewContextReadOnly {
 			let log = String(format: "E | %@:%@/%@ Can't create editorContext when isMainContextReadOnly=true.\nHint: you can set it temporary to false, make the changes, save them using save(callback:) and revert to true inside the callback block.",
