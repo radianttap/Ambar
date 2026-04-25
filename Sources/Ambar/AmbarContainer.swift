@@ -111,12 +111,6 @@ public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 	}
 }
 
-///	Escape hatch for threading non-Sendable values through `@Sendable` closures
-///	when the surrounding logic guarantees safe handoff (e.g., Core Data `perform`).
-private struct UncheckedSendable<Value>: @unchecked Sendable {
-	let value: Value
-}
-
 public extension AmbarContainer {
 	/// Returns String representing only alphanumerics from app's name.
 	static func cleanAppName() throws(AmbarError) -> String {
@@ -268,13 +262,13 @@ private extension AmbarContainer {
 		if savedContext === viewContext { return }
 		if savedContext.parent === viewContext { return }
 
-		//	`Notification` is not `Sendable`; box it so the hop to viewContext's queue
-		//	doesn't trip Swift 6's @Sendable closure check. The box is safe here because
-		//	the notification is only read inside `perform`, never mutated or shared further.
-		let box = UncheckedSendable(value: notification)
+		//	`Notification` is not `Sendable`. Capturing it through `nonisolated(unsafe)` is
+		//	safe here because the value is only read inside `perform`, never mutated or
+		//	shared further.
+		nonisolated(unsafe) let notification = notification
 		viewContext.perform { [weak self] in
 			guard let self else { return }
-			self.viewContext.mergeChanges(fromContextDidSave: box.value)
+			self.viewContext.mergeChanges(fromContextDidSave: notification)
 		}
 	}
 }
