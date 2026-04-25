@@ -304,7 +304,11 @@ public extension ManagedObjectType where Self: NSManagedObject {
 		predicate: NSPredicate? = nil,
 		sortedWith sortDescriptors: [NSSortDescriptor]? = nil
 	) -> NSFetchedResultsController<Self> {
-		
+		precondition(
+			sortDescriptors?.isEmpty == false,
+			"\(Self.entityName): NSFetchedResultsController requires at least one NSSortDescriptor — pass a non-empty `sortedWith:` array."
+		)
+
 		let fr = fetchRequest(
 			in: context,
 			includePending: includePending,
