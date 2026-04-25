@@ -49,7 +49,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: a `Set` of values with appropriate type
 	/// - Throws: `AmbarError.coreDataError` if Core Data raises an error during the fetch.
-	static func fetchThrowing<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) throws(AmbarError) -> Set<T> {
+	static func fetchThrowing<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) throws(AmbarError) -> Set<T> where T: Hashable {
 		let entity = Self.entity(in: context)
 
 		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
@@ -69,7 +69,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	}
 
 	@available(*, deprecated, renamed: "fetchThrowing(property:context:predicate:)", message: "Errors are now propagated; use fetchThrowing(...) and handle thrown AmbarError.")
-	static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
+	static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> where T: Hashable {
 		(try? fetchThrowing(property: property, context: context, predicate: predicate)) ?? []
 	}
 
