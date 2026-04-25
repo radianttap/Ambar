@@ -23,7 +23,7 @@ public extension NSManagedObjectContext {
 
 		//	if this is the same MOC, just refresh it with values from the store and return
 
-		if otherMOC == self {
+		if otherMOC === self {
 			refresh(mo, mergeChanges: true)
 			return mo
 		}
