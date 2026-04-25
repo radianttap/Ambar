@@ -48,26 +48,32 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: a `Set` of values with appropriate type
-	static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
+	/// - Throws: `AmbarError.coreDataError` if Core Data raises an error during the fetch.
+	static func fetchThrowing<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) throws(AmbarError) -> Set<T> {
 		let entity = Self.entity(in: context)
-		
+
 		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
 		fetchRequest.predicate = predicate
 		fetchRequest.resultType = .dictionaryResultType
 		fetchRequest.returnsDistinctResults = true
 		fetchRequest.propertiesToFetch = [entity.attributesByName[property] as Any]
-		
+
 		do {
 			let results = try context.fetch(fetchRequest)
 			let arr = results.compactMap { $0[property] as? T }
 			return Set<T>(arr)
-			
+
 		} catch {
-			return []
+			throw AmbarError.coreDataError(error)
 		}
 	}
-	
-	
+
+	@available(*, deprecated, renamed: "fetchThrowing(property:context:predicate:)", message: "Errors are now propagated; use fetchThrowing(...) and handle thrown AmbarError.")
+	static func fetch<T>(property: String, context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> Set<T> {
+		(try? fetchThrowing(property: property, context: context, predicate: predicate)) ?? []
+	}
+
+
 	/// Fetches a list of given properties and then uses provided `init` closure
 	///	to instantiate elements and return them as an array
 	///
@@ -76,30 +82,41 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - initWith:	A closure that is essentially an initializer for the resulting type. Accepts NSDictionary coming out of Core Data Fetch
 	/// - Returns: an Array of objects
+	/// - Throws: `AmbarError.coreDataError` if Core Data raises an error during the fetch.
+	static func fetchThrowing<T>(
+		properties: [String],
+		context: NSManagedObjectContext,
+		predicate: NSPredicate? = nil,
+		initWith: (NSDictionary) -> T?
+	) throws(AmbarError) -> [T] {
+		let entity = Self.entity(in: context)
+
+		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
+		fetchRequest.predicate = predicate
+		fetchRequest.resultType = .dictionaryResultType
+		fetchRequest.returnsDistinctResults = true
+
+		let p = properties.map({ entity.attributesByName[$0] as Any })
+		fetchRequest.propertiesToFetch = p
+
+		do {
+			let results = try context.fetch(fetchRequest)
+			let arr = results.compactMap({ initWith($0) })
+			return arr
+
+		} catch {
+			throw AmbarError.coreDataError(error)
+		}
+	}
+
+	@available(*, deprecated, renamed: "fetchThrowing(properties:context:predicate:initWith:)", message: "Errors are now propagated; use fetchThrowing(...) and handle thrown AmbarError.")
 	static func fetch<T>(
 		properties: [String],
 		context: NSManagedObjectContext,
 		predicate: NSPredicate? = nil,
 		initWith: (NSDictionary) -> T?
 	) -> [T] {
-		let entity = Self.entity(in: context)
-		
-		let fetchRequest = NSFetchRequest<NSDictionary>(entityName: Self.entityName)
-		fetchRequest.predicate = predicate
-		fetchRequest.resultType = .dictionaryResultType
-		fetchRequest.returnsDistinctResults = true
-		
-		let p = properties.map({ entity.attributesByName[$0] as Any })
-		fetchRequest.propertiesToFetch = p
-		
-		do {
-			let results = try context.fetch(fetchRequest)
-			let arr = results.compactMap({ initWith($0) })
-			return arr
-			
-		} catch {
-			return []
-		}
+		(try? fetchThrowing(properties: properties, context: context, predicate: predicate, initWith: initWith)) ?? []
 	}
 	
 	
@@ -140,20 +157,25 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - sortDescriptors: (optional) array of `NSSortDescriptio`s to apply to the fetched results
 	/// - Returns: an Array of Entity objects of appropriate type
-	static func count(in context: NSManagedObjectContext, includePending: Bool = true, predicate: NSPredicate? = nil) -> Int {
+	/// - Throws: `AmbarError.coreDataError` if Core Data raises an error during the count.
+	static func countThrowing(in context: NSManagedObjectContext, includePending: Bool = true, predicate: NSPredicate? = nil) throws(AmbarError) -> Int {
 		let fetchRequest = NSFetchRequest<NSNumber>(entityName: Self.entityName)
 		fetchRequest.predicate = predicate
 		fetchRequest.includesPendingChanges = includePending
 		fetchRequest.resultType = .countResultType
 		fetchRequest.returnsDistinctResults = true
-		
+
 		do {
-			let num = try context.count(for: fetchRequest)
-			return num
-			
+			return try context.count(for: fetchRequest)
+
 		} catch {
-			return 0
+			throw AmbarError.coreDataError(error)
 		}
+	}
+
+	@available(*, deprecated, renamed: "countThrowing(in:includePending:predicate:)", message: "Errors are now propagated; use countThrowing(...) and handle thrown AmbarError.")
+	static func count(in context: NSManagedObjectContext, includePending: Bool = true, predicate: NSPredicate? = nil) -> Int {
+		(try? countThrowing(in: context, includePending: includePending, predicate: predicate)) ?? 0
 	}
 	
 	/// Fetches objects of given type, **including** any pending changes in the context
@@ -165,15 +187,16 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	///   - sortDescriptors: (optional) array of `NSSortDescriptio`s to apply to the fetched results
 	/// - Returns: an Array of Entity objects of appropriate type
-	static func fetch(
+	/// - Throws: `AmbarError.coreDataError` if Core Data raises an error during the fetch.
+	static func fetchThrowing(
 		in context: NSManagedObjectContext,
 		includePending: Bool = true,
 		returnsObjectsAsFaults: Bool = true,
 		relationshipKeyPathsForPrefetching: [String]? = nil,
 		predicate: NSPredicate? = nil,
 		sortedWith sortDescriptors: [NSSortDescriptor]? = nil
-	) -> [Self] {
-		
+	) throws(AmbarError) -> [Self] {
+
 		let fr = fetchRequest(
 			in: context,
 			includePending: includePending,
@@ -182,14 +205,32 @@ public extension ManagedObjectType where Self: NSManagedObject {
 			predicate: predicate,
 			sortedWith: sortDescriptors
 		)
-		
+
 		do {
-			let results = try context.fetch(fr)
-			return results
-			
+			return try context.fetch(fr)
+
 		} catch {
-			return []
+			throw AmbarError.coreDataError(error)
 		}
+	}
+
+	@available(*, deprecated, renamed: "fetchThrowing(in:includePending:returnsObjectsAsFaults:relationshipKeyPathsForPrefetching:predicate:sortedWith:)", message: "Errors are now propagated; use fetchThrowing(...) and handle thrown AmbarError.")
+	static func fetch(
+		in context: NSManagedObjectContext,
+		includePending: Bool = true,
+		returnsObjectsAsFaults: Bool = true,
+		relationshipKeyPathsForPrefetching: [String]? = nil,
+		predicate: NSPredicate? = nil,
+		sortedWith sortDescriptors: [NSSortDescriptor]? = nil
+	) -> [Self] {
+		(try? fetchThrowing(
+			in: context,
+			includePending: includePending,
+			returnsObjectsAsFaults: returnsObjectsAsFaults,
+			relationshipKeyPathsForPrefetching: relationshipKeyPathsForPrefetching,
+			predicate: predicate,
+			sortedWith: sortDescriptors
+		)) ?? []
 	}
 	
 	
@@ -221,20 +262,26 @@ public extension ManagedObjectType where Self: NSManagedObject {
 	///   - context: `NSManagedObjectContext` in which to perform the fetch
 	///   - predicate: (optional) `NSPredicate` condition to apply to the fetch
 	/// - Returns: Non-faulted object or nil
-	static func findOrFetch(in context: NSManagedObjectContext, predicate: NSPredicate) -> Self? {
+	/// - Throws: `AmbarError.coreDataError` if Core Data raises an error during the fetch.
+	static func findOrFetchThrowing(in context: NSManagedObjectContext, predicate: NSPredicate) throws(AmbarError) -> Self? {
 		if let obj = find(in: context, predicate: predicate) { return obj }
-		
+
 		let fr = fetchRequest(in: context, predicate: predicate)
 		fr.returnsObjectsAsFaults = false
 		fr.fetchLimit = 1
-		
+
 		do {
 			let results = try context.fetch(fr)
 			return results.first
-			
+
 		} catch {
-			return nil
+			throw AmbarError.coreDataError(error)
 		}
+	}
+
+	@available(*, deprecated, renamed: "findOrFetchThrowing(in:predicate:)", message: "Errors are now propagated; use findOrFetchThrowing(...) and handle thrown AmbarError.")
+	static func findOrFetch(in context: NSManagedObjectContext, predicate: NSPredicate) -> Self? {
+		(try? findOrFetchThrowing(in: context, predicate: predicate)) ?? nil
 	}
 	
 	
