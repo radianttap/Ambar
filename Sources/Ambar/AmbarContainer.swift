@@ -58,19 +58,29 @@ public final class AmbarContainer: NSPersistentContainer, @unchecked Sendable {
 		storeURL: URL? = nil
 	) throws(AmbarError) {
 
+		//	`.inMemory` stores never touch disk, so don't compute or create a directory for them.
+		//	Core Data ignores the URL for in-memory stores, but the typed API still requires
+		//	a non-nil value, so pass the historical `/dev/null` sentinel internally and keep
+		//	`self.storeURL` as `nil` on the public surface.
 		let url: URL
-		if let storeURL = storeURL {
+		if storeType == .inMemory {
+			self.storeURL = nil
+			url = URL(fileURLWithPath: "/dev/null")
+
+		} else if let storeURL = storeURL {
 			//	if the target URL is supplied
 			//	then make sure that the path is usable. create all missing directories in the path, if needed
 			try Self.verify(storeURL: storeURL)
+			self.storeURL = storeURL
 			url = storeURL
 
 		} else {
 			//	otherwise build the name using cleaned app name and place in the local app's container
-			url = try Self.defaultStoreURL()
-			try Self.verify(storeURL: url)
+			let defaultURL = try Self.defaultStoreURL()
+			try Self.verify(storeURL: defaultURL)
+			self.storeURL = defaultURL
+			url = defaultURL
 		}
-		self.storeURL = url
 
 		let appName = try Self.cleanAppName()
 		let mom = try Self.managedObjectModel(named: dataModelName, fromBundle: bundle, orSupplied: managedObjectModel)
